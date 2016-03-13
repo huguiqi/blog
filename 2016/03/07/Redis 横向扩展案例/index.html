@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Redis 横向扩展案例 | 小黑的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Redis 横向扩展案例0x01 背景介绍A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达100K，甚至一度达到120K。某天晚上，终于崩溃了。这也印证了「墨菲定律」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anythingthat can go wrong will">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 横向扩展案例">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/07/Redis 横向扩展案例/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="Redis 横向扩展案例0x01 背景介绍A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达100K，甚至一度达到120K。某天晚上，终于崩溃了。这也印证了「墨菲定律」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anythingthat can go wrong will">
+<meta property="og:image" content="http://i.imgur.com/OFlADoe.png">
+<meta property="og:updated_time" content="2016-03-06T17:10:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis 横向扩展案例">
+<meta name="twitter:description" content="Redis 横向扩展案例0x01 背景介绍A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达100K，甚至一度达到120K。某天晚上，终于崩溃了。这也印证了「墨菲定律」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anythingthat can go wrong will">
+<meta name="twitter:image" content="http://i.imgur.com/OFlADoe.png">
+  
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">sam hu</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/archives">归档文章</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                        
+                            <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/timbotetsu">timbotetsu</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://mmoaay.photo/">mmoaay</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://timbo.work">timbo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.timbotetsu.com/">timbo2</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/phaibin">彭海滨</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://i.laoer.com/build-a-hotel-use-internet-thinking.html">tim-CTO</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">80后，爱摄影、爱编程、爱美女，自由开发者。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">sam hu</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">sam hu</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/archives">归档文章</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                
+                    <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Redis 横向扩展案例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/Redis 横向扩展案例/" class="article-date">
+      <time datetime="2016-03-06T17:10:01.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redis 横向扩展案例
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Redis-横向扩展案例"><a href="#Redis-横向扩展案例" class="headerlink" title="Redis 横向扩展案例"></a>Redis 横向扩展案例</h1><h2 id="0x01-背景介绍"><a href="#0x01-背景介绍" class="headerlink" title="0x01 背景介绍"></a>0x01 背景介绍</h2><p>A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A<br>项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达<br>100K，甚至一度达到<br>120K。某天晚上，终于崩溃了。这也印证了「<strong>墨菲定律</strong>」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anything<br>that can go wrong will go<br>wrong）。所以，平时的运维过程，千万不要抱有侥幸心理，有问题就第一时间反应，有隐患就及时处理。</p>
+<hr>
+<h2 id="0x02-分析解决"><a href="#0x02-分析解决" class="headerlink" title="0x02 分析解决"></a>0x02 分析解决</h2><h3 id="2-1-初步分析"><a href="#2-1-初步分析" class="headerlink" title="2.1 初步分析"></a>2.1 初步分析</h3><p>单点 Redis<br>实例崩溃的现象就是新的连接不能建立，超时严重，数据不能及时读取。查看系统日志，发现有大量形如「kernel:<br>Possible SYN flooding on port xxxx. Sending<br>cookies」的日志。我们很快排查了系统遭受攻击的可能性。查看端口占用情况，确实是被<br>Redis 消耗了。分析监控数据和端口数情况，此时的 Redis 连接数达到了<br>7K，QPS 已经达到 100K。现在亟待解决的问题就是连接数高的问题。另外，针对<br>QPS 过高的问题，确认是否可以使用 Redis 管道技术。</p>
+<p><img src="http://i.imgur.com/OFlADoe.png" alt="QPS of Redis at Crash time"></p>
+<p>经过和研发沟通，得知程序采用 Nginx Lua 实现。Lua<br>是一个简洁、轻量、可扩展的脚本语言，也是号称性能最高的脚本语言。使用<br>Nginx Lua，再加上 LuaRedisModule 模块，就可以原生地和 Redis<br>建立请求，并解析响应。但真实的项目中采用的是 lua-resty-redis，这是一个为<br>ngx_lua 设计的，基于 cosocket API 的 Redis Lua 客户端。</p>
+<a id="more"></a>
+<p>程序中使用了如下设置：</p>
+<p>其中第一个参数表示 max_idle_timeout，第二个参数表示<br>pool_size。这个方法是为每个 Nginx<br>工作进程设置的。也就是说，最终建立的连接计算公式如下：</p>
+<p>connectionNum(连接数) = machineNum(机器数) *<br>nginxWokerProcess(每台机器的 Nginx 工作进程数) * pool_size(连接池大小)</p>
+<p>前端有四台 Web 服务器，每台机器 18 个 Nginx<br>工作进程，按照上面的设置，那和单点 Redis 建立的连接数为<br>4*18*20，也就是 1440。然而，真实的连接已经达到 7K，看来问题不在这里。</p>
+<p>我们尝试使用 Redis Pipeline，至于原因，且听我慢慢道来。</p>
+<p>Redis 是一种基于客户端/服务端模型以及请求/响应协议的 TCP<br>服务。这意味着通常情况下一个请求会遵循以下步骤：</p>
+<p>Redis<br>管道可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应。可以简单地理解为批量操作，一次返回。</p>
+<p>然而，真实场景中，绝大多多数的命令是 INCR，也就是 +1<br>的操作。这类操作使用管道的意义不是太大，于是放弃了。</p>
+<h3 id="2-2-使用-Twemproxy-横向扩展"><a href="#2-2-使用-Twemproxy-横向扩展" class="headerlink" title="2.2 使用 Twemproxy 横向扩展"></a>2.2 使用 Twemproxy 横向扩展</h3><p>我们尝试进行 Scale Out，增加 Redis 实例，并且使用 Twemproxy 代理，每台<br>Web 服务器访问本地的 Twemproxy。</p>
+<p>在此不妨简单介绍下<br>Twemproxy。为了满足数据的日益增长和扩展性，数据存储系统一般都需要进行一定的分片。分片主要存在三个位置，第一层，数据存储系统本身支持；第二层，服务器端和客户端中间建代理支持；第三层，客户端支持。Redis<br>Cluster 属于第一层，Twemproxy 属于第二层，Memcached<br>属于第三层。Twemproxy（又称为 nutcracker）是一个轻量级的 Redis 和<br>Memcached 代理，主要用于分片。Twemproxy 由 Twitter<br>开源出来的缓存服务器集群管理工具，主要用来弥补 Redis 和 Memcached 对集群<br>(Cluster) 管理的不足。Twemproxy 按照一定的路由规则，转发给后台的各个<br>Redis 实例，再原路返回。有了 Twemproxy，前端不再关心后端代理了多少 Redis<br>实例，而只需访问 Twemproxy<br>即可，一方面简化了开发难度，另一方面提高了性能。Twemproxy<br>支持大部分命令，但对多键命令的支持有限，并且会有 20%<br>左右的性能损失（Twitter 官方测试结果）。简单来说，Twemproxy 就是一个支持<br>Redis 协议，对前端透明，支持分片，性能优秀的代理。当然，目前 Redis 3.0<br>已经发布，不少厂商会选择使用 Redis 3.0 代替 Twemproxy，这需要时间。</p>
+<p>我们在独立服务器新增了 4 个实例，并且 Web 服务器部署<br>Twemproxy，应用访问本地的 Twemproxy。但实际的效果并不理想，Redis QPS<br>依然高，本地的 Twemproxy 居然让 Web<br>服务器性能恶化。另外一个有趣的现象是，Twemproxy 代理的几个 Redis<br>实例存在严重的数据倾斜。有些 Redis 实例 QPS 可以达到 80K，有些 Redis<br>只有 5K 左右。</p>
+<p>那目前我们的问题主要集中在两个问题上，第一，连接数过高；第二，数据倾斜。经过研发排查，找出一段令人匪夷所思的代码。Nginx<br>Lua 中的超时时间是 60s，这也解释了为什么实际连接跟理论连接相差如此巨大。</p>
+<h3 id="2-3-问题解决"><a href="#2-3-问题解决" class="headerlink" title="2.3 问题解决"></a>2.3 问题解决</h3><p>根据以上的分析，我们决定分两步走。第一，更改超时时间；第二，解决数据倾斜的问题。</p>
+<p>研发把超时改为<br>2s，并且根据实际情况更改了连接池，观察效果。可以明显地看到，连接数降到<br>1K 左右，机器 Socket 使用数下降显著，连接没有阻塞，业务没有较大的波动。</p>
+<p>解决了连接数的问题，我们接下来解决数据倾斜的问题。</p>
+<p>如前所述，Scale Out 后，Redis 实例存在严重的数据倾斜。有些 Redis 实例<br>QPS 可以达到 80K，有些 Redis 只有 5K<br>左右。分析这个问题，这就要从业务数据形态入手。这个业务是统计业务，由大量的<br>INCR 操作，并且产生的 Key 较少。Twemproxy 根据配置的一致性 Hash 函数，对<br>Key 进行 Hash 校验，再决定转发到对应的 Redis 实例。</p>
+<p>根据以上分析，产生的 Key 较少，也就是重复率较高，导致转发的 Redis<br>实例就会集中。这也解释了为什么会产生数据倾斜。针对这个问题，我们展开讨论。最开始打算写本地文件，然后定时写入<br>Redis，这样 Redis 的 QPS<br>会下降不少。但考虑到定时器实现较复杂，于是采取了拆分 Key<br>的办法。举个例子，比如之前是一分钟一个 Key，那现在 1 分钟产生 10+<br>Key，甚至更多，那这样数据倾斜的问题自然会慢慢减缓，直至消除。</p>
+<p>经过研发的艰苦奋斗，把 Key 拆分后，效果明显。QPS 分摊到各个 Redis<br>实例，连接数下降，Web 服务器性能提高。</p>
+<h2 id="0x03-原理探讨"><a href="#0x03-原理探讨" class="headerlink" title="0x03 原理探讨"></a>0x03 原理探讨</h2><p>在原理探讨这一小结，笔者只针对 Twemproxy 一致性 Hash<br>函数进行浅薄地分析。</p>
+<p>Twemproxy 提供取模，一致性哈希等手段进行数据分片，维护和后端 Server<br>的长连接，自动踢除 Server、恢复<br>Server，提供专门的状态监控端口供外部工具获取状态监控信息。Twemproxy<br>使用的是单进程单线程来处理请求，只是另外起了一个线程来处理统计数据。</p>
+<p>Twemproxy 的代码组成如下：事件处理、多种 Hash<br>函数、协议、自定义的数据类型、网络通信、信号处理、数据结构和算法、统计日志和工具、配置文件和主程序。</p>
+<p>第二小结有提到 Twemproxy 的 一致性Hash 函数。一致性 Hash<br>函数有：one_at_a_time、md5、crc16、crc32、crc32a、fnv1_64、fnv1a_64、fnv1_32、fnv1a_32、hsieh、murmur<br>和 jenkins。Key 的分发模式有：ketama、modula 和 random。线上业务配置的<br>Hash 函数是 fnv1a_64，分发模式为 ketama。</p>
+<p>fnv1a_64 Hash 算法的实现，我们可以用如下 Python<br>代码（来自 <a href="https://github.com/idning" target="_blank" rel="external">ning</a>）模拟：</p>
+<p>Key 重复率越高，根据一致性函数处理后，转发到相同机器的概率就会越高。</p>
+<p>另外，ketama 分发模式的算法复杂度是 O(LogN)，然而 modula 的算法复杂度是<br>O(1)。按照官方的示例，我们默认采用了 ketama。不过最好按照实际环境配置。</p>
+<h2 id="0x04-案例小结"><a href="#0x04-案例小结" class="headerlink" title="0x04 案例小结"></a>0x04 案例小结</h2><p>此案例非常具有代表性。第一，排查定位问题的思路；第二，Redis<br>遇到瓶颈的解决思路；第三，Scale Out<br>的分析角度。遇到瓶颈问题，可以从如下几个角度思考，第一，对代码、服务器和相关服务进行优化；第二，具体产品的选型或者定制；第三，根据业务形态，对数据产生、处理和消费流程进行梳理，梳理完成再决定或者优化架构形态；第四，进行扩展，根据业务场景决定<br>Scale Out 还是 Scale Up。</p>
+<p>–EOF–</p>
+<p>插图来自：监控系统</p>
+<p>版权声明：自由转载-非商用-非衍生-保持署名<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank" rel="external">（创意共享3.0许可证）</a></p>
+<p><a href="http://toutiao.io/r/ljsh9v" target="_blank" rel="external">查看原文</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/07/Redis 横向扩展案例/">Redis 横向扩展案例</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 sam hu 的个人博客">sam hu</a></p>
+        <p><span>发布时间:</span>2016年03月07日 - 01时10分</p>
+        <p><span>最后更新:</span>2016年03月07日 - 01时10分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/07/Redis 横向扩展案例/" title="Redis 横向扩展案例">http://blog.huguiqi.com/2016/03/07/Redis 横向扩展案例/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.huguiqi.com/2016/03/07/Redis 横向扩展案例/　　作者: sam hu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/03/07/StoryBoard学习博客/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          StoryBoard学习博客
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/07/RESTEasy入门/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RESTEasy入门</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-横向扩展案例"><span class="toc-number">1.</span> <span class="toc-text">Redis 横向扩展案例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-背景介绍"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 背景介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-分析解决"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 分析解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-初步分析"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 初步分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-使用-Twemproxy-横向扩展"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 使用 Twemproxy 横向扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-问题解决"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 问题解决</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-原理探讨"><span class="toc-number">1.3.</span> <span class="toc-text">0x03 原理探讨</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-案例小结"><span class="toc-number">1.4.</span> <span class="toc-text">0x04 案例小结</span></a></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//huguiqicom.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//huguiqicom.disqus.com/count.js" async></script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/03/07/StoryBoard学习博客/" title="上一篇: StoryBoard学习博客">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/03/07/RESTEasy入门/" title="下一篇: RESTEasy入门">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/什么是 Docker/">Docker —— 从入门到实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/关于macbook电池的正确使用方法，和保养技巧/">关于macbook电池的正确使用方法，和保养技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/oh_my_zsh安装出现的问题/">oh_my_zsh安装出现的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/09/通过github_pages建立自己的博客/">通过github pages建立自己的博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/09/给hexo博客添加站内搜索/">给hexo博客添加站内搜索(折腾死了)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何将印象笔记导为markdown/">如何将印象笔记导为markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/springMVC web.xml filter-mapping/">springMVC web.xml filter-mapping</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/nginx反向代理做cache配置/">nginx反向代理做cache配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven生成war包的两种方式/">maven生成war包的两种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mysql相关命令行/">mysql相关命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mysql for mac 中文问题/">mysql for mac 中文问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven3常用命令笔记/">maven3常用命令笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven 启动时windows下静态文件（html、css、js）被锁定/">maven 启动时windows下静态文件（html、css、js）被锁定</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码/">spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ruby command/">ruby command</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/oracle10g 添加监听数手动配置方式/">oracle10g 添加监听数手动配置方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svnserve/">svnserve</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ios苹果开发者必备的xcode插件/">ios苹果开发者必备的xcode插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIWebView详解/">UIWebView详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UISearchBar与UISearchDisplayController结合使用时注意的事项/">UISearchBar与UISearchDisplayController结合使用时注意的事项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Windows 命令行下修改文件访问控制权限/">Windows 命令行下修改文件访问控制权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIScrollView/">UIScrollView</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/">iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIBezierPath使用/">UIBezierPath使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS下载文件的几种简单有效的方式/">iOS下载文件的几种简单有效的方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS开发 git github 初学＋进阶/">iOS开发 git github 初学＋进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS有用的代码/">iOS有用的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS正则表达式代码片断/">iOS正则表达式代码片断</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault/">iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS高效开发必备的10款Objective-C类库/">iOS高效开发必备的10款Objective-C类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iPhone屏幕尺寸/">iPhone屏幕尺寸</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIView 中一些常用方法/">UIView 中一些常用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/keySet()和entrySet()比较/">keySet()和entrySet()比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven + tomcat + linux/">maven + tomcat + linux</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/TCP_IP中的长链接与短链接/">TCP_IP中的长链接与短链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/String.prototype 工具常用类/">String.prototype 工具常用类</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/StoryBoard学习博客/">StoryBoard学习博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Redis 横向扩展案例/">Redis 横向扩展案例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/RESTEasy入门/">RESTEasy入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Oracle中TO_DATE格式/">Oracle中TO_DATE格式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/">PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ORACLE 字符集长度问题/">ORACLE 字符集长度问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Nginx 性能优化/">Nginx 性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NetworkEye：iOS 网络调试库/">NetworkEye：iOS 网络调试库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UMSNSService_UMSNSLibrary.a for architecture armv7s/">UMSNSService_UMSNSLibrary.a for architecture armv7s</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自@开发者头条/">KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自 开发者头条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Maven仓库的两个概念：本地仓库和远程仓库/">Maven仓库的两个概念：本地仓库和远程仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSDocumentDirectory NSDocumentationDirectory 的区别/">NSDocumentDirectory NSDocumentationDirectory 的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSError 自定义/">NSError 自定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSSet 排序/">NSSet 排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSURL 生成时有中文参数无法生成URL的解决方案/">NSURL 生成时有中文参数无法生成URL的解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSUserDefaults简介及使用/">NSUserDefaults简介及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xib cell/">xib cell</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSdata 与 NSString，Byte数组，UIImage 的相互转换---ios开发 Objective-C/">NSdata 与 NSString，Byte数组，UIImage 的相互转换---ios开发 Objective-C</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JMeter/">JMeter</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/@synthesize和@dynamic区别/">synthesize和 dynamic区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 查看系统信息命令(比较全)/">linux 查看系统信息命令(比较全)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/无标题笔记/">无标题笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/无标题/">无标题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript正则快速入门教程/">javascript正则快速入门教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/软链接/">软链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/对javascript的理解/">对javascript的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何设置mysql在局域网中访问/">如何设置mysql在局域网中访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何让secureCRT显示Linux的颜色/">如何让secureCRT显示Linux的颜色</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/解决Xcode中使用Git时出现This file does not exist at the requested revision./">解决Xcode中使用Git时出现This file does not exist at the requested revision.</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何在UIAlertView中显示进度条/">如何在UIAlertView中显示进度条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何删除一键Ghost备份文件/">如何删除一键Ghost备份文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/基于RBAC模型的权限管理系统的设计和实现/">基于RBAC模型的权限管理系统的设计和实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/大数据时代笔记/">大数据时代笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/在IDEA下远程调试JavaScript/">在IDEA下远程调试JavaScript</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/创建JSP自定义标签/">创建JSP自定义标签</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/加菲猫生活歪理/">加菲猫生活歪理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/启动画面自定义动画/">启动画面自定义动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/判断ios系统版本号的代码/">判断ios系统版本号的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/发展感想/">发展感想</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/创建系统无法删除的文件夹 加密文件/">创建系统无法删除的文件夹 加密文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/删除文件夹后点commit提交，但是报错/">删除文件夹后点commit提交，但是报错</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/苹果mac网站论坛收藏/">苹果mac网站论坛收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于jsp中换行问题/">关于jsp中换行问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于URL重写、session，cookie/">关于URL重写、session，cookie</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/">关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/修改linux文件权限命令：chmod/">修改linux文件权限命令：chmod</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/节日记录/">节日记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/使用模板语言(Velocity)定义、发送邮件/">使用模板语言(Velocity)定义、发送邮件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/使用resteasy的乱码问题/">使用resteasy的乱码问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/以线颜色取色器/">以线颜色取色器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/">从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/什么是SQL注入式攻击？/">什么是SQL注入式攻击？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/美栈第一个迭代完成情况/">美栈第一个迭代完成情况</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/网站收藏/">网站收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/强大的负载均衡+静态文件WEB服务器nginx实战/">强大的负载均衡+静态文件WEB服务器nginx实战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/数据类型和Json格式/">数据类型和Json格式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/非root用户安装/">非root用户安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/新浪微薄分享功能实现方式/">新浪微薄分享功能实现方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/">改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/摇一摇动画/">摇一摇动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/什么是 Docker | Docker —— 从入门到实践/">什么是 Docker | Docker —— 从入门到实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ios拨打电话三种方式/">ios拨打电话三种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/产品人的APP/">产品人的APP</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/把你的程序布署在TOMCAT/">把你的程序布署在TOMCAT</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone开发学习笔记/">iphone开发学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone开发秘籍目录/">iphone开发秘籍目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone教程网/">iphone教程网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript正则表达式与java正则表达式的细微差异写法/">javascript正则表达式与java正则表达式的细微差异写法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript中处理json技巧/">javascript中处理json技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/">java处理图片时找到不sun.awt.X11GraphicsEnvironment问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript 原型编程详解/">javascript 原型编程详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/java相关理论技术收藏/">java相关理论技术收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/jsessionid释疑解惑/">jsessionid释疑解惑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/jenkins 重复执行job/">jenkins 重复执行job</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/手机端(iOS,android)自动化测试框架(淘宝用的)/">手机端(iOS,android)自动化测试框架(淘宝用的)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux ssh 上传与下载命令/">linux ssh 上传与下载命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 安装web环境/">linux 安装web环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux su和sudo命令的区别/">linux su和sudo命令的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 安装软件/">linux 安装软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 查看 和 修改系统编码/">linux 查看 和 修改系统编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/下载花生壳，注册域名。/">下载花生壳，注册域名。</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下 scp命令不需要输入用户密码/">linux下 scp命令不需要输入用户密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下SVN仓库间数据转移或重命名/">linux下SVN仓库间数据转移或重命名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下删除svn属性文件/">linux下删除svn属性文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux服务端常用命令行/">linux服务端常用命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux系统下mysql中文乱码解决/">linux系统下mysql中文乱码解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac OS忘记密码后的终极解决方案/">mac OS忘记密码后的终极解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac os VoiceOver/">mac os VoiceOver</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac 下载youku视频/">mac 下载youku视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac有用的命令行收藏/">mac有用的命令行收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac系统终端常用命令与mac系统常用的技巧/">mac系统终端常用命令与mac系统常用的技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/怎么关闭U盘的自动播放功能/">怎么关闭U盘的自动播放功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记/">笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/阿里云遇到的问题/">阿里云遇到的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记 来自 永嘉花园 在 上海市/">笔记 来自 永嘉花园 在 上海市</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记 来自 成亿家园 在 上海市市辖区/">笔记 来自 成亿家园 在 上海市市辖区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/开源中国 Maven 库/">开源中国 Maven 库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/彻底删除Mac OS X开机自启动项目/">彻底删除Mac OS X开机自启动项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/node.js学习(上)/">node.js学习(上)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/nodejs_学习笔记/">nodejs_学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/obj-c 常用字符串处理方法/">obj-c 常用字符串处理方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objc非主流代码技巧/">objc非主流代码技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objective-c属性特性/">objective-c属性特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objecttive-c与swift混编/">objecttive-c与swift混编</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/obj-c排序算法/">obj-c排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/">建立你自己的本地仓库(Maven仓库管理-Nexus)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/字符，字节和编码/">字符，字节和编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/root重置密码/">root重置密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/直接将google进行本地映射，不进行域名解析，加速访问/">直接将google进行本地映射，不进行域名解析，加速访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/每位开发人员都应铭记的10句编程谚语/">每位开发人员都应铭记的10句编程谚语</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/查找项目中是否有用IDFA/">查找项目中是否有用IDFA</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svn merge/">svn merge</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/旧工程适配iOS6和iPhone5续之第三方静态库/">旧工程适配iOS6和iPhone5续之第三方静态库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svn常用命令/">svn常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/swift学习笔记/">swift学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vim中字符串出现次数的统计及字符创替换/">vim中字符串出现次数的统计及字符创替换</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi全局替换方法/">vi全局替换方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi显示行号/">vi显示行号</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi格式化代码/">vi格式化代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode 中检查国际化文件格式是否正确/">xcode 中检查国际化文件格式是否正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode快捷器收藏/">xcode快捷器收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode模拟器/">xcode模拟器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/">日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/一些iOS高效开源类库/">一些iOS高效开源类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN使用经验心得/">SVN使用经验心得</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/2）/">2）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/AOP的实现机制/">AOP的实现机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/index/">index</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iframe跨域session丢失问题/">iframe跨域session丢失问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS 开发证书与xcode、profile、appId的关系/">iOS 开发证书与xcode、profile、appId的关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS image button setCornerRadius/">iOS image button setCornerRadius</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS View中不能直接代码add tableView/">iOS View中不能直接代码add tableView</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS Framework 制作教程/">iOS Framework 制作教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS App打包上传快速教程/">iOS App打包上传快速教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS 9 变化笔记/">iOS 9 变化笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/">git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git中reset与revert的使用/">git中reset与revert的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/gitrm和 rm的区别yang3wei的专栏/">gitrm和 rm的区别yang3wei的专栏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git reset/">git reset</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD（Grand Central Dispatch）和Block 使用-浅析/">GCD（Grand Central Dispatch）和Block 使用-浅析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/elnet 命令使用详解/">elnet 命令使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（二）/">GCD 深入理解（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/coreData for sqlite/">coreData for sqlite</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/chrome代理设置/">chrome代理设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/centos 开启防火墙后ftp无法访问解决方案/">centos 开启防火墙后ftp无法访问解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/block定义与声明/">block定义与声明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/app加快审核的英文事例/">app加快审核的英文事例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/">App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（一）/">GCD 深入理解（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下的Vsftpd配置篇/">Linux下的Vsftpd配置篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CentOS 6.0安装配置subversion/">CentOS 6.0安装配置subversion</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/XCode下的iOS单元测试/">XCode下的iOS单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Validator.js/">Validator.js</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/VI命令行/">VI命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Unix有用命令行/">Unix有用命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Unit Tests With CocoaPods/">Unit Tests With CocoaPods</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CentOS6.5使用yum命令方式安装/">CentOS6.5使用yum命令方式安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Session，Cookie，jsessionid，Url重写/">Session，Cookie，jsessionid，Url重写</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CocoaPods 的一些略为高级一丁点的使用/">CocoaPods 的一些略为高级一丁点的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN客户端命令行设置忽略文件列表/">SVN客户端命令行设置忽略文件列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN分支与合并/">SVN分支与合并</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Export devices added in Apple's iOS Provision portal/">Export devices added in Apple's iOS Provision portal</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective_C动态获取实例属性/">Objective_C动态获取实例属性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-c之NSString(NSMutableString)/">Objective-c之NSString(NSMutableString)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-C –反射篇/">Objective-C –反射篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-C RegEx/">Objective-C RegEx</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Object-C内存管理口诀/">Object-C内存管理口诀</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Obj-c与swift的语法比较和产生的新特性/">Obj-c与swift的语法比较和产生的新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Node.js 常见面试题/">Node.js 常见面试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Macbook常用快捷键/">Macbook常用快捷键</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/MacOS安装Cocoapods步骤/">MacOS安装Cocoapods步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Mac 安装软件新方法：Homebrew-cask/">Mac 安装软件新方法：Homebrew-cask</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/MAC OS X 关闭 SPOTLIGHT MAC降温大法/">MAC OS X 关闭 SPOTLIGHT MAC降温大法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下的压缩解压缩命令详解/">Linux下的压缩解压缩命令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下批量删除.git文件夹的命令/">Linux下批量删除.git文件夹的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/FileWriter注意事项/">FileWriter注意事项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下必须知道的11个网络命令/">Linux下必须知道的11个网络命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园/">Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux 中如何卸载已安装的软件/">Linux 中如何卸载已安装的软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Java中的日期（Calendar、Date）/">Java中的日期（Calendar、Date）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JAVA正则表达式，过滤HTML，替换HTML标签！/">JAVA正则表达式，过滤HTML，替换HTML标签！</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/IntelliJ Idea 常用快捷键列表/">IntelliJ Idea 常用快捷键列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/HTTP 304 错误的详细解释/">HTTP 304 错误的详细解释</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/How to disable directory listing for Jetty's WebAppContext/">How to disable directory listing for Jetty's WebAppContext</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（二） - 已标注/">GCD 深入理解（二） - 已标注</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/[Nginx] 在Linux下的启动、停止和重加载/">[Nginx] 在Linux下的启动、停止和重加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/《西游记》里有哪些不易发现却很打动人的小细节？/">《西游记》里有哪些不易发现却很打动人的小细节？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/">【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/（模板方法的运用）持久层操作的java代码/">（模板方法的运用）持久层操作的java代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/fwrite$UNIX2003 referenced from/">fwrite$UNIX2003 referenced from</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/3d_touch例子一个/">根据apple官方3D touch的例子写个3D Touch功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/对象序列化框架/">对象序列化框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/docker_换国内镜像/">docker 换国内镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/apple_worldwide_developer_relations_证书过期问题/">apple Worldwide Developer Relations 证书过期问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/app上传至appStore的流程 /">app上传至appStore的流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/app上传流程/">申请企业证书需要的资料(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/将_mac_中的文件夹共享到虚拟机/">将 Mac 中的文件夹共享到虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/申请企业证书需要的资料/">申请企业证书需要的资料</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 sam hu
+            </div>
+            <div class="footer-right">
+                <a href="http://www.godeggs.cn/" target="_blank">手机、微信、web开发</a>  Theme <a href="http://weibo.com/ilikexitele" target="_blank">by sam.hu</a> 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 21;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+  </div>
+
+</body>
+</html>

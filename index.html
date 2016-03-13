@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>小黑的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="markdown 技术积累基地">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小黑的技术博客">
+<meta property="og:url" content="http://blog.huguiqi.com/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="markdown 技术积累基地">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小黑的技术博客">
+<meta name="twitter:description" content="markdown 技术积累基地">
+  
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+    
+    
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: true,
+          isPost: false,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">sam hu</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/archives">归档文章</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                        
+                            <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/timbotetsu">timbotetsu</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://mmoaay.photo/">mmoaay</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://timbo.work">timbo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.timbotetsu.com/">timbo2</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/phaibin">彭海滨</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://i.laoer.com/build-a-hotel-use-internet-thinking.html">tim-CTO</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">80后，爱摄影、爱编程、爱美女，自由开发者。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">sam hu</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">sam hu</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/archives">归档文章</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                
+                    <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap">
+  
+    <article id="post-什么是 Docker" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/12/什么是 Docker/" class="article-date">
+      <time datetime="2016-03-12T14:28:56.000Z" itemprop="datePublished">2016-03-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/12/什么是 Docker/">Docker —— 从入门到实践</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="Docker-——-从入门到实践"><a href="#Docker-——-从入门到实践" class="headerlink" title="Docker —— 从入门到实践"></a>Docker —— 从入门到实践</h2><h3 id="一-什么是-Docker"><a href="#一-什么是-Docker" class="headerlink" title="一.什么是 Docker"></a>一.什么是 Docker</h3><p>Docker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。</p>
+<p>Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后来都改名为 Docker Inc。Redhat 已经在其 RHEL6.5 中集中支持 Docker；Google 也在其 PaaS 产品中广泛应用。</p>
+<p>Docker 项目的目标是实现轻量级的操作系统虚拟化解决方案。 Docker 的基础是 Linux 容器（LXC）等技术。<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/docker/">docker</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker实践-docker教程/">docker实践 docker教程</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/12/什么是 Docker/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-关于macbook电池的正确使用方法，和保养技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/12/关于macbook电池的正确使用方法，和保养技巧/" class="article-date">
+      <time datetime="2016-03-12T05:01:00.000Z" itemprop="datePublished">2016-03-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="关于MacBook电池的正确使用方法，和保养技巧"><a href="#关于MacBook电池的正确使用方法，和保养技巧" class="headerlink" title="关于MacBook电池的正确使用方法，和保养技巧"></a>关于MacBook电池的正确使用方法，和保养技巧</h1><hr>
+<h2 id="標準充電方式"><a href="#標準充電方式" class="headerlink" title="標準充電方式"></a>標準充電方式</h2><p>當電池電量剩下約 15% 左右就要準備接電源充電了，剩 10% 時會有電量過低警示。 </p>
+<p>補充：沒有必要等到電池完全沒電時才充電，因為鋰電池本來就是設計給用戶隨時可補充電力用的。另外就是避免電池電量出現在 100% 或 0% 這兩個極端值，如果電量長期在 100% 不放電，會讓鋰電子沒有地方可以活動，一段時間後，你的鋰電池可能就會流「湯」出來喔！如果電量只有 0%，那將可能會造成電池陷入深度放電狀態，這樣會讓它永遠無法再蓄電。 </p>
+<h2 id="電池校正方式"><a href="#電池校正方式" class="headerlink" title="電池校正方式"></a>電池校正方式</h2><p>以下電池校正資訊來源為 Apple，適用於 PowerBook G4 (15 吋、雙層 SD)、MacBook (所有機型)、MacBook Pro (所有機型)、MacBook Pro (17 吋) (所有機型) 以及 MacBook Air。 </p>
+<p>　1. 插入電源轉換器並充足 PowerBook 電池的電力，直到電源轉換器上的指示燈或 LED 變成綠色，且選單列中 </p>
+<p>　　 的螢幕計量器指出電池已充足電為止。 </p>
+<p>　2. 讓電池保持在充足電力的狀態下至少兩小時。在此期間只要插上電源轉換器，仍然可以使用電腦。 </p>
+<p>　3. 在電腦的電源仍開啟時拔除電源轉換器，開始使用電池的電力讓電腦運轉。您可在這段時間內使用電腦。 </p>
+<p>　　 電池電力降低時，螢幕上會出現電池電力不足的警告對話框。 </p>
+<p>　4. 這時請儲存所有工作。請繼續使用電腦。如果電池電力非常低，電腦會自動進入睡眠狀態。 </p>
+<p>　5. 關閉電腦，或讓電腦處於睡眠狀態至少五小時。 </p>
+<p>　6. 接上電源轉換器，在電池再次充足電力之前都不要將其拔除。 </p>
+<p><strong>注意：電池校正約一個月做一次或 30 個充電循環做一次即可，常常校正可能會對電池產生不良影響。 </strong></p>
+<p><em>補充：電池具有內部微處理器，在充電及放電時，提供電池中電源的預估值。有時需要重新校準電池，以保持螢幕上顯示的電池時間及百分比能夠精確，並讓電池的效率保持在最佳狀態。第一次使用電腦以及其後每隔幾個月都應該執行這道程序。如果您的 Apple 可攜式電腦通常接上交流電電源，很少使用電池電力，則最好每個月執行一次。www.apple.com/tw/batteries 網站提供更多和電池有關的輔助資訊，也提供 iCal 行事曆，可提醒您要校正電池。</em> </p>
+<h2 id="電池長壽秘技"><a href="#電池長壽秘技" class="headerlink" title="電池長壽秘技"></a>電池長壽秘技</h2><ol>
+<li>照上述方法為電池做充放電，每週固定有一兩天讓電池正常充放電，定期做電池校正。 </li>
+</ol>
+<p>　 時常讓電池內的鋰電子保持在活性狀態，電池才會健康，就像人要運動一樣。 </p>
+<ol>
+<li><p>需要長期插電使用電腦的朋友，建議您按照 3,4 的步驟操作，可少用掉一些充電循環次數以及保護您的電池。 </p>
+</li>
+<li><p>以下方法是以 Unibody MacBook Pro 15&quot; (2008年版) 進行測試。 </p>
+<ul>
+<li><p>將電池電量充到 95%~99%，當然，能夠控制在 95% 左右是最好的。 </p>
+</li>
+<li><p>拔掉電源線後，將你的 MacBook（Pro）螢幕蓋上，靜待 Apple 燈滅呈睡眠狀態。 </p>
+</li>
+<li><p>呈睡眠狀態後，將電源線接上，再讓 MacBook（Pro）睡個幾秒後再打開螢幕。 </p>
+</li>
+<li><p>這時你會發現，雖然電腦呈開機狀態，但是電源線燈號還是綠燈（不會自動充電）。 </p>
+</li>
+<li><p>這樣因為沒有啟動自動充電系統，可以讓電量避開 100% 極端值，也不會一直補充電。 </p>
+</li>
+</ul>
+</li>
+</ol>
+<p><em>補充：當電量還有 95% ~ 99% 時，充電晶片認為電腦還有充足的電量，所以不會自動開始充電。</em> </p>
+<p><strong>例外：當 MacBook（Pro）使用電池且呈開機狀態時，只要插電後就會啟動充電機制為電池充電。 </strong></p>
+<h2 id="以下方法是以-Unibody-MacBook-Pro-13-quot-15-quot-2009年版-進行測試。"><a href="#以下方法是以-Unibody-MacBook-Pro-13-quot-15-quot-2009年版-進行測試。" class="headerlink" title="以下方法是以 Unibody MacBook Pro 13&quot;, 15&quot; (2009年版) 進行測試。"></a>以下方法是以 Unibody MacBook Pro 13&quot;, 15&quot; (2009年版) 進行測試。</h2><p>（a）將電池電量充到 100% 後，拔掉電源線繼續使用電腦。 </p>
+<p>（b）等電池電量下降至 96% 以後再將電源線接上。 </p>
+<p>（c）這時你會發現，雖然電腦呈開機狀態，但是電源線燈號還是綠燈（不會自動充電）。 </p>
+<p>（d）這樣因為沒有啟動自動充電系統，可以讓電量避開 100% 極端值，也不會一直補充電。 </p>
+<p>補充：當電量還有 96% ~ 99% 時，充電晶片認為電腦還有充足的電量，所以不會自動開始充電。 </p>
+<p>例外：當 MacBook（Pro）使用電池且呈開機狀態，且電量少於 96% 時，插電後就會開始為電池自動充電。 </p>
+<h3 id="MacBook（Pro）電池-FAQ"><a href="#MacBook（Pro）電池-FAQ" class="headerlink" title="MacBook（Pro）電池 FAQ"></a>MacBook（Pro）電池 FAQ</h3><p>Q 1：Apple 說我的電池有 300 或 1000 次的充電循環，所以就只能充這麼多次？ </p>
+<p>A 1：如果你有養成良好的充電習慣，讓鋰電子時常有活動的時間，絕對有機會可以超過這個標準次數。 </p>
+<p>有興趣可以參考 史上最強！我的小白電池循環次數1000次！ 這篇文章。 </p>
+<p>Q 2：我的 MacBook（Pro）最少的充電循環次數是多少？ </p>
+<p>A 2：根據 WWDC 09&#39; 的數據，2009 年 6 月 8 號之前的 MacBook（Pro）是 300 次，之後的是 1000 次。 </p>
+<p>Q 3：我發現我的電池充不到官方說的次數就壞了（或異常），怎麼辦？ </p>
+<p>A 3：根據前輩的經驗，如果電池還在保固期內的話，可以拿到 Apple 維修站檢測。 </p>
+<p>當經過軟體測試結果是 Bad（不良品）時，就可以免費更換新的電池。 </p>
+<p>有興趣可以參考 救命啊 請救救我的電池！ （7、10 樓）這篇文章。 </p>
+<p>Q 4：如果我的 MacBook（Pro）一直插電使用，電池會不會過充啊？ </p>
+<p>A 4 ：不會，MacBook（Pro）有充飽斷電機制，不會產生過充的現象，請放心！ </p>
+<p>Q 5：如果常常充放電，會不會折損充電次數、加速電池老化、影響電池壽命？ </p>
+<p>A 5：不會，常充放電不但不會影響電池壽命反而會讓電池活化增長壽命。 </p>
+<p>Q 6：奇怪，明明顯示「已充電」，但是為何電量還是只有 99%、98% 或 95% 呢？ </p>
+<p>A 6：因為當電池充飽後，電量維持在 100% 時，因為電池內充滿鋰電子，活動空間非常的少。 </p>
+<p>因此有些鋰電子就會跑出電池外「活動」，這就是上面所說，鋰電子每個月自放（電）率 8% 的原因。 </p>
+<p>所以，就算你的電腦整天插著電，就算電池已經充飽，還是有可能往下掉幾 % 喔～ </p>
+<h3 id="以下提供幾個充電的-Case-給大家做參考："><a href="#以下提供幾個充電的-Case-給大家做參考：" class="headerlink" title="以下提供幾個充電的 Case 給大家做參考："></a>以下提供幾個充電的 Case 給大家做參考：</h3><ol>
+<li>如果要長期（六個月內）不使用筆電者，請將電池充電（放電）到約 50% 以後卸下存放。 </li>
+</ol>
+<p>　 請確定將取出的電池存放於適當溫度下。建議放在防潮箱裡保存較為妥當。 </p>
+<p>　 倘若將電池完全放電後才存放，它就會陷入深度放電狀態，這樣會讓它永遠無法再蓄電。 </p>
+<p>　 反之，若將電池完全充滿電之後存放，電池的蓄電量可能會減少，這表示其續航力會變短。 </p>
+<ol>
+<li>在家使用桌電、筆電（接電源），偶爾帶出（約兩個月一次）時才用筆電者。 </li>
+</ol>
+<p>　 每週至少讓電池充放電一次，並定期做電池校正。 </p>
+<ol>
+<li>每天將筆電帶出使用（接電源）者，如去學校、辦公室使用。 </li>
+</ol>
+<p>　 每週至少讓電池充放電一次，並定期做電池校正。 </p>
+<ol>
+<li>承 Case 3，如果在通勤中會使用筆電、或使電腦處於休眠狀態（有用到電池）者。 </li>
+</ol>
+<p>　 因為時常讓電池有正常的放電行為，大概三個月做一次電池校正即可。 </p>
+<ol>
+<li>每天將筆電帶出使用（電池）者，盡量找有電源的地方吧！ </li>
+</ol>
+<p>　 因為時常使用電池會快速用掉許多充電循環數喔～ </p>
+<p>補充：由於鋰電池自放（電）率約為 8% / 月，再加上電池內部電路會耗電，因此建議存放三個月後記得要再拿出檢查。若電量低於 20% 時就可為電池進行充電。注意！如超過四個月以上電池電力有可能處於低電壓的狀態。這時請勿貿然單獨以電池做開機動作，必須先插上電源充電半小時以上再開機！這是為了避免低電壓狀況下開機使用時，瞬間電壓有可能會降低至2.0伏特以下…將會導致鋰電池永久失效不能使用或減短使用壽命。 </p>
+<p>下表是我根據 關于充電電池權威評論 中第 9 點繪製而成： </p>
+<p>（除了 60% 那格是三個月後的數據，其他的都是一年後的數據） </p>
+<p>也就是說，如果電池在電量 40% 的狀態卸下，並在 25 度常溫保存一年後，電量還有 38.4 %。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-oh_my_zsh安装出现的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/12/oh_my_zsh安装出现的问题/" class="article-date">
+      <time datetime="2016-03-12T04:45:18.000Z" itemprop="datePublished">2016-03-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="oh-my-zsh安装出现的问题"><a href="#oh-my-zsh安装出现的问题" class="headerlink" title="oh my zsh安装出现的问题"></a>oh my zsh安装出现的问题</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1,安装"></a>1,安装</h2><pre><code>wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+</code></pre><p>参考强哥的博客，<a href="http://macshuo.com/?p=676" target="_blank" rel="external">安装oh my zsh出现的问题</a></p>
+<ol>
+<li>安装完成后，终端背景显示没变，使用的是默认主题</li>
+<li>需要将终端背景显示设置一下才会变成黑色背景</li>
+<li>vi ~/.zshrc 设置了值改了配置后不会立即生效，需要source一下</li>
+<li>安装autojump插件home目录下没有.autojump目录，可能是由于autojump升级了，不需要这个目录了</li>
+</ol>
+<p>我用home brew 安装的，第一次安装没仔细看，后来重新安装了下，发现安装成功后给我了提示，如下：</p>
+<pre><code>==&gt; Pouring autojump-22.3.0.el_capitan.bottle.tar.gz
+==&gt; Caveats
+Add the following line to your ~/.bash_profile or ~/.zshrc file (and remember
+to source the file to update your current session):
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh
+
+If you use the Fish shell then add the following line to your ~/.config/fish/config.fish:
+[ -f /usr/local/share/autojump/autojump.fish ]; and . /usr/local/share/autojump/autojump.fish
+</code></pre><ol>
+<li>我用的是oh my zsh,是zsh的封装，也就是说适用第一个提示，要把这段代码加到.zshrc配置里</li>
+<li>.zshrc的插件配置里需要把autojump支持加上</li>
+<li><code>source .zshrc</code> 使配置生效</li>
+</ol>
+<p>试下：</p>
+<pre><code>j + 目录名 ##跳转到目录
+j --stat ##查看历史命令
+d ##查看历史跳转目录，有编号
+</code></pre><p><em>ps:其实最新的ohmyzsh中，安装好autojump以后，现在根本不需要在<code>.zshrc</code>文件里加上那段代码了，不过加上也没关系，不会报错，只是多执行了一遍代码而已，因为你到<code>.oh-my-zsh/plugins/autojump/autojump.plugin.zsh</code>里去看下，就知道了，它已经把那个写到这个插件里了，autojump的提示是给zsh看的，ohmyzsh是封装的zsh的工具，已经给你作了这件事情</em></p>
+<h2 id="插件使用"><a href="#插件使用" class="headerlink" title="插件使用"></a>插件使用</h2><p>ohmyzsh支持的所有插件在<code>.oh-my-zsh/plugins</code>目录里可以看得到；<br>如果要想让ohmyzsh支持你电脑上安装的工具，就要启用插件，使用方法则在<code>.oh-my-zsh/plugins/xx/xx.zsh</code>可以看得到</p>
+<p>以下是我的.zshcr里的alice设置:</p>
+<pre><code>plugins=(git brew brew-cask autojump sublime)
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+
+# Example aliases
+# alias zshconfig=&quot;mate ~/.zshrc&quot;
+# alias ohmyzsh=&quot;mate ~/.oh-my-zsh&quot;
+
+alias cls=&apos;clear&apos;
+alias ll=&apos;ls -l&apos;
+alias la=&apos;ls -a&apos;
+alias vi=&apos;vim&apos;
+alias javac=&quot;javac -J-Dfile.encoding=utf8&quot;
+alias grep=&quot;grep --color=auto&quot;
+alias -s html=st
+alias -s sh=st
+alias -s md=st
+alias -s py=vi
+alias -s js=vi
+alias -s c=vi
+alias -s java=vi
+alias -s txt=vi
+alias -s gz=&apos;tar -xzvf&apos;
+alias -s tgz=&apos;tar -xzvf&apos;
+alias -s zip=&apos;unzip&apos;
+alias -s bz2=&apos;tar -xjvf&apos;
+alias bws=&apos;brew search&apos;
+alias bwi=&apos;brew install&apos;
+alias bwu=&apos;brew uninstall&apos;
+alias bwc=&apos;brew cask&apos;
+alias bwcs=&apos;bwc search&apos;
+alias bwci=&apos;bwc install&apos;
+alias bwcu=&apos;bwc uninstall&apos;
+</code></pre><h3 id="给vim编辑器添加行号"><a href="#给vim编辑器添加行号" class="headerlink" title="给vim编辑器添加行号"></a>给vim编辑器添加行号</h3><p>虽然可以通过在vi编辑器里设置:set nu来显示行号，但我想要它永久打开vim编辑器时都显行号，除了修改系统vim的设置以外(这个方法实在太难了，不同的系统设置方法都有不同)，找到了一个通行的办法</p>
+<h4 id="安装-Vim-插件管理插件-Vundle"><a href="#安装-Vim-插件管理插件-Vundle" class="headerlink" title="安装 Vim 插件管理插件 Vundle"></a>安装 Vim 插件管理插件 Vundle</h4><pre><code>$ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+</code></pre><p>配置 ~/.vimrc ，如果没有 ~/.vimrc 文件新建一个即可:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">syn on                      &quot;语法支持</span><br><span class="line">set ai                      &quot;自动缩进</span><br><span class="line">set bs=2                    &quot;在insert模式下用退格键删除</span><br><span class="line">set showmatch               &quot;代码匹配</span><br><span class="line">set laststatus=2            &quot;总是显示状态行</span><br><span class="line">set expandtab               &quot;以下三个配置配合使用，设置tab和缩进空格数</span><br><span class="line">set shiftwidth=4</span><br><span class="line">set tabstop=4</span><br><span class="line">set cursorline              &quot;为光标所在行加下划线</span><br><span class="line">set number                  &quot;显示行号</span><br><span class="line">set autoread                &quot;文件在Vim之外修改过，自动重新读入</span><br><span class="line">set ignorecase              &quot;检索时忽略大小写</span><br><span class="line">set fileencodings=uft-8		 &quot;使用utf-8或gbk打开文件</span><br><span class="line">set hls                     &quot;检索时高亮显示匹配项</span><br><span class="line">set helplang=cn             &quot;帮助系统设置为中文</span><br><span class="line">set foldmethod=syntax       &quot;代码折叠</span><br><span class="line">	</span><br><span class="line">set nocompatible            &quot; be iMproved, required</span><br><span class="line">filetype off                &quot; required</span><br><span class="line">set rtp+=~/.vim/bundle/Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">Plugin &apos;gmarik/Vundle.vim&apos;</span><br><span class="line">	</span><br><span class="line">Plugin &apos;Lokaltog/vim-powerline&apos;</span><br><span class="line">Plugin &apos;scrooloose/nerdtree&apos;</span><br><span class="line">Plugin &apos;kien/ctrlp.vim&apos;</span><br><span class="line">Plugin &apos;tpope/vim-surround&apos;</span><br><span class="line">Plugin &apos;ervandew/supertab&apos;</span><br><span class="line">Plugin &apos;godlygeek/tabular&apos;</span><br><span class="line">Plugin &apos;colorselector&apos;</span><br><span class="line">Plugin &apos;ap/vim-css-color&apos;</span><br><span class="line">Plugin &apos;davidhalter/jedi-vim&apos;</span><br><span class="line">		</span><br><span class="line">call vundle#end()           &quot; required</span><br><span class="line">filetype plugin indent on   &quot; required</span><br></pre></td></tr></table></figure>
+<p><strong>插件介绍</strong></p>
+<p>Powerline: 状态栏</p>
+<p>NERDTree: 目录结构浏览</p>
+<p>CtrlP: 搜索并打开文件</p>
+<p>Surround: 修改配对符号</p>
+<p>SuperTab: 上下文提示</p>
+<p>Tabular: 文本对齐</p>
+<p>ColorSelector: Vim 配色</p>
+<p>css-color: 显示 CSS 色码所代表的颜色</p>
+<p>Jedi-Vim: Python 代码补全</p>
+<p>Vundle 命令在 Vim 中使用</p>
+<p>:PluginList 显示配置中的插件</p>
+<p>:PluginInstall 安装 ~/.vimrc 中配置的插件</p>
+<p>:PluginSearch [name] 根据插件名称搜索插件</p>
+<p>:PluginClean 清除未使用的插件</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/11/hello-world/" class="article-date">
+      <time datetime="2016-03-11T11:30:41.000Z" itemprop="datePublished">2016-03-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/11/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-通过github_pages建立自己的博客" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/09/通过github_pages建立自己的博客/" class="article-date">
+      <time datetime="2016-03-09T11:01:51.000Z" itemprop="datePublished">2016-03-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/09/通过github_pages建立自己的博客/">通过github pages建立自己的博客</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="通过github-pages建立自己的博客"><a href="#通过github-pages建立自己的博客" class="headerlink" title="通过github pages建立自己的博客"></a>通过github pages建立自己的博客</h1><h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><p>废话不多说，本人参考了以下博客:  </p>
+<ol>
+<li><a href="http://blog.fens.me/hexo-blog-github/" target="_blank" rel="external">Hexo在github上构建免费的Web应用</a>    </li>
+<li><a href="http://wsgzao.github.io/post/hexo-jacman" target="_blank" rel="external">Jacman基于Pacman修改的Hexo主题</a></li>
+</ol>
+<p>不过在做那些操作时，你的电脑需要这些环境：</p>
+<ol>
+<li>nodejs</li>
+<li>ruby</li>
+<li><p>浏览器<br>由于我的电脑是mac，我本人又是一枚程序猿，所有这些环境都有，如果有人不知道怎么安装这些环境的:</p>
+<p> brew install nodejs</p>
+</li>
+</ol>
+<h3 id="安装hexo库"><a href="#安装hexo库" class="headerlink" title="安装hexo库"></a>安装hexo库</h3><p><a href="http://hexo.io/" target="_blank" rel="external">hexo的官网</a></p>
+<p>如下方式安装：</p>
+<pre><code>$ npm install hexo-cli -g
+$ hexo init blog
+$ cd blog
+$ npm install
+$ hexo server
+</code></pre><p><em>因为国内墙的原因，ruby的源访问很慢，可以将镜像换成国内的镜像，目前我的是用的淘宝的，怎么换就自己google</em></p>
+<p>安装好以后，访问本地服务器locathost:4000，默认使用的主题是landscape,<a href="http://wsgzao.github.io/post/hexo-jacman/#" target="_blank" rel="external">怎么换主题请参考这里</a></p>
+<p>导航栏添加自定义页面</p>
+<ol>
+<li><p>命令手动生成自定义页面(在根目录，和_post、tags平级)</p>
+<pre><code>hexo n page &quot;about&quot;
+</code></pre></li>
+<li><p>命令生成初始文章，文件名空格会自动加-hyphen中横线</p>
+<pre><code>hexo n &quot;hexo post&quot;
+</code></pre></li>
+</ol>
+<p><a href="http://blog.fens.me/hexo-blog-github/" target="_blank" rel="external">利用githubpage搭建博客</a></p>
+<p><strong>我在照着这些博客去做的时候，遇到一些问题:</strong></p>
+<h3 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h3><ul>
+<li>修改配置文件时注意YAML语法，参数冒号:后一定要留空格</li>
+<li>中文乱码请修改文件编码格式为UTF-8</li>
+<li>GitHub同步慢或者失败请使用翻墙代理加速</li>
+<li>域名配置解析中，二级域名配置问题</li>
+<li>有新文章copy到_post目录中时，部署到github上失败，提示<code>deploy fail</code></li>
+</ul>
+<h4 id="域名和DNS配置"><a href="#域名和DNS配置" class="headerlink" title="域名和DNS配置"></a>域名和DNS配置</h4><ul>
+<li><p>域名推荐</p>
+<p>  GoDaddy makes registering Domain Names fast, simple, and affordable.<br><em>【推荐理由】两个字“靠谱”，支持支付宝，附优惠码链接</em></p>
+</li>
+</ul>
+<p><a href="http://www.godaddy.com/" target="_blank" rel="external">godaddy</a></p>
+<p><a href="http://www.gdcodecoupon.com/" target="_blank" rel="external">gdcodecoupon</a></p>
+<ul>
+<li>DNS推荐<br>致力于为您提供最稳定、最安全的域名解析服务<br>【推荐理由】依然是两个字“靠谱”，感谢他们一直以来对于公益的坚持</li>
+</ul>
+<p><a href="https://www.dnspod.cn/" target="_blank" rel="external">https://www.dnspod.cn/</a></p>
+<p><strong>因为我是去年阿里云搞活动买的域名，所以我以万网域名为例来说明我遇到的问题：</strong></p>
+<p>我要设置的域名是:<a href="http://huguiqi.com" target="_blank" rel="external">http://huguiqi.com</a></p>
+<ol>
+<li>设置CNAME</li>
+<li>在Github的网站目录下创建CNAME文件<br>填写自己的域名如huguiqi.com，保存结束,为了能每次发布都有这个文件，在hexo下的source目录下建立这个文件</li>
+<li>设置DNS解析（一级域名设置）</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>记录类型</th>
+<th>主机记录</th>
+<th>记录值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHAME</td>
+<td>@</td>
+<td>huguiqi.github.io</td>
+</tr>
+<tr>
+<td>A</td>
+<td>www</td>
+<td>103.245.222.133</td>
+</tr>
+</tbody>
+</table>
+<p>一级域名指向设置只要将CHAME和A类型的记录值指向github给你指定的服务器域名和ip就行了。</p>
+<p>4.二级域名DNS解析<br>二级域名指向就要麻烦点了，需要一个跳板：<br>比如我要对blog.huguiqi.com作域名解析，则需要:</p>
+<ul>
+<li>设置一个CHAME的主机记录：blog,当以blog开头时，将它指向记录值要转向的地址</li>
+<li>设置一个github对应的主机地址，以作基础解析 </li>
+<li>blog.huguiqi.com –&gt;huguiqi.github.io. –&gt;github.huguiqi.com. –&gt; 103.245.222.133 走了一圈以后终于到目的地了</li>
+<li><p>配置完后部署一下就ok了</p>
+<pre><code>hexo clean &amp;&amp; hexo d -g
+</code></pre></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>记录类型</th>
+<th>主机记录</th>
+<th>记录值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHAME</td>
+<td>huguiqi.github.io</td>
+<td>github.huguiqi.com.</td>
+</tr>
+<tr>
+<td>CHAME</td>
+<td>blog</td>
+<td>huguiqi.github.io.</td>
+</tr>
+<tr>
+<td>A</td>
+<td>github</td>
+<td>103.245.222.133</td>
+</tr>
+</tbody>
+</table>
+<p><em>注：为什么要在跳板指向的huguiqi.github.io的后面加”.”呢？主要是为了和主域名区分，不要搞混了</em></p>
+<p><strong>不要问我怎么知道这样配置是对的，</strong><a href="https://help.github.com/articles/setting-up-a-custom-subdomain/" target="_blank" rel="external">我是参考这里去配置的</a></p>
+<h3 id="来回切换主题后无法将新的markdown部署到服务器上"><a href="#来回切换主题后无法将新的markdown部署到服务器上" class="headerlink" title="来回切换主题后无法将新的markdown部署到服务器上"></a>来回切换主题后无法将新的markdown部署到服务器上</h3><ul>
+<li>由于hexo工程根目录下的.deploy_git在作怪，切换后部署时把这个目录删掉(一定要删除目录)</li>
+<li>有时遇到无上传时，可能是主题的git文件导致git remote冲突，所以把themes下面的主题目录的.git文件删掉即可</li>
+</ul>
+<h2 id="站内搜索"><a href="#站内搜索" class="headerlink" title="站内搜索"></a>站内搜索</h2><p>已提交微搜索(swiftype也很不错)的Pull Request给Jacman，欢迎大家体验</p>
+<p><a href="http://tinysou.com/" target="_blank" rel="external">微搜索</a></p>
+<p><a href="https://swiftype.com/" target="_blank" rel="external">swiftype</a><br><a href="http://huguiqi.com/2016/03/09/给hexo博客添加站内搜索/" target="_blank" rel="external">为hexo添加站内搜索</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/github-博客/">github 博客</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github上建立自己的博客/">github上建立自己的博客</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-给hexo博客添加站内搜索" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/09/给hexo博客添加站内搜索/" class="article-date">
+      <time datetime="2016-03-09T06:35:54.000Z" itemprop="datePublished">2016-03-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/09/给hexo博客添加站内搜索/">给hexo博客添加站内搜索(折腾死了)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="给hexo博客添加站内搜索"><a href="#给hexo博客添加站内搜索" class="headerlink" title="给hexo博客添加站内搜索"></a>给hexo博客添加站内搜索</h1><p>本来想用swiftype来做站内搜索，但是，因为GWF的缘故，只好放弃，使用百度来做站内搜索<br>先放一下演示：<a href="http://huguiqi.com" target="_blank" rel="external">swiftype搜索演示</a></p>
+<h2 id="一，注册百度站长帐号"><a href="#一，注册百度站长帐号" class="headerlink" title="一，注册百度站长帐号"></a>一，注册百度站长帐号</h2><p><a href="http://zhanzhang.baidu.com/" target="_blank" rel="external">点击注册</a><br>如果你是新用户，你首先应该在我的网站/站点管理里先添加网站.<br><img src="http://gengbiao.me/img/baidu/baidu_add_site.png" alt="注册"></p>
+<h3 id="给你的hexo站点添加sitemap网站地图"><a href="#给你的hexo站点添加sitemap网站地图" class="headerlink" title="给你的hexo站点添加sitemap网站地图"></a>给你的hexo站点添加sitemap网站地图</h3><ol>
+<li>安装hexo的sitemap网站地图生成插件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在你的hexo站点的_config.yml添加下面的代码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># hexo sitemap网站地图</span><br><span class="line">sitemap:</span><br><span class="line">path: sitemap.xml</span><br><span class="line">baidusitemap:</span><br><span class="line">path: baidusitemap.xml</span><br></pre></td></tr></table></figure>
+<p>虽然很多人说可以通过添加sitemap的方式向网站爬网站内容，但通过实践，我是没有成功的，去更新数据时，总是抓取失败，原因是服务器<strong>拒绝访问</strong>，根据百度的异常信息解释，可能是由于我的网站是托管在github上的，用gitpage的方式提供的空间，所以可能是拒绝百度这种方式爬的。</p>
+<p>我是参考其它人的一篇文章去做的<br><a href="http://gengbiao.me/hexo/hexo%E6%B7%BB%E5%8A%A0%E7%99%BE%E5%BA%A6%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2/" target="_blank" rel="external">给hexo添加百度站内搜索</a></p>
+<p>由于swiftype我一直没打开，所以就又转向了tinysou（这个是国内做的微搜索，速度什么的都还不错）,我参照了这篇文章进行添加：<br><a href="http://www.jianshu.com/p/85cd68408f81" target="_blank" rel="external">hexo添加tinysou站内搜索</a></p>
+<p>很可惜，这个tinysou我注册了，但就是无法添加engines,他们提交时的服务端返回一个503的错误，看来这家公司的维护团队很弱啊，这个问题都没有发现，后来又试了很久，engines建立了一个，但打不开控制台，没办法了，再试下swiftype看能否打开，这回开了vpn,终于打开了，就是好慢啊好慢。。。。。。  </p>
+<p>然后又参考了这个博客：<a href="http://www.jerryfu.net/post/search-engine-for-hexo-with-swiftype-v2.html" target="_blank" rel="external">利用swiftype为hexo添加站内搜索v2.0</a></p>
+<p>终于搞定了。。。。。。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/站内搜索-博客/">站内搜索 博客</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swiftype-hexo-站内搜索/">swiftype hexo 站内搜索</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-如何将印象笔记导为markdown" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/如何将印象笔记导为markdown/" class="article-date">
+      <time datetime="2016-03-07T04:21:34.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/如何将印象笔记导为markdown/">如何将印象笔记导为markdown</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="如何将印象笔记导为markdown"><a href="#如何将印象笔记导为markdown" class="headerlink" title="如何将印象笔记导为markdown"></a>如何将印象笔记导为markdown</h1><p>由于想把自己多年的印象笔记里的技术笔记都转成markdown导出，但目前印象笔记不支持直接导出evernote,怎么办？google了一下，发现还没有直接导出的，只发现<a href="https://maxiang.io/">马克飞象</a><strong>可以直接绑定印象笔记和evernote国际版，绑定了以后可以直接在马克飞象上面写文章，然后同步到evernote上去</strong>，但是我需要的是把原来evernote上的笔记全部导出为markdown格式，目前evernote只支持导出为html和enex格式,看来只能从这里入手了。</p>
+<h2 id="一，将印象笔记中技术分类的笔记全部导出"><a href="#一，将印象笔记中技术分类的笔记全部导出" class="headerlink" title="一，将印象笔记中技术分类的笔记全部导出"></a>一，将印象笔记中技术分类的笔记全部导出</h2><p>我是mac电脑，安装的是印象笔记客户端，直接在文件–&gt;导出笔记（格式选html），但是问题来了，导出的是批量的html,目前我们也没有看到有可以批量将html转成markdown的工具，所以就只能自己用脚本摸索一个了。</p>
+<hr>
+<p>目前我知道的比较流行的将html转为markdown的工具有：<br>    1.<a href="http://markdownrules.com/">MarkdownRules.</a><br>    <br/>    <em>这款工具将html转markdown是在线上的，美中不足的是，它不支持 &lt; pre&gt; 这类的标记</em></p>
+<p>2.<a href="http://johnmacfarlane.net/pandoc/">Pandoc. </a><br><br/><br><em>这款工具是就非常强大了，它不公可以转html到markdown，还可以对markdown, reStructuredText, textile, HTML, DocBook, LaTeX, MediaWiki markup, TWiki markup, OPML, Emacs Org-Mode, Txt2Tags, Microsoft Word docx, LibreOffice ODT, EPUB, or Haddock markup 等十几种格式文档相互转换。但是，同样的，对&lt; pre &gt;标记的支持不足,mac用户可以通过home brew 进行安装</em></p>
+<p>3.<a href="https://github.com/aaronsw/html2text">html2text.</a> </p>
+<p><em>这是一款python写的工具，它相比前两款对&lt; pre &gt;标记解析有着更出色的表现，但也有些情况解析不了</em></p>
+<p>我选择了pandoc对我的东西进行转换</p>
+<h2 id="二，Pandoc批量将html转为markdown"><a href="#二，Pandoc批量将html转为markdown" class="headerlink" title="二，Pandoc批量将html转为markdown"></a>二，Pandoc批量将html转为markdown</h2>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/如何将印象笔记导为markdown/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springMVC web.xml filter-mapping" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/springMVC web.xml filter-mapping/" class="article-date">
+      <time datetime="2016-03-06T17:10:02.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/springMVC web.xml filter-mapping/">springMVC web.xml filter-mapping</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="springMVC-web-xml-filter-mapping"><a href="#springMVC-web-xml-filter-mapping" class="headerlink" title="springMVC web.xml filter-mapping"></a>springMVC web.xml filter-mapping</h1><div><br><br>\<br><br></div>
+
+<p>springMVC 工程中的web配置诡异问题，如果在配成将finter-mapping配成如下：</p>
+<div><br><br>&lt;filter-mapping&gt;\<br>               springSecurityFilterChain\<br>               /*\<br><br><br></div>
+
+<div><br><br>则低您所访问的页面将会以文本的形式在浏览器中显示，正确的配置为:<br><br></div>
+
+<div><br><br>&lt;filter-mapping&gt;\<br>               springSecurityFilterChain\<br>               /\<br><br><br></div>
+
+<div><br><br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/springMVC web.xml filter-mapping/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-nginx反向代理做cache配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/nginx反向代理做cache配置/" class="article-date">
+      <time datetime="2016-03-06T17:10:02.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/nginx反向代理做cache配置/">nginx反向代理做cache配置</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="nginx反向代理做cache配置"><a href="#nginx反向代理做cache配置" class="headerlink" title="nginx反向代理做cache配置"></a>nginx反向代理做cache配置</h1><p><span
+style="font: 18.0px Times; font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">nginx反向代理做cache配置</span><br><span
+style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><img src="nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif" alt=""></span><br><span
+style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2010-02-01<br>17:26:24)</span><span
+style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br> <span
+style="font-kerning: none"><img src="nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif" alt=""></span></span></p>
+<div><br><br>\<br><br></div>
+
+<p><span
+style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br></span><span
+style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">正文开始</span><span
+style="font: 14.0px SimSun; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\</p>
+<p>前序：请耐性子看完，前面的这个配置可以达到按后缀名进行缓存，但无法被purge。后面的配置可以被purge。\<br> 具体实施方案按个人情况而定。\<br>\<br> 需要第三方的ngx_cache_purge模块：\<br> wget <a href="http://labs.frickle.com/files/ngx_cache_purge-1.0.tar.gz"><span
+style="font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">http://labs.frickle.com/files/ngx_cache_purge-1.0.tar.gz</span></a>\<br> tar zxvf ngx_cache_purge-1.0.tar.gz\<br>  \<br> nginx机器IP地址：192.168.2.187\<br>\<br> 编译参数： configure arguments: –add-module=../ngx_cache_purge-1.0<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/nginx反向代理做cache配置/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-maven生成war包的两种方式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/maven生成war包的两种方式/" class="article-date">
+      <time datetime="2016-03-06T17:10:02.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/maven生成war包的两种方式/">maven生成war包的两种方式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="maven生成war包的两种方式"><a href="#maven生成war包的两种方式" class="headerlink" title="maven生成war包的两种方式"></a>maven生成war包的两种方式</h1><p>war包即对WEB应用程序进行打包，用于应用容器的部署。如在jboss中只要把war包丢入deploy目录下即可发布自己的应用了。打包方式有很多中，很多工具本身就支持此功能。下面主要介绍通过maven来操作的两种方式：</p>
+<p><strong>方法一：</strong></p>
+<pre><code>即第一反应的那种啦，就是利用maven的maven-war-plugin。
+</code></pre><div
+style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 766px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;"><br><br><div
+style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;"><br><br>Xml代码<span>  </span>  <img src="maven%E7%94%9F%E6%88%90war%E5%8C%85%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F.resources/2407B8DD-E650-467A-B079-29A4A8E31840.png" alt=""><br><br></div>
+
+<ol>
+<li><span style="color: black;"><span
+style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+style="color: rgb(0, 102, 153); font-weight: bold;">build</span><span
+style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
+style="color: black;">      </span></span></li>
+<li><span style="color: black;">    <span
+style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+style="color: rgb(0, 102, 153); font-weight: bold;">plugins</span><span
+style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
+style="color: black;">      </span></span></li>
+<li><span style="color: black;">    ……      </span></li>
+<li><span style="color: black;">      <span
+style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+style="color: rgb(0, 102, 153); font-weight: bold;">plugin</span><span
+style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span>&lt;span
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/maven生成war包的两种方式/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
+  
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 sam hu
+            </div>
+            <div class="footer-right">
+                <a href="http://www.godeggs.cn/" target="_blank">手机、微信、web开发</a>  Theme <a href="http://weibo.com/ilikexitele" target="_blank">by sam.hu</a> 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 21;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+  </div>
+
+</body>
+</html>

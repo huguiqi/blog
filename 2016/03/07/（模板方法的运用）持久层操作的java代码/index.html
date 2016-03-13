@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>（模板方法的运用）持久层操作的java代码 | 小黑的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="（模板方法的运用）持久层操作的java代码\
+
+第一个是操作数据库方法的抽象接口，\ 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。\为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。\\\Java代码  
+
+
+package  com.yd.idao;    
+    
+import  java.util.List;    
+import  ja">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（模板方法的运用）持久层操作的java代码">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/07/（模板方法的运用）持久层操作的java代码/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="（模板方法的运用）持久层操作的java代码\
+
+第一个是操作数据库方法的抽象接口，\ 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。\为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。\\\Java代码  
+
+
+package  com.yd.idao;    
+    
+import  java.util.List;    
+import  ja">
+<meta property="og:image" content="http://blog.huguiqi.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://blog.huguiqi.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://blog.huguiqi.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://blog.huguiqi.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://blog.huguiqi.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:updated_time" content="2016-03-06T16:39:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（模板方法的运用）持久层操作的java代码">
+<meta name="twitter:description" content="（模板方法的运用）持久层操作的java代码\
+
+第一个是操作数据库方法的抽象接口，\ 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。\为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。\\\Java代码  
+
+
+package  com.yd.idao;    
+    
+import  java.util.List;    
+import  ja">
+<meta name="twitter:image" content="http://blog.huguiqi.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+  
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">sam hu</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/archives">归档文章</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                        
+                            <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/timbotetsu">timbotetsu</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://mmoaay.photo/">mmoaay</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://timbo.work">timbo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.timbotetsu.com/">timbo2</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/phaibin">彭海滨</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://i.laoer.com/build-a-hotel-use-internet-thinking.html">tim-CTO</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">80后，爱摄影、爱编程、爱美女，自由开发者。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">sam hu</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">sam hu</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/archives">归档文章</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                
+                    <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-（模板方法的运用）持久层操作的java代码" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/（模板方法的运用）持久层操作的java代码/" class="article-date">
+      <time datetime="2016-03-06T16:39:25.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      （模板方法的运用）持久层操作的java代码
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="（模板方法的运用）持久层操作的java代码"><a href="#（模板方法的运用）持久层操作的java代码" class="headerlink" title="（模板方法的运用）持久层操作的java代码"></a>（模板方法的运用）持久层操作的java代码</h1><div><br><br><span style="font-size: large"><span style="color: red">\<br></span></span><br><br></div>
+
+<div><br><br><span style="font-size: large"><span style="color: red">第一个是操作数据库方法的抽象接口，\<br> 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。\<br><br>为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。\<br></span></span>\<br>\<br><div><br><br><div><br><br>Java代码<br>  <img src="%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+
+<ol>
+<li><span>package</span><span>  com.yd.idao;    </span></li>
+<li><span>    </span></li>
+<li><span>import</span><span>  java.util.List;    </span></li>
+<li><span>import</span><span>  java.sql.Connection;    </span></li>
+<li><span>import</span><span>  java.sql.ResultSet;    </span></li>
+<li><span>import</span><span>  java.sql.SQLException;    </span></li>
+<li><span>    </span></li>
+<li><span>import</span><span>  com.yd.support.JDataSet;    </span><a id="more"></a></li>
+<li><span>    </span></li>
+<li><span><span>/**</span>  </span></li>
+<li><span><span>  *  一个定义了所有我所需要的数据库操作的方法接口，</span>  </span></li>
+<li><span><span>  *  为什么定义为抽象，我自己都搞不清楚，</span>  </span></li>
+<li><span><span>  *  这里定义了泛型，这个很关键，你会看到泛型在这里的使用</span>  </span></li>
+<li><span><span>  *  @author  kanny</span>  </span></li>
+<li><span><span>  *</span>  </span></li>
+<li><span><span>  *  @param  </span>  </span></li>
+<li><span>  */</span><span>    </span></li>
+<li><span>public</span><span>  </span><span>abstract</span><span>  </span><span>interface</span><span>  ISqlHelper  {    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  执行sql语句，大多为单句插入语句</span>  </span></li>
+<li><span><span>          *  @param  sql      单句的sql语句</span>  </span></li>
+<li><span><span>          *  @param  params        插入的参数</span>  </span></li>
+<li><span><span>          *  @param  only            但为true时，sql语句为查询数量的查询语句</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>boolean</span><span>  execute(String  sql,  Object[]  params,  </span><span>boolean</span><span>  only)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  执行sql的批处理</span>  </span></li>
+<li><span><span>          *  @param  sqlBatch    多条sql语句</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>boolean</span><span>  executeBatch(String[]  sqlBatch)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  执行存储过程</span>  </span></li>
+<li><span><span>          *  @param  procName    存储过程名称</span>  </span></li>
+<li><span><span>          *  @param  params        存储过程说需要的参数</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>boolean</span><span>  executeCall(String  procName,  Object[]  params)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  查询一行数据封装成java的实体</span>  </span></li>
+<li><span><span>          *  @param  sql      sql语句</span>  </span></li>
+<li><span><span>          *  @param  params        sql条件参数</span>  </span></li>
+<li><span><span>          *  @param  viewName    视图名字，在查询多表关联的数据时用于区分</span>  </span></li>
+<li><span><span>          *  @param  executeCall      是否是存储过程，如果为true，第一个sql的参数为存储过程名称</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  T  find(String  sql,  Object[]  params,  String  viewName,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  查询多行数据封装成java的实体加入一个List里</span>  </span></li>
+<li><span><span>          *  @param  sql      sql语句</span>  </span></li>
+<li><span><span>          *  @param  params        sql条件参数</span>  </span></li>
+<li><span><span>          *  @param  viewName    视图名字，在查询多表关联的数据时用于区分，循环封装实体比单一的石头封装要复杂</span>  </span></li>
+<li><span><span>          *  @param  executeCall      是否是存储过程，如果为true，第一个sql的参数为存储过程名称</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  List  findList(String  sql,  Object[]  params,  String  viewName,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  为了方便操作，我还特意写定义了这个返回ResultSet的方法，便于直接操作</span>  </span></li>
+<li><span><span>          *  @param  sql</span>  </span></li>
+<li><span><span>          *  @param  params</span>  </span></li>
+<li><span><span>          *  @param  executeCall</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  ResultSet  returnResultSet(String  sql,  Object[]  params,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>            </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  我的底层分页方法，我会给出具体代码，但这里用的只是sql  server  2008的数据库分页</span>  </span></li>
+<li><span><span>          *  @param  sql      </span>  </span></li>
+<li><span><span>          *  @param  orderby      排序列</span>  </span></li>
+<li><span><span>          *  @param  currentPage      当前页</span>  </span></li>
+<li><span><span>          *  @param  pageSize    每页多少行</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  List  findListAsPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  后来为了方便操作，想朋友要来了这个JDataSet类，类似.net的DataTable的作用</span>  </span></li>
+<li><span><span>          *  @param  sql</span>  </span></li>
+<li><span><span>          *  @param  params</span>  </span></li>
+<li><span><span>          *  @param  fillColumnNames      是否填充类名，请看方法代码</span>  </span></li>
+<li><span><span>          *  @param  executeCall</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  JDataSet  getJDataSet(String  sql,  Object[]  params,  </span><span>boolean</span><span>  fillColumnNames,  </span><span>boolean</span><span>  executeCall);    </span></span></li>
+<li><span>            </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  由于有了JDataSet这个类，于是我有写了调用这个类的分页方法</span>  </span></li>
+<li><span><span>          *  @param  sql</span>  </span></li>
+<li><span><span>          *  @param  orderby</span>  </span></li>
+<li><span><span>          *  @param  currentPage</span>  </span></li>
+<li><span><span>          *  @param  pageSize</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  JDataSet  getJDataSetAsPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>            </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  为了方便起见，我多写了一个直接传入ResultSet而封装JDataSet的多余方法</span>  </span></li>
+<li><span><span>          *  @param  rs</span>  </span></li>
+<li><span><span>          *  @param  fillColumnNames</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  JDataSet  loadJDataSet(ResultSet  rs,  </span><span>boolean</span><span>  fillColumnNames)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>            </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  得到查询数据的行数</span>  </span></li>
+<li><span><span>          *  @param  sql</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>int</span><span>  getRowCount(String  sql)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>            </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  请看源码</span>  </span></li>
+<li><span><span>          *  @param  rs</span>  </span></li>
+<li><span><span>          *  @param  column</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  String  changeFont(ResultSet  rs,  String  column)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>            </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  得到连接</span>  </span></li>
+<li><span><span>          *  @return</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  Connection  returnConn()  </span><span>throws</span><span>  SQLException;      </span></span></li>
+<li><span>            </span></li>
+<li><span>        <span>/**</span>  </span></li>
+<li><span><span>          *  清楚所有数据库操作对象</span>  </span></li>
+<li><span><span>          *  @throws  SQLException</span>  </span></li>
+<li><span>          */</span><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>void</span><span>  clearAllsql()  </span><span>throws</span><span>  SQLException;      </span></span></li>
+<li><span>    </span></li>
+<li><span>}    </span></li>
+</ol>
+<p></p></div><p></p>
+<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">\<br> 第2个类是实现这个抽象接口的抽象模版方法类\<br> 这个类最为关键，它肯定是实现了ISqlHepler.java里面的所有的方法。\<br>\<br> 其中：\<br>\<br> protected abstract T loadDataBean(ResultSet rs, String viewName) throws<br>SQLException;\<br>\<br> protected abstract T loadDataBeanSelf(ResultSet rs) throws<br>SQLException;\<br>\</span></span></p>
+<p>这2个方法是SqlHelper.java里留出来了，就是为了大家可以自己封装实体javabean来用\<br>\</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+
+<ol>
+<li><span>package</span><span>  com.yd.dao;    </span></li>
+<li><span>    </span></li>
+<li><span>import</span><span>  java.sql.*;    </span></li>
+<li><span>import</span><span>  java.util.*;    </span></li>
+<li><span>    </span></li>
+<li><span>import</span><span>  com.yd.db.DBConnPoolMgr;    </span></li>
+<li><span>import</span><span>  com.yd.idao.ISqlHelper;    </span></li>
+<li><span>import</span><span>  com.yd.support.JDataSet;    </span></li>
+<li><span>    </span></li>
+<li><span>public</span><span>  </span><span>abstract</span><span>  </span><span>class</span><span>  SqlHelper  </span><span>implements</span><span>  ISqlHelper  {    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  java.sql.Connection  conn  =  </span><span>null</span><span>;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  java.sql.PreparedStatement  pst  =  </span><span>null</span><span>;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  java.sql.Statement  st  =  </span><span>null</span><span>;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  java.sql.CallableStatement  cs  =  </span><span>null</span><span>;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  java.sql.ResultSet  rs  =  </span><span>null</span><span>;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  java.sql.ResultSetMetaData  rm  =  </span><span>null</span><span>;    </span></span></li>
+<li><span>            </span></li>
+<li><span>        <span>public</span><span>  Connection  returnConn()  </span><span>throws</span><span>  SQLException  {    </span></span></li>
+<li><span>    </span></li>
+<li><span>                                    <span>//DBConnPoolMgr是自己写的一个简单连接池类，用来得到连接，我后面会给出这个类的代码</span><span>    </span></span></li>
+<li><span>                <span>return</span><span>  (conn  =  DBConnPoolMgr.getInctence().getConnect());    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>            </span></li>
+<li><span>        <span>private</span><span>  PreparedStatement  returnPst(String  sql,  Object[]  params)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
+<li><span>    </span></li>
+<li><span>                <span>if</span><span>  (conn  ==  </span><span>null</span><span>  ||  conn.isClosed())  conn  =  returnConn();    </span></span></li>
+<li><span>                pst  =  conn.prepareStatement(sql);    </span></li>
+<li><span>                <span>if</span><span>  (params  !=  </span><span>null</span><span>)    </span></span></li>
+<li><span>                        <span>for</span><span>  (</span><span>int</span><span>  i  =  </span><span>0</span><span>;  i  &lt;  params.length;  i++)    </span></span></li>
+<li><span>                                pst.setObject(i  +  <span>1</span><span>,  params[i]);    </span></span></li>
+<li><span>                <span>return</span><span>  pst;    </span></span></li>
+<li><span>                    </span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  CallableStatement  returnCs(String  procName,  Object[]  params)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
+<li><span>    </span></li>
+<li><span>                <span>if</span><span>  (conn  ==  </span><span>null</span><span>  ||  conn.isClosed())  conn  =  returnConn();    </span></span></li>
+<li><span>                String  call  =  <span>“”</span><span>;    </span></span></li>
+<li><span>                <span>if</span><span>  (params  !=  </span><span>null</span><span>)  {    </span></span></li>
+<li><span>                        call  =  <span>“{call  “</span><span>  +  procName  +  </span><span>“(“</span><span>;    </span></span></li>
+<li><span>                        <span>for</span><span>  (</span><span>int</span><span>  c  =  </span><span>0</span><span>;  c  &lt;  params.length  -  </span><span>1</span><span>;  c++)    </span></span></li>
+<li><span>                                call  +=  <span>“?,”</span><span>;    </span></span></li>
+<li><span>                        call  +=  <span>“?)}”</span><span>;    </span></span></li>
+<li><span>                }  <span>else</span><span>    </span></span></li>
+<li><span>                        call  =  <span>“{call  “</span><span>  +  procName  +  </span><span>“()}”</span><span>;    </span></span></li>
+<li><span>                cs  =  conn.prepareCall(call);    </span></li>
+<li><span>                <span>if</span><span>  (params  !=  </span><span>null</span><span>)    </span></span></li>
+<li><span>                        <span>for</span><span>  (</span><span>int</span><span>  i  =  </span><span>0</span><span>;  i  &lt;  params.length;  i++)    </span></span></li>
+<li><span>                                cs.setObject(i  +  <span>1</span><span>,  params[i]);    </span></span></li>
+<li><span>                <span>return</span><span>  cs;    </span></span></li>
+<li><span>                    </span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>void</span><span>  clearAllsql()  {    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {      </span></li>
+<li><span>                        <span>if</span><span>  (rs  !=  </span><span>null</span><span>)  rs.close();    </span></span></li>
+<li><span>                        <span>if</span><span>  (cs  !=  </span><span>null</span><span>)  cs.close();    </span></span></li>
+<li><span>                        <span>if</span><span>  (st  !=  </span><span>null</span><span>)  st.close();    </span></span></li>
+<li><span>                        <span>if</span><span>  (pst  !=  </span><span>null</span><span>)  pst.close();    </span></span></li>
+<li><span>                        <span>if</span><span>  (conn  !=  </span><span>null</span><span>)  {    </span></span></li>
+<li><span>                                DBConnPoolMgr.getInctence().returnConnect(conn);    </span></li>
+<li><span>                        }    </span></li>
+<li><span>                        rs  =  <span>null</span><span>;    </span></span></li>
+<li><span>                        cs  =  <span>null</span><span>;    </span></span></li>
+<li><span>                        st  =  <span>null</span><span>;    </span></span></li>
+<li><span>                        pst  =  <span>null</span><span>;    </span></span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (SQLException  ex)  {  ex.printStackTrace();  }    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>boolean</span><span>  execute(String  sql,  Object[]  params,  </span><span>boolean</span><span>  only)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                <span>boolean</span><span>  bVal  =  </span><span>false</span><span>;    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        <span>if</span><span>  (only)  {    </span></span></li>
+<li><span>                                rs  =  returnPst(sql,  params).executeQuery();    </span></li>
+<li><span>                                <span>while</span><span>  (rs.next())  bVal  =  </span><span>true</span><span>;    </span></span></li>
+<li><span>                        }  <span>else</span><span>  {    </span></span></li>
+<li><span>                                returnPst(sql,  params).executeUpdate();    </span></li>
+<li><span>                                bVal  =  <span>true</span><span>;    </span></span></li>
+<li><span>                        }    </span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (SQLException  ex)  {  ex.printStackTrace();  }      </span></span></li>
+<li><span>                <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
+<li><span>                <span>return</span><span>  bVal;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>boolean</span><span>  executeBatch(String[]  sqlBatch)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                <span>boolean</span><span>  bVal  =  </span><span>false</span><span>;    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        conn  =  returnConn();    </span></li>
+<li><span>                        st  =  conn.createStatement();    </span></li>
+<li><span>                        <span>boolean</span><span>  autoCommit  =  conn.getAutoCommit();    </span></span></li>
+<li><span>    </span></li>
+<li><span>                        <span>for</span><span>  (</span><span>int</span><span>  i  =  </span><span>0</span><span>;  i  &lt;  sqlBatch.length;  i++)  {    </span></span></li>
+<li><span>                                <span>if</span><span>  (sqlBatch[i]  !=  </span><span>null</span><span>  &amp;&amp;  !sqlBatch[i].equals(</span><span>“”</span><span>))    </span></span></li>
+<li><span>                                        st.addBatch(sqlBatch[i]  +  <span>“;”</span><span>);    </span></span></li>
+<li><span>                        }    </span></li>
+<li><span>                        conn.setAutoCommit(<span>false</span><span>);    </span></span></li>
+<li><span>                        st.executeBatch();    </span></li>
+<li><span>                        conn.commit();    </span></li>
+<li><span>                        conn.setAutoCommit(autoCommit);    </span></li>
+<li><span>                        bVal  =  <span>true</span><span>;    </span></span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (SQLException  ex)  {    </span></span></li>
+<li><span>                        <span>try</span><span>  {  conn.rollback();  }  </span><span>catch</span><span>  (SQLException  e)  {  e.printStackTrace();  }    </span></span></li>
+<li><span>                        ex.printStackTrace();    </span></li>
+<li><span>                }  <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
+<li><span>                <span>return</span><span>  bVal;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>boolean</span><span>  executeCall(String  procName,  Object[]  params)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                <span>boolean</span><span>  bVal  =  </span><span>false</span><span>;    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        returnCs(procName,  params).executeUpdate();    </span></li>
+<li><span>                        bVal  =  <span>true</span><span>;    </span></span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (Exception  ex)  {  ex.printStackTrace();  }      </span></span></li>
+<li><span>                <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
+<li><span>                <span>return</span><span>  bVal;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  T  find(String  sql,  Object[]  params,  String  viewName,  </span><span>boolean</span><span>  executeCall)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                T  t  =  <span>null</span><span>;    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        <span>if</span><span>  (executeCall)  rs  =  returnCs(sql,  params).executeQuery();    </span></span></li>
+<li><span>                        <span>else</span><span>  rs  =  returnPst(sql,  params).executeQuery();    </span></span></li>
+<li><span>                        t  =  loadResultSet(rs,  viewName);    </span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (Exception  ex)  {  ex.printStackTrace();  }      </span></span></li>
+<li><span>                <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
+<li><span>                <span>return</span><span>  t;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  List  findList(String  sql,  Object[]  params,  String  viewName,  </span><span>boolean</span><span>  executeCall)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                List  lt  =  <span>null</span><span>;    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        <span>if</span><span>  (executeCall)  rs  =  returnCs(sql,  params).executeQuery();    </span></span></li>
+<li><span>                        <span>else</span><span>  rs  =  returnPst(sql,  params).executeQuery();    </span></span></li>
+<li><span>                        lt  =  loadList(rs,  viewName);    </span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (Exception  ex)  {  ex.printStackTrace();  }      </span></span></li>
+<li><span>                <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
+<li><span>                <span>return</span><span>  lt;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  ResultSet  returnResultSet(String  sql,  Object[]  params,  </span><span>boolean</span><span>  executeCall)  {    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        <span>if</span><span>  (executeCall)  rs  =  returnCs(sql,  params).executeQuery();    </span></span></li>
+<li><span>                        <span>else</span><span>  rs  =  returnPst(sql,  params).executeQuery();    </span></span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (Exception  ex)  {  ex.printStackTrace();  }    </span></span></li>
+<li><span>                <span>return</span><span>  rs;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>private</span><span>  T  loadResultSet(ResultSet  rs,  String  viewName)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                T  t  =  <span>null</span><span>;    </span></span></li>
+<li><span>                <span>if</span><span>  (rs  !=  </span><span>null</span><span>)  </span><span>while</span><span>  (rs.next())  t  =  loadDataBean(rs,  viewName);    </span></span></li>
+<li><span>                <span>return</span><span>  t;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>private</span><span>  List  loadList(ResultSet  rs,  String  viewName)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                List  tlist  =  <span>new</span><span>  ArrayList();    </span></span></li>
+<li><span>                <span>if</span><span>  (rs  !=  </span><span>null</span><span>)      </span></span></li>
+<li><span>                        <span>while</span><span>  (rs.next())      </span></span></li>
+<li><span>                                tlist.add(loadDataBean(rs,  viewName));    </span></li>
+<li><span>                <span>return</span><span>  tlist;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  String  changeFont(ResultSet  rs,  String  column)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
+<li><span>                <span>return</span><span>  rs.getString(column)  ==  </span><span>null</span><span>  ?  </span><span>“”</span><span>  :  rs.getString(column);    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>int</span><span>  returnColumnCount(ResultSet  rs)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
+<li><span>                <span>return</span><span>  rs.getMetaData().getColumnCount();    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>                  <span>//两个非常关键的模版方法，继承此类的操作类都要实现这2个方法，我到时候会给出操作类</span><span>    </span></span></li>
+<li><span>        <span>protected</span><span>  </span><span>abstract</span><span>  T  loadDataBean(ResultSet  rs,  String  viewName)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  </span><span>abstract</span><span>  T  loadDataBeanSelf(ResultSet  rs)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  List  findListAsPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                List  lt  =  <span>null</span><span>;    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        String  strVal  =  strPager(sql,  orderby,  currentPage,  pageSize);    </span></li>
+<li><span>                        rs  =  returnPst(strVal,  <span>null</span><span>).executeQuery();    </span></span></li>
+<li><span>                        lt  =  loadList(rs,  <span>“”</span><span>);    </span></span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (SQLException  ex)  {  ex.printStackTrace();  }      </span></span></li>
+<li><span>                <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
+<li><span>                <span>return</span><span>  lt;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>                  <span>//因为用的sql  server  2008所以只写了这个数据库的分页</span><span>    </span></span></li>
+<li><span>        <span>private</span><span>  String  strPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                <span>int</span><span>  start  =  </span><span>1</span><span>;    </span></span></li>
+<li><span>                <span>if</span><span>  (currentPage  &gt;  </span><span>1</span><span>)  start  =  (currentPage  -  </span><span>1</span><span>)  *  pageSize  +  </span><span>1</span><span>;    </span></span></li>
+<li><span>                <span>int</span><span>  end  =  start  +  pageSize  -  </span><span>1</span><span>;    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                String  sqlColumn  =  <span>“*“</span><span>;    </span></span></li>
+<li><span>                String  sqlDo  =  <span>“”</span><span>;    </span></span></li>
+<li><span>                <span>if</span><span>(sql.indexOf(</span><span>“@#“</span><span>)  !=  -</span><span>1</span><span>)  {    </span></span></li>
+<li><span>                        String  []sqlArr  =  sql.split(<span>“@#“</span><span>);    </span></span></li>
+<li><span>                        sqlColumn  =  sqlArr[<span>0</span><span>];    </span></span></li>
+<li><span>                        sqlDo  =  sqlArr[<span>1</span><span>];    </span></span></li>
+<li><span>                }  <span>else</span><span>  {    </span></span></li>
+<li><span>                        sqlColumn  =  <span>“*“</span><span>;    </span></span></li>
+<li><span>                        sqlDo  =  sql;    </span></li>
+<li><span>                }    </span></li>
+<li><span>                    </span></li>
+<li><span>                String  strVal  =  <span>“select  *  from  (select  “</span><span>  +  sqlColumn  +  </span><span>“,ROW_NUMBER()”</span><span>;    </span></span></li>
+<li><span>                strVal  +=  <span>“  Over(order  by  “</span><span>  +  orderby  +  </span><span>“)”</span><span>;    </span></span></li>
+<li><span>                strVal  +=  <span>“  as  rowNum  “</span><span>  +  sqlDo  +  </span><span>“)”</span><span>;    </span></span></li>
+<li><span>                strVal  +=  <span>“  as  myTable  where  rowNum  between  “</span><span>  +  start  +  </span><span>“  and  “</span><span>  +  end;    </span></span></li>
+<li><span>    </span></li>
+<li><span>                <span>return</span><span>  strVal;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  </span><span>int</span><span>  getRowCount(String  sql)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                String  sqlDo  =  <span>“”</span><span>;    </span></span></li>
+<li><span>                <span>if</span><span>(sql.indexOf(</span><span>“@#“</span><span>)  !=  -</span><span>1</span><span>)  {    </span></span></li>
+<li><span>                        String  []sqlArr  =  sql.split(<span>“@#“</span><span>);    </span></span></li>
+<li><span>                        sqlDo  =  sqlArr[<span>1</span><span>];    </span></span></li>
+<li><span>                }  <span>else</span><span>  sqlDo  =  sql;    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                <span>int</span><span>  count  =  </span><span>0</span><span>;    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        rs  =  <span>this</span><span>.returnResultSet(</span><span>“select  count(*)  “</span><span>  +  sqlDo,  </span><span>null</span><span>,  </span><span>false</span><span>);    </span></span></li>
+<li><span>                        <span>while</span><span>  (rs.next())  count  =  rs.getInt(</span><span>1</span><span>);    </span></span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (Exception  ce)  {  ce.printStackTrace();}      </span></span></li>
+<li><span>                <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
+<li><span>                <span>return</span><span>  count;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  JDataSet  getJDataSetAsPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                String  strVal  =  strPager(sql,  orderby,  currentPage,  pageSize);    </span></li>
+<li><span>                <span>return</span><span>  getJDataSet(strVal,  </span><span>null</span><span>,  </span><span>true</span><span>,  </span><span>false</span><span>);    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>public</span><span>  JDataSet  getJDataSet(String  sql,  Object[]  params,  </span><span>boolean</span><span>  fillColumnNames,  </span><span>boolean</span><span>  executeCall)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                JDataSet  jds  =  <span>null</span><span>;    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        <span>if</span><span>  (executeCall)  rs  =  returnCs(sql,  params).executeQuery();    </span></span></li>
+<li><span>                        <span>else</span><span>  rs  =  returnPst(sql,  params).executeQuery();    </span></span></li>
+<li><span>                        jds  =  loadJDataSet(rs,  fillColumnNames);    </span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (Exception  ex)  {  ex.printStackTrace();  }      </span></span></li>
+<li><span>                <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
+<li><span>                <span>return</span><span>  jds;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>            </span></li>
+<li><span>        <span>public</span><span>  JDataSet  loadJDataSet(ResultSet  rs,  </span><span>boolean</span><span>  fillColumnNames)  {    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                JDataSet  jds  =  <span>new</span><span>  JDataSet();    </span></span></li>
+<li><span>                <span>try</span><span>      </span></span></li>
+<li><span>                {    </span></li>
+<li><span>                        <span>int</span><span>  columnCount  =  returnColumnCount(rs);    </span></span></li>
+<li><span>                        <span>if</span><span>  (fillColumnNames)  {    </span></span></li>
+<li><span>                                String[]  columnNames  =  <span>new</span><span>  String[columnCount];    </span></span></li>
+<li><span>                                String[]  columnTypeNames  =  <span>new</span><span>  String[columnCount];    </span></span></li>
+<li><span>                                <span>for</span><span>  (</span><span>int</span><span>  i  =  </span><span>0</span><span>;  i  &lt;  columnCount;  i++)  {    </span></span></li>
+<li><span>                                        columnNames[i]  =  rs.getMetaData().getColumnName(i  +  <span>1</span><span>);    </span></span></li>
+<li><span>                                        columnTypeNames[i]  =  rs.getMetaData().getColumnTypeName(i  +  <span>1</span><span>);    </span></span></li>
+<li><span>                                }    </span></li>
+<li><span>                                jds.setColumnNames(columnNames);    </span></li>
+<li><span>                                jds.setColumnTypeNames(columnTypeNames);    </span></li>
+<li><span>                        }    </span></li>
+<li><span>                        <span>while</span><span>  (rs.next())  {    </span></span></li>
+<li><span>                                String[]  row  =  <span>new</span><span>  String[columnCount];    </span></span></li>
+<li><span>                                <span>for</span><span>  (</span><span>int</span><span>  i  =  </span><span>0</span><span>;  i  &lt;  columnCount;  i++)    </span></span></li>
+<li><span>                                        row[i]  =  rs.getString(i  +  <span>1</span><span>)  ==  </span><span>null</span><span>  ?  </span><span>“”</span><span>  :  rs.getString(i  +  </span><span>1</span><span>).trim();    </span></span></li>
+<li><span>                                jds.addRow(row);    </span></li>
+<li><span>                        }    </span></li>
+<li><span>                }      </span></li>
+<li><span>                <span>catch</span><span>  (Exception  ex)  {  ex.printStackTrace();  }    </span></span></li>
+<li><span>                <span>return</span><span>  jds;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>}    </span></li>
+</ol>
+<p></p></div><p></p>
+<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">现在来说下怎么用这个类\<br> 比如，你有一个学生类Student.java里面有id,name,age3个属性</span></span>\<br>\</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+
+<ol>
+<li><span>public</span><span>  Class  Student    </span></li>
+<li><span>{    </span></li>
+<li><span>        <span>private</span><span>  </span><span>int</span><span>  id;    </span></span></li>
+<li><span>        <span>private</span><span>  String  name;    </span></span></li>
+<li><span>        <span>private</span><span>  </span><span>int</span><span>  age;    </span></span></li>
+<li><span>            </span></li>
+<li><span>        以下get和set方法省略…    </span></li>
+<li><span>}    </span></li>
+</ol>
+<p></p></div><p></p>
+<p>\<br>\<br><span style="font-size: large"><span style="color: red">\</span></span></p>
+<p>你要封装它，你就可以自己定义一个IStudent.java接口extends那个ISqlHelper.java接口\<br> 然后来里面定义插入，查询全部，和按id查的功能函数，象如下写的一样\<br> &lt;\<br>\</p>
+<p>当然这样定义很死，最好的方法，就是整理抽象出所有业务类的公用方法，比如，插入，修改，删除。\</p>
+<p>然后把这些方法在一个公用的操作接口中定义，这个公用的操作接口可以继承ISqlHelper.java接口\<br> 然后以后业务类或是数据实体操作类都可以实现这个公用的操作接口。\<br>\<br> &gt;\<br>\</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+
+<ol>
+<li><span>public</span><span>  </span><span>interface</span><span>  IStudent  </span><span>extends</span><span>  ISqlHelper    </span></li>
+<li><span>{    </span></li>
+<li><span>        <span>//插入Student</span><span>    </span></span></li>
+<li><span>        <span>public</span><span>  </span><span>boolean</span><span>  insertStudent(Student  stu);    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>//查询全部Student</span><span>    </span></span></li>
+<li><span>        <span>public</span><span>  List  findStudent();    </span></span></li>
+<li><span>    </span></li>
+<li><span>        <span>//按id查询某一个Student</span><span>    </span></span></li>
+<li><span>        <span>public</span><span>  Student  findStudentAsId(</span><span>int</span><span>  stuid);    </span></span></li>
+<li><span>}    </span></li>
+</ol>
+<p></p></div><p></p>
+<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">并写一个StudentBO.java业务类extends那个SqlHelper和自己定义的IStudent接口\<br> 象如下写的一样：</span></span>\<br>\</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+
+<ol>
+<li><span>public</span><span>  Class  StudentBO  </span><span>extends</span><span>  SqlHelper  </span><span>implements</span><span>  IStudent    </span></li>
+<li><span>{    </span></li>
+<li><span>            </span></li>
+<li><span>        <span>protected</span><span>  Student  loadDataBean(ResultSet  rs,  String  viewName)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>        {    </span></li>
+<li><span>                Student  stu  =  loadDataBeanSelf(ResultSet  rs);    </span></li>
+<li><span>                <span>return</span><span>  stu;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>protected</span><span>  Student  loadDataBeanSelf(ResultSet  rs)  </span><span>throws</span><span>  SQLException;    </span></span></li>
+<li><span>        {    </span></li>
+<li><span>                Student  stu  =  <span>new</span><span>  Student();    </span></span></li>
+<li><span>                stu.setId(rs.getInt(<span>“id”</span><span>));    </span></span></li>
+<li><span>                stu.setName(rs.changeFont(rs,<span>“name”</span><span>));    </span></span></li>
+<li><span>                stu.setAge(rs.getInt(<span>“age”</span><span>));    </span></span></li>
+<li><span>                    </span></li>
+<li><span>                <span>return</span><span>  stu;    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>//实现：插入Student的函数</span><span>    </span></span></li>
+<li><span>        <span>public</span><span>  </span><span>boolean</span><span>  insertStudent(Student  stu)    </span></span></li>
+<li><span>        {    </span></li>
+<li><span>                String  sql  =  <span>“insert  into  Student(id,name,age)  values(?,?,?)”</span><span>;    </span></span></li>
+<li><span>                Object  []  params  =  <span>new</span><span>  Object[]{stu.getId(),stu.getName,stu.getAge};    </span></span></li>
+<li><span>                <span>return</span><span>  </span><span>this</span><span>.execute(sql,  params,  </span><span>false</span><span>);    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>//实现：查询全部Student</span><span>    </span></span></li>
+<li><span>        <span>public</span><span>  List  findStudent()    </span></span></li>
+<li><span>        {    </span></li>
+<li><span>                String  sql  =  <span>“select  *  from  Student”</span><span>;    </span></span></li>
+<li><span>                <span>return</span><span>  </span><span>this</span><span>.findList(sql,  </span><span>null</span><span>,  </span><span>“”</span><span>,</span><span>false</span><span>);    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>    </span></li>
+<li><span>        <span>//实现：按id查询某一个Student</span><span>    </span></span></li>
+<li><span>        <span>public</span><span>  Student  findStudentAsId(</span><span>int</span><span>  stuid)    </span></span></li>
+<li><span>        {    </span></li>
+<li><span>                String  sql  =  <span>“select  *  from  Student  where  id=”</span><span>  +  stuid;    </span></span></li>
+<li><span>                <span>return</span><span>  </span><span>this</span><span>.find(sql,  </span><span>null</span><span>,  </span><span>“”</span><span>,</span><span>false</span><span>);    </span></span></li>
+<li><span>        }    </span></li>
+<li><span>}    </span></li>
+</ol>
+<p></p></div><p></p>
+<p>\<br>\<br><span style="font-size: large">loadDataBean，loadDataBeanSelf是从SqlHelper里继承下来的抽象方法。\<br> 必须实现。这就是利用了模版方法模式写出来的。\<br> 也就是说，以后你自己写函数的时候，只要在接口里定义，\</span></p>
+<p>然后在这样的BO类里写实现它，而且就写那么一点语句就完成了。大大省时省力。\<br>\</p>
+<p>好了这样就完成了，代码是不是看上去又清楚又整洁，如果查找和维护。而且大大减少了那些功能代码和封装象Student.java这样数据实体的代码。一次封装无须在写。\<br>\<br> 大家肯定有疑问，那就是\<br> this.execute\<br> this.findList\<br> this.find\<br> 三个函数哪来的，里面都做了些什么\<br> 首先要说他们3个肯定是SqlHelper里被实现过的函数\<br> 至于他们怎么实现的，你仔细看下就全明白了。\<br>\<br>\</p>
+<p>为什么要多出一个loadDataBean来，大家都看到了，他有一个参数viewName，这里就是用到这个参数的地方，因为大家操作数据库不<br>可能就是那么一张表的操作，有时候会有2到3张表联查，那么用这个参数来判断是哪个函数查出不一样的结果，那么你在这个函数里利用这个参数引进别的<br>xxxBO的loadDataBeanSelf函数，不就可以不用再次重新写那些讨厌的实体封装代码了吗。重用性大大提升。\<br>\<br><span style="color: red">注意一点，这里的查询是只能全查，如果只需要几个字段，就只能手动自己写咯，其实我是想写一个通用的想查几个字段就几个字段的封装方法，但我懒，所以到现在都没去写</span>\<br>\<br> 其实还有很多应用和问题，这些我在这里也说不完，希望大家多多交流。\<br>\<br>\</p>
+<p>我还会给出我自己当初写的数据库连接池类，希望这些简单的代码能给java新手以帮助。\<br> 而且如果大家觉得有问题有意义，一定要发帖指出。哪里好哪里不好\<br> 希望大家多多给出看法，多多益善。\<br>\<br><span style="color: red">在这里还要感谢论坛中yangguo兄，其实我当时写这段代码的主要目的\<br> 就是dbutils框架所实现的一个最重要功能\</span></p>
+<p>只提交sql语句，然后的数据自动填充到所需要的实体中。而不要在写那么多繁琐的实体封装代码。\<br>\<br> 这个是源码例子，希望大家能明白这样写的用意，值得探讨。\<br></p>
+<p></p></div><p></p>
+<div><br><br>-   <a href="http://dl.iteye.com/topics/download/0dc6a22e-87a1-3180-b026-a9612f17eec5" target="_blank" rel="external">Demo.rar</a><br>    (341.4 KB)<br>-   下载次数: 438<br><br></div>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/07/（模板方法的运用）持久层操作的java代码/">（模板方法的运用）持久层操作的java代码</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 sam hu 的个人博客">sam hu</a></p>
+        <p><span>发布时间:</span>2016年03月07日 - 00时39分</p>
+        <p><span>最后更新:</span>2016年03月07日 - 00时39分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/07/（模板方法的运用）持久层操作的java代码/" title="（模板方法的运用）持久层操作的java代码">http://blog.huguiqi.com/2016/03/07/（模板方法的运用）持久层操作的java代码/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.huguiqi.com/2016/03/07/（模板方法的运用）持久层操作的java代码/　　作者: sam hu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/03/07/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/07/fwrite$UNIX2003 referenced from/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">fwrite$UNIX2003 referenced from</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#（模板方法的运用）持久层操作的java代码"><span class="toc-number">1.</span> <span class="toc-text">（模板方法的运用）持久层操作的java代码</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//huguiqicom.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//huguiqicom.disqus.com/count.js" async></script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/03/07/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/" title="上一篇: 【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/03/07/fwrite$UNIX2003 referenced from/" title="下一篇: fwrite$UNIX2003 referenced from">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/什么是 Docker/">Docker —— 从入门到实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/关于macbook电池的正确使用方法，和保养技巧/">关于macbook电池的正确使用方法，和保养技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/oh_my_zsh安装出现的问题/">oh_my_zsh安装出现的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/09/通过github_pages建立自己的博客/">通过github pages建立自己的博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/09/给hexo博客添加站内搜索/">给hexo博客添加站内搜索(折腾死了)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何将印象笔记导为markdown/">如何将印象笔记导为markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/springMVC web.xml filter-mapping/">springMVC web.xml filter-mapping</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/nginx反向代理做cache配置/">nginx反向代理做cache配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven生成war包的两种方式/">maven生成war包的两种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mysql相关命令行/">mysql相关命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mysql for mac 中文问题/">mysql for mac 中文问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven3常用命令笔记/">maven3常用命令笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven 启动时windows下静态文件（html、css、js）被锁定/">maven 启动时windows下静态文件（html、css、js）被锁定</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码/">spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ruby command/">ruby command</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/oracle10g 添加监听数手动配置方式/">oracle10g 添加监听数手动配置方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svnserve/">svnserve</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ios苹果开发者必备的xcode插件/">ios苹果开发者必备的xcode插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIWebView详解/">UIWebView详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UISearchBar与UISearchDisplayController结合使用时注意的事项/">UISearchBar与UISearchDisplayController结合使用时注意的事项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Windows 命令行下修改文件访问控制权限/">Windows 命令行下修改文件访问控制权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIScrollView/">UIScrollView</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/">iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIBezierPath使用/">UIBezierPath使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS下载文件的几种简单有效的方式/">iOS下载文件的几种简单有效的方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS开发 git github 初学＋进阶/">iOS开发 git github 初学＋进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS有用的代码/">iOS有用的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS正则表达式代码片断/">iOS正则表达式代码片断</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault/">iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS高效开发必备的10款Objective-C类库/">iOS高效开发必备的10款Objective-C类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iPhone屏幕尺寸/">iPhone屏幕尺寸</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIView 中一些常用方法/">UIView 中一些常用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/keySet()和entrySet()比较/">keySet()和entrySet()比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven + tomcat + linux/">maven + tomcat + linux</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/TCP_IP中的长链接与短链接/">TCP_IP中的长链接与短链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/String.prototype 工具常用类/">String.prototype 工具常用类</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/StoryBoard学习博客/">StoryBoard学习博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Redis 横向扩展案例/">Redis 横向扩展案例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/RESTEasy入门/">RESTEasy入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Oracle中TO_DATE格式/">Oracle中TO_DATE格式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/">PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ORACLE 字符集长度问题/">ORACLE 字符集长度问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Nginx 性能优化/">Nginx 性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NetworkEye：iOS 网络调试库/">NetworkEye：iOS 网络调试库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UMSNSService_UMSNSLibrary.a for architecture armv7s/">UMSNSService_UMSNSLibrary.a for architecture armv7s</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自@开发者头条/">KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自 开发者头条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Maven仓库的两个概念：本地仓库和远程仓库/">Maven仓库的两个概念：本地仓库和远程仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSDocumentDirectory NSDocumentationDirectory 的区别/">NSDocumentDirectory NSDocumentationDirectory 的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSError 自定义/">NSError 自定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSSet 排序/">NSSet 排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSURL 生成时有中文参数无法生成URL的解决方案/">NSURL 生成时有中文参数无法生成URL的解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSUserDefaults简介及使用/">NSUserDefaults简介及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xib cell/">xib cell</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSdata 与 NSString，Byte数组，UIImage 的相互转换---ios开发 Objective-C/">NSdata 与 NSString，Byte数组，UIImage 的相互转换---ios开发 Objective-C</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JMeter/">JMeter</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/@synthesize和@dynamic区别/">synthesize和 dynamic区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 查看系统信息命令(比较全)/">linux 查看系统信息命令(比较全)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/无标题笔记/">无标题笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/无标题/">无标题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript正则快速入门教程/">javascript正则快速入门教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/软链接/">软链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/对javascript的理解/">对javascript的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何设置mysql在局域网中访问/">如何设置mysql在局域网中访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何让secureCRT显示Linux的颜色/">如何让secureCRT显示Linux的颜色</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/解决Xcode中使用Git时出现This file does not exist at the requested revision./">解决Xcode中使用Git时出现This file does not exist at the requested revision.</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何在UIAlertView中显示进度条/">如何在UIAlertView中显示进度条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何删除一键Ghost备份文件/">如何删除一键Ghost备份文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/基于RBAC模型的权限管理系统的设计和实现/">基于RBAC模型的权限管理系统的设计和实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/大数据时代笔记/">大数据时代笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/在IDEA下远程调试JavaScript/">在IDEA下远程调试JavaScript</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/创建JSP自定义标签/">创建JSP自定义标签</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/加菲猫生活歪理/">加菲猫生活歪理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/启动画面自定义动画/">启动画面自定义动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/判断ios系统版本号的代码/">判断ios系统版本号的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/发展感想/">发展感想</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/创建系统无法删除的文件夹 加密文件/">创建系统无法删除的文件夹 加密文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/删除文件夹后点commit提交，但是报错/">删除文件夹后点commit提交，但是报错</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/苹果mac网站论坛收藏/">苹果mac网站论坛收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于jsp中换行问题/">关于jsp中换行问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于URL重写、session，cookie/">关于URL重写、session，cookie</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/">关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/修改linux文件权限命令：chmod/">修改linux文件权限命令：chmod</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/节日记录/">节日记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/使用模板语言(Velocity)定义、发送邮件/">使用模板语言(Velocity)定义、发送邮件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/使用resteasy的乱码问题/">使用resteasy的乱码问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/以线颜色取色器/">以线颜色取色器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/">从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/什么是SQL注入式攻击？/">什么是SQL注入式攻击？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/美栈第一个迭代完成情况/">美栈第一个迭代完成情况</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/网站收藏/">网站收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/强大的负载均衡+静态文件WEB服务器nginx实战/">强大的负载均衡+静态文件WEB服务器nginx实战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/数据类型和Json格式/">数据类型和Json格式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/非root用户安装/">非root用户安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/新浪微薄分享功能实现方式/">新浪微薄分享功能实现方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/">改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/摇一摇动画/">摇一摇动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/什么是 Docker | Docker —— 从入门到实践/">什么是 Docker | Docker —— 从入门到实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ios拨打电话三种方式/">ios拨打电话三种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/产品人的APP/">产品人的APP</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/把你的程序布署在TOMCAT/">把你的程序布署在TOMCAT</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone开发学习笔记/">iphone开发学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone开发秘籍目录/">iphone开发秘籍目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone教程网/">iphone教程网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript正则表达式与java正则表达式的细微差异写法/">javascript正则表达式与java正则表达式的细微差异写法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript中处理json技巧/">javascript中处理json技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/">java处理图片时找到不sun.awt.X11GraphicsEnvironment问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript 原型编程详解/">javascript 原型编程详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/java相关理论技术收藏/">java相关理论技术收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/jsessionid释疑解惑/">jsessionid释疑解惑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/jenkins 重复执行job/">jenkins 重复执行job</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/手机端(iOS,android)自动化测试框架(淘宝用的)/">手机端(iOS,android)自动化测试框架(淘宝用的)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux ssh 上传与下载命令/">linux ssh 上传与下载命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 安装web环境/">linux 安装web环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux su和sudo命令的区别/">linux su和sudo命令的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 安装软件/">linux 安装软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 查看 和 修改系统编码/">linux 查看 和 修改系统编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/下载花生壳，注册域名。/">下载花生壳，注册域名。</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下 scp命令不需要输入用户密码/">linux下 scp命令不需要输入用户密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下SVN仓库间数据转移或重命名/">linux下SVN仓库间数据转移或重命名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下删除svn属性文件/">linux下删除svn属性文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux服务端常用命令行/">linux服务端常用命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux系统下mysql中文乱码解决/">linux系统下mysql中文乱码解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac OS忘记密码后的终极解决方案/">mac OS忘记密码后的终极解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac os VoiceOver/">mac os VoiceOver</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac 下载youku视频/">mac 下载youku视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac有用的命令行收藏/">mac有用的命令行收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac系统终端常用命令与mac系统常用的技巧/">mac系统终端常用命令与mac系统常用的技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/怎么关闭U盘的自动播放功能/">怎么关闭U盘的自动播放功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记/">笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/阿里云遇到的问题/">阿里云遇到的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记 来自 永嘉花园 在 上海市/">笔记 来自 永嘉花园 在 上海市</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记 来自 成亿家园 在 上海市市辖区/">笔记 来自 成亿家园 在 上海市市辖区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/开源中国 Maven 库/">开源中国 Maven 库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/彻底删除Mac OS X开机自启动项目/">彻底删除Mac OS X开机自启动项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/node.js学习(上)/">node.js学习(上)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/nodejs_学习笔记/">nodejs_学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/obj-c 常用字符串处理方法/">obj-c 常用字符串处理方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objc非主流代码技巧/">objc非主流代码技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objective-c属性特性/">objective-c属性特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objecttive-c与swift混编/">objecttive-c与swift混编</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/obj-c排序算法/">obj-c排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/">建立你自己的本地仓库(Maven仓库管理-Nexus)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/字符，字节和编码/">字符，字节和编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/root重置密码/">root重置密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/直接将google进行本地映射，不进行域名解析，加速访问/">直接将google进行本地映射，不进行域名解析，加速访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/每位开发人员都应铭记的10句编程谚语/">每位开发人员都应铭记的10句编程谚语</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/查找项目中是否有用IDFA/">查找项目中是否有用IDFA</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svn merge/">svn merge</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/旧工程适配iOS6和iPhone5续之第三方静态库/">旧工程适配iOS6和iPhone5续之第三方静态库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svn常用命令/">svn常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/swift学习笔记/">swift学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vim中字符串出现次数的统计及字符创替换/">vim中字符串出现次数的统计及字符创替换</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi全局替换方法/">vi全局替换方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi显示行号/">vi显示行号</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi格式化代码/">vi格式化代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode 中检查国际化文件格式是否正确/">xcode 中检查国际化文件格式是否正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode快捷器收藏/">xcode快捷器收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode模拟器/">xcode模拟器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/">日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/一些iOS高效开源类库/">一些iOS高效开源类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN使用经验心得/">SVN使用经验心得</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/2）/">2）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/AOP的实现机制/">AOP的实现机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/index/">index</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iframe跨域session丢失问题/">iframe跨域session丢失问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS 开发证书与xcode、profile、appId的关系/">iOS 开发证书与xcode、profile、appId的关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS image button setCornerRadius/">iOS image button setCornerRadius</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS View中不能直接代码add tableView/">iOS View中不能直接代码add tableView</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS Framework 制作教程/">iOS Framework 制作教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS App打包上传快速教程/">iOS App打包上传快速教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS 9 变化笔记/">iOS 9 变化笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/">git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git中reset与revert的使用/">git中reset与revert的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/gitrm和 rm的区别yang3wei的专栏/">gitrm和 rm的区别yang3wei的专栏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git reset/">git reset</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD（Grand Central Dispatch）和Block 使用-浅析/">GCD（Grand Central Dispatch）和Block 使用-浅析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/elnet 命令使用详解/">elnet 命令使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（二）/">GCD 深入理解（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/coreData for sqlite/">coreData for sqlite</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/chrome代理设置/">chrome代理设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/centos 开启防火墙后ftp无法访问解决方案/">centos 开启防火墙后ftp无法访问解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/block定义与声明/">block定义与声明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/app加快审核的英文事例/">app加快审核的英文事例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/">App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（一）/">GCD 深入理解（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下的Vsftpd配置篇/">Linux下的Vsftpd配置篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CentOS 6.0安装配置subversion/">CentOS 6.0安装配置subversion</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/XCode下的iOS单元测试/">XCode下的iOS单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Validator.js/">Validator.js</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/VI命令行/">VI命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Unix有用命令行/">Unix有用命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Unit Tests With CocoaPods/">Unit Tests With CocoaPods</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CentOS6.5使用yum命令方式安装/">CentOS6.5使用yum命令方式安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Session，Cookie，jsessionid，Url重写/">Session，Cookie，jsessionid，Url重写</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CocoaPods 的一些略为高级一丁点的使用/">CocoaPods 的一些略为高级一丁点的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN客户端命令行设置忽略文件列表/">SVN客户端命令行设置忽略文件列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN分支与合并/">SVN分支与合并</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Export devices added in Apple's iOS Provision portal/">Export devices added in Apple's iOS Provision portal</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective_C动态获取实例属性/">Objective_C动态获取实例属性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-c之NSString(NSMutableString)/">Objective-c之NSString(NSMutableString)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-C –反射篇/">Objective-C –反射篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-C RegEx/">Objective-C RegEx</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Object-C内存管理口诀/">Object-C内存管理口诀</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Obj-c与swift的语法比较和产生的新特性/">Obj-c与swift的语法比较和产生的新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Node.js 常见面试题/">Node.js 常见面试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Macbook常用快捷键/">Macbook常用快捷键</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/MacOS安装Cocoapods步骤/">MacOS安装Cocoapods步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Mac 安装软件新方法：Homebrew-cask/">Mac 安装软件新方法：Homebrew-cask</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/MAC OS X 关闭 SPOTLIGHT MAC降温大法/">MAC OS X 关闭 SPOTLIGHT MAC降温大法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下的压缩解压缩命令详解/">Linux下的压缩解压缩命令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下批量删除.git文件夹的命令/">Linux下批量删除.git文件夹的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/FileWriter注意事项/">FileWriter注意事项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下必须知道的11个网络命令/">Linux下必须知道的11个网络命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园/">Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux 中如何卸载已安装的软件/">Linux 中如何卸载已安装的软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Java中的日期（Calendar、Date）/">Java中的日期（Calendar、Date）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JAVA正则表达式，过滤HTML，替换HTML标签！/">JAVA正则表达式，过滤HTML，替换HTML标签！</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/IntelliJ Idea 常用快捷键列表/">IntelliJ Idea 常用快捷键列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/HTTP 304 错误的详细解释/">HTTP 304 错误的详细解释</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/How to disable directory listing for Jetty's WebAppContext/">How to disable directory listing for Jetty's WebAppContext</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（二） - 已标注/">GCD 深入理解（二） - 已标注</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/[Nginx] 在Linux下的启动、停止和重加载/">[Nginx] 在Linux下的启动、停止和重加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/《西游记》里有哪些不易发现却很打动人的小细节？/">《西游记》里有哪些不易发现却很打动人的小细节？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/">【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/（模板方法的运用）持久层操作的java代码/">（模板方法的运用）持久层操作的java代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/fwrite$UNIX2003 referenced from/">fwrite$UNIX2003 referenced from</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/3d_touch例子一个/">根据apple官方3D touch的例子写个3D Touch功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/对象序列化框架/">对象序列化框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/docker_换国内镜像/">docker 换国内镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/apple_worldwide_developer_relations_证书过期问题/">apple Worldwide Developer Relations 证书过期问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/app上传至appStore的流程 /">app上传至appStore的流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/app上传流程/">申请企业证书需要的资料(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/将_mac_中的文件夹共享到虚拟机/">将 Mac 中的文件夹共享到虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/申请企业证书需要的资料/">申请企业证书需要的资料</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 sam hu
+            </div>
+            <div class="footer-right">
+                <a href="http://www.godeggs.cn/" target="_blank">手机、微信、web开发</a>  Theme <a href="http://weibo.com/ilikexitele" target="_blank">by sam.hu</a> 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 21;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+  </div>
+
+</body>
+</html>

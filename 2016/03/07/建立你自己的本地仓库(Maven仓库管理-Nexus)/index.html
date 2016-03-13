@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>建立你自己的本地仓库(Maven仓库管理-Nexus) | 小黑的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="建立你自己的本地仓库(Maven仓库管理-Nexus)建立你自己的本地仓库(Maven仓库管理-Nexus)\前面我讲到为什么要使用Maven,Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个HelloWorld，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\\这一个章节，我分两部分来介绍，首先介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="建立你自己的本地仓库(Maven仓库管理-Nexus)">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="建立你自己的本地仓库(Maven仓库管理-Nexus)建立你自己的本地仓库(Maven仓库管理-Nexus)\前面我讲到为什么要使用Maven,Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个HelloWorld，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\\这一个章节，我分两部分来介绍，首先介绍">
+<meta property="og:updated_time" content="2016-03-06T16:57:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="建立你自己的本地仓库(Maven仓库管理-Nexus)">
+<meta name="twitter:description" content="建立你自己的本地仓库(Maven仓库管理-Nexus)建立你自己的本地仓库(Maven仓库管理-Nexus)\前面我讲到为什么要使用Maven,Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个HelloWorld，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\\这一个章节，我分两部分来介绍，首先介绍">
+  
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">sam hu</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/archives">归档文章</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                        
+                            <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/timbotetsu">timbotetsu</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://mmoaay.photo/">mmoaay</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://timbo.work">timbo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.timbotetsu.com/">timbo2</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/phaibin">彭海滨</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://i.laoer.com/build-a-hotel-use-internet-thinking.html">tim-CTO</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">80后，爱摄影、爱编程、爱美女，自由开发者。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">sam hu</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">sam hu</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/archives">归档文章</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                
+                    <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-建立你自己的本地仓库(Maven仓库管理-Nexus)" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      建立你自己的本地仓库(Maven仓库管理-Nexus)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="建立你自己的本地仓库-Maven仓库管理-Nexus"><a href="#建立你自己的本地仓库-Maven仓库管理-Nexus" class="headerlink" title="建立你自己的本地仓库(Maven仓库管理-Nexus)"></a>建立你自己的本地仓库(Maven仓库管理-Nexus)</h1><p>建立你自己的本地仓库(Maven仓库管理-Nexus)\<br>前面我讲到为什么要使用Maven,<br>Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个Hello<br>World，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\<br>\<br>这一个章节，我分两部分来介绍，首先介绍一下Maven的仓库，然后在说一下如何通过Nexus来建立我们自己的仓库，以及如何使用。\<br>\<br>Maven仓库\<br>在以前使用Ant的时候，我们会建立一个lib目录在存放我们的jar包，比如项目所依赖的第三方包，每建立一个项目都要建立一个lib，不停的做copy工作，不仅是对于磁盘的浪费，而且也造成了版本管理上的麻烦。而且我们还需要通过提交到svn上来对lib进行管理，但是svn对于这种二进制文件的管理并不出色。\<br>\<br>Maven仓库的初中就是为了解决这个问题，是所有常用的第三方包的集中营。这样所有的Maven项目就可以从这个仓库中获取所需要的资源，Maven仓库中对jar通过Group<br>Id, Atifact Id, version<br>来管理，所以Maven项目可以很方便的进行依赖管理。你不需要自己来管理这个庞大的资源仓库，当然你可以创建一个公司层面的仓库管理器，这个我在这个章节的后面会介绍。\<br>\<br>Maven仓库的两个概念：本地仓库和远程仓库\<br>\<br>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。\<br>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：\<br>Xml代码\</p>
+<ol>
+<li>&lt;settings&gt;\</li>
+<li>…\</li>
+<li>&lt;localRepository&gt;D:/java/repository&lt;/localRepository&gt;\</li>
+<li>…\</li>
+<li>&lt;/settings&gt;\<br>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:\<br>\${M2_HOME}/conf/setting.xml\<br>\<br>还可以通过在运行时指定目录，但是并不推荐这么做：\<br>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/\<br>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到/org/apache/maven/project/pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：\<a id="more"></a></li>
+<li>&lt;repositories&gt;\</li>
+<li>&lt;repository&gt;\</li>
+<li>&lt;id&gt;central&lt;/id&gt;\</li>
+<li>&lt;name&gt;Maven Repository Switchboard&lt;/name&gt;\</li>
+<li>&lt;layout&gt;default&lt;/layout&gt;\</li>
+<li>&lt;url&gt;<a href="http://repo1.maven.org/maven2" target="_blank" rel="external">http://repo1.maven.org/maven2</a>&lt;/url&gt;\</li>
+<li>&lt;snapshots&gt;\</li>
+<li>&lt;enabled&gt;false&lt;/enabled&gt;\</li>
+<li>&lt;/snapshots&gt;\</li>
+<li>&lt;/repository&gt;\</li>
+<li>&lt;/repositories&gt;\<br>在POM中配置远程仓库\<br>\<br>下面我介绍下如何在pom.xml里面配置远程仓库，我们需要在什么时候配置远程仓库呢？当你连接中央仓库的速度比较慢时，或者你为你的公司搭建了自己的仓库，比如Nexus仓库管理(后面我会介绍)，又或者你苏需要的jar存在另外一个公共仓库，比如我们配置一个国内的镜像地址：\<br>&lt;project&gt;\<br>…\<br>&lt;repositories&gt;\<br>&lt;repository&gt;\<br>&lt;id&gt;maven-net-cn&lt;/id&gt;\<br>&lt;name&gt;Maven China Mirror&lt;/name&gt;\<br>&lt;url&gt;<a href="http://maven.net.cn/content/groups/public" target="_blank" rel="external">http://maven.net.cn/content/groups/public</a>/&lt;/url&gt;\<br>&lt;releases&gt;\<br>&lt;enabled&gt;true&lt;/enabled&gt;\<br>&lt;/releases&gt;\<br>&lt;snapshots&gt;\<br>&lt;enabled&gt;false&lt;/enabled&gt;\<br>&lt;/snapshots&gt;\<br>&lt;/repository&gt;\<br>&lt;/repositories&gt;\<br>&lt;pluginRepositories&gt;\<br>&lt;pluginRepository&gt;\<br>&lt;id&gt;maven-net-cn&lt;/id&gt;\<br>&lt;name&gt;Maven China Mirror&lt;/name&gt;\<br>&lt;url&gt;<a href="http://maven.net.cn/content/groups/public" target="_blank" rel="external">http://maven.net.cn/content/groups/public</a>/&lt;/url&gt;\<br>&lt;releases&gt;\<br>&lt;enabled&gt;true&lt;/enabled&gt;\<br>&lt;/releases&gt;\<br>&lt;snapshots&gt;\<br>&lt;enabled&gt;false&lt;/enabled&gt;\<br>&lt;/snapshots&gt;\<br>&lt;/pluginRepository&gt;\<br>&lt;/pluginRepositories&gt;\<br>…\<br>&lt;/project&gt;\<br>这里我们可以看到，允许配置多个repository和 plugin<br>repository，&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;告诉Maven可以从这个仓库下载releases版本的构件，而&lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt;告诉Maven不要从这个仓库下载snapshot版本的构件,之所以不让你从这个仓库下载snapshot版本，是因为这些版本是不稳定的，但是snapshot版本在我们内部项目开发的时候可是作用巨大，后面的问文章我会讨论这个问题。至于&lt;pluginRepositories&gt;，这是配置Maven从什么地方下载插件构件，Maven的所有行为都是通过插件来完成的，其内部配置与&lt;repository&gt;类似，这里就不多说了。\<br>\<br>尽管pom.xml中可以方便的哦配置中央仓库，但是我并不推荐大家这么做，尤其是在大的公司中，因为一个公司会有很多的项目，如果每个项目都这样配置，那么又开始做重复的copy工作了，如何解决呢，我们往下走\<br>\<br>在settings.xml中配置远程仓库\<br>\<br>Pom.xml的作用范围是一个项目，一个公司不可能只做一个项目，那么为了避免重复配置，那么我们需要把一些公共信息配置在setting.xml中。但是setting.xml中并不支持&lt;repositories&gt;及&lt;pluginRepositories&gt;，为了解决这个问题我们使用profile：\<br>&lt;settings&gt;\<br>…\<br>&lt;profiles&gt;\<br>&lt;profile&gt;\<br>&lt;id&gt;myProfiel&lt;/id&gt;\<br>&lt;!—在这里加入&lt;repositories&gt;及&lt;pluginRepositories&gt;–&gt;\<br>&lt;/profile&gt;\<br>&lt;/profiles&gt;\<br>&lt;activeProfiles&gt;\<br>&lt;activeProfile&gt; myProfiel &lt;/activeProfile&gt;\<br>&lt;/activeProfiles&gt;\<br>…\<br>&lt;/settings&gt;\<br>这里通过&lt;activeProfile&gt;元素来激活这个profile，这样我们就可以全局的使用这个配置，不再需要为每个POM做重复的配置了。\<br>在实际的操作过程中，这里我们最好不要配置远程仓库，最好能够通过nexus建立公司或者组织自己的仓库，然后这把把地址指向自己的仓库，后面我会介绍为什么要这么做，怎么做。\<br>\<br>配置镜像\<br>\<br>如果你想覆盖中央仓库的默认地址，那么这里我们就会使用的镜像了，还在setting.xml里面配置：\<br>&lt;settings&gt;\<br>…\<br>&lt;mirrors&gt;\<br>&lt;mirror&gt;\<br>&lt;id&gt;maven-net-cn&lt;/id&gt;\<br>&lt;name&gt;Maven China Mirror&lt;/name&gt;\<br>&lt;url&gt;<a href="http://maven.net.cn/content/groups/public" target="_blank" rel="external">http://maven.net.cn/content/groups/public</a>/&lt;/url&gt;\<br>&lt;mirrorOf&gt;central&lt;/mirrorOf&gt;\<br>&lt;/mirror&gt;\<br>&lt;/mirrors&gt;\<br>…\<br>&lt;/settings&gt;\<br>\<br>这里解释一下&lt;mirrorOf&gt;,表示只为central仓库做镜像，如果想为所有的仓库做镜像那么可以改为：&lt;mirrorOf&gt;*&lt;/mirrorOf&gt;\<br>\<br>如果你看到这里，请先不要着急，实际的项目经验告诉我，只是这些还不够，我们需要更快捷和高效的管理：\<br>\<br>利用Nexus来构建企业级Maven仓库\<br>Nexus简介\<br>\<br>Nexus是Maven仓库管理器，用来搭建一个本地仓库服务器，这样做的好处是便于管理，节省网络资源，速度快，还有一个非常有用的功能就是可以通过项目的SNAPSHOT版本管理，来进行模块间的高效依赖开发，下面会一一描述。\<br>\<br>虽然你可以通过中央仓库来获取你所需要的jar包，但是现实往往是存在很多问题：\</li>
+<li>网速慢，你可能需要花很长的时间来下载你所需要的jar\<br>2.<br>如果你的公司很大，有几百甚至几千人再用Maven，那么这些人都去通过中央仓库来获取jar，那么这是一个很大的资源浪费\<br>3.<br>如果存在模块之间的依赖开发，你的snapshot版本是不能够被你的伙伴很方便的获取。\<br>4.<br>在实际开发过程中，有些jar的版本可能在中央仓库里面不存在，或者更新不及时，你是获取不到这个jar的。\<br>所有以上问题，通过Nexus这个日益流行的仓库管理器可以轻松的解决。\<br>1.\</li>
+<li>这个仓库是本地的，下载的速度是从远程下载不可比的。\</li>
+<li>可以为你公司所有的Maven使用者服务，可以进行统一管理\</li>
+<li>后面我会介绍如何通过nexus来进行存在模块依赖的项目的开发\</li>
+<li>你可以添加自己的第三方包。\<br>2.\<br>\<br>\<br>\<br>\<br>\<br>安装Nexus\<br>\<br>我们从<a href="http://nexus.sonatype.org/downloads" target="_blank" rel="external">http://nexus.sonatype.org/downloads</a>/<br>来获取最新版本，目前最新版本为1.3.4\<br>Nexus提供了两种安装方式，一种是内嵌Jetty的bundle，只要你有JRE就能直接运行。第二种方式是WAR，你只须简单的将其发布到web容器中即可使用。\<br>\<br>1）Bundle方式安装\<br>解压nexus-webapp-1.3.4-bundle.zip 至任意目录，如D:/tools<br>，转到目录D:/tools/nexus-webapp-1.3.4/bin/jsw/windows-x86-32<br>，运行Nexus.bat<br>，如果你是在linux下安装，那么就下载nexus-webapp-1.3.4-bundle.tar.gz，解压后转到\${NEXUS_HOME}/<br>nexus-webapp-1.3.3/bin/jsw/linux-x86-32,它还支持solaris,macos等操作系统。当你看到“Started<br>SelectChannelConnector 0.0.0.0:8081”之后，说明Nexus启动成功了，然后打开浏览器，访问<a href="http://127.0.0.1:8081/nexus，通过admin的帐号(admin)和密码(admin123)登录你会看到如下的页面：\" target="_blank" rel="external">http://127.0.0.1:8081/nexus，通过admin的帐号(admin)和密码(admin123)登录你会看到如下的页面：\</a><br>￼\<br>\<br>如果有新版本发布，会有提示在默认页面上。\<br>这里，可以管理仓库，配置Nexus系统，管理任务，管理用户，角色，权限，查看系统的RSS源，管理及查看系统日志，等等。\<br>\<br>War方式安装\<br>\<br>你可以同过war的方式以web应用的形式发布到你的应用服务器，比如tomcat。你所要做的就是下载war版本的文件，然后放到应用服务器的发布目录即可，这里就不多讲了。\<br>\<br>到此我们已经安装好Nexus,下面我来介绍下一些我们常用的功能和使用：\<br>\<br>配置中央仓库\<br>\<br>先看一下界面：\<br>￼\<br>在左边菜单栏里选择Repositories，然后会出现右边的画面，右边上半部分是列出来的repository，黑体字是类型为group的repository.<br>这里简单介绍下几种repository的类型:\<br>•<br>hosted，本地仓库，通常我们会部署自己的构件到这一类型的仓库。比如公司的第二方库。\<br>• proxy，代理仓库，它们被用来代理远程的公共仓库，如maven中央仓库。\<br>•<br>group，仓库组，用来合并多个hosted/proxy仓库，当你的项目希望在多个repository使用资源时就不需要多次引用了，只需要引用一个group即可。\<br>Maven<br>central是Maven的中央仓库，点击它并选择configuration标签栏，我们会看到下面的页面：\<br>￼\<br>这里有几个项目是我们可能会经常用到的：\</li>
+<li>Override local storage location:<br>在这个选项你可以配置你的Nexus本地仓库的存放地址，用来覆盖其默认的存放地址\</li>
+<li>Remote storage location:<br>这里是远程仓库的地址，为了提高代理速度，你可以修改为国内的镜像地址。默认值是<a href="http://repo1.maven.org/maven2" target="_blank" rel="external">http://repo1.maven.org/maven2</a>/\</li>
+<li>Download remote indexes: 这里配置是否下载远程索引文件，模式是false,<br>建议配置为true，这样我们便可以通过索引文件来搜索我们需要的构件。\<br>\<br>添加代理仓库\<br>\<br>Maven<br>central是一个比较大的代理仓库，如果你需要添加的一个代理仓库，那么可以在点击左边惨淡栏里面的Repositories,然后右边的页面点击add<br>-&gt; add proxy repository, 之后出现以下页面：\<br>￼\<br>\<br>填写相关信息保存即可。通常情况下,使用预设的代理仓库已经能够满足大部分项目的需求了,<br>只有在特殊需求的情况下才会参加代理仓库.\<br>\<br>管理本地仓库\<br>\<br>我们前面讲到类型为hosted的为本地仓库，Nexus预定义了3个本地仓库，分别是Releases,<br>Snapshots, 3rd Party. 分别讲一下这三个预置的仓库都是做什么用的:\</li>
+<li>Releases: 这里存放我们自己项目中发布的构建, 通常是Release版本的,<br>比如我们自己做了一个FTP Server的项目, 生成的构件为ftpserver.war,<br>我们就可以把这个构建发布到Nexus的Releases本地仓库.<br>关于符合发布后面会有介绍.\</li>
+<li>Snapshots: 这个仓库非常的有用,<br>它的目的是让我们可以发布那些非release版本, 非稳定版本,<br>比如我们在trunk下开发一个项目,在正式release之前你可能需要临时发布一个版本给你的同伴使用,<br>因为你的同伴正在依赖你的模块开发,<br>那么这个时候我们就可以发布Snapshot版本到这个仓库,<br>你的同伴就可以通过简单的命令来获取和使用这个临时版本.\</li>
+<li>3rd Party: 顾名思义, 第三方库,<br>你可能会问不是有中央仓库来管理第三方库嘛, 没错,<br>这里的是指可以让你添加自己的第三方库, 比如有些构件在中央仓库是不存在的.<br>比如你在中央仓库找不到Oracle 的JDBC驱动, 这个时候我们就需要自己添加到3rd<br>party仓库.\<br>4.<br>你也可以创建自己的本地仓库，点击Repository面板上方的Add按钮，然后选择Hosted<br>Repository，然后在下方的配置面板中输入相关信息,<br>这里我们不再需要填写远程仓库地址，根据自己的需要选择Release或者Snapshot，如图：\<br>￼\<br>\<br>Maven仓库组\<br>\<br>仓库组的概念是Maven没有的,通过前面介绍可以了解到,<br>我们可以建立多个proxy代理仓库,hosted本地仓库,<br>如果没有仓库组的概念,我们如果需要引用这些仓库的是时候需要一一加入到我们的setting.xml里面去,<br>有了仓库的组的概念,<br>我们只需要做一次引用就可以了,把我们需要的仓库加入到仓库组即可.像这样:\<br>&lt;repositories&gt;\<br>&lt;repository&gt;\<br>&lt;id&gt;nexus&lt;/id&gt;\</li>
+</ol>
+<p>&lt;url&gt;<a href="http://127.0.0.1:8081/nexus/content/groups/public/&lt;/url&gt;\" target="_blank" rel="external">http://127.0.0.1:8081/nexus/content/groups/public/&lt;/url&gt;\</a><br> &lt;releases&gt;\<br> &lt;enabled&gt;true&lt;/enabled&gt;\<br> &lt;/releases&gt;\<br> &lt;snapshots&gt;\<br> &lt;enabled&gt;true&lt;/enabled&gt;\<br> &lt;/snapshots&gt;\<br>&lt;/repository&gt;\<br> &lt;/repositories&gt;\<br>Nexus中预设了2个仓库组,public repositories和public snapshot<br>repositories. 如图:\<br>￼\<br>这个仓库组默认包含本地仓库Releases, snapshots, 3rd party和代理仓库Maven<br>Central. 你可以在Configuration配置页添加仓库到这个仓库组.<br>如果需要你还可以创建一个仓库组,如图:\<br>点击 Add-&gt;Repository Group\<br>出现New Repository Group界面后,填入ID, name 等相关信息, 在右边Available<br>Repositories 栏里可以选择你要添加的仓库到你新建的仓库组.\<br>￼\<br>\<br>\<br>通过Nexus搜索构件\<br>\<br>在我们实际使用构件的过程中通常遇到一个问题,有时候我紧紧知道我所需要的构建的大致名字,并不知道全称或group<br>id, 这是件非常头疼的事情. Nexus基于Nexus<br>indexer的搜索功能帮我们解决了这个问题.\<br>要是用搜索功能, 必须要有索引文件,<br>Nexus默认是不建立索引文件的,因为像中央仓库这样的索引文件的建立需要耗费比较大的网络资源,仅索引文件就要几十兆.<br>要开启中央仓库的索引文件下载功能需要在Maven Central的配置页面,<br>把Download Remote Indexes选择true. 如图:\<br>￼\<br>这样设置以后, Nexus会自动从远程中央仓库下载索引文件,<br>为了检验索引文件自动下载是否生效,可以却换到Browse:\<br>￼\<br>如果出现先以上文件夹,那说明索引文件已经建立.\<br>下面我试一下搜索功能, 在左边菜单栏里面有个Artifact Search,<br>在输入框里面输入你想要搜索的构件名字,比如: testing, 那么查询结果如下：\<br>￼\<br>这是模糊查询的结果，当然如果你知道更多信息，比如版本号等，你可以使用高级搜索，点击高级搜索后，右边界面会提供集中搜索方式：keyword,<br>classname, GAV, checksum\<br>￼\<br>比如我们这里选择GAV模式, 而且我只知道artiface name : testng和版本号5.8,<br>其他的我不知道, 那么就在artifact 和 version处分别输入testng 和 5.8 ,<br>搜索结果如下:\<br>￼\<br>你如果你不知道知道构件的名称, 只知道classname, 那么你也可以通过class<br>name 的方式搜索,这里就不再赘述\<br>当你选择一项搜索结果,在页面的下方会出现这个构件的详细信息,<br>并且会列出这个构件的Maven依赖配置,<br>你可以直接拷贝到你的pom文件中使用,这是个非常实用的功能:\<br>￼\<br>在Maven中使用Nexus\<br> 到此为止我们介绍了如何安装和使用Nexus以及其基本配置,<br>下面我们介绍下如何让Maven来使用Nexus本地仓库用来替代使用远程仓库.<br>在Maven使用Nexus本地仓库只需稍作配置, 在settings.xml中加入以下代码:\<br> &lt;profile&gt;\<br> &lt;id&gt;dev&lt;/id&gt;\<br> &lt;repositories&gt;\<br> &lt;repository&gt;\<br> &lt;id&gt;nexus&lt;/id&gt;\</p>
+<p>&lt;url&gt;<a href="http://127.0.0.1:8081/nexus/content/groups/public/&lt;/url&gt;\" target="_blank" rel="external">http://127.0.0.1:8081/nexus/content/groups/public/&lt;/url&gt;\</a><br> &lt;releases&gt;\<br> &lt;enabled&gt;true&lt;/enabled&gt;\<br> &lt;/releases&gt;\<br> &lt;snapshots&gt;\<br> &lt;enabled&gt;true&lt;/enabled&gt;\<br> &lt;/snapshots&gt;\<br> &lt;/repository&gt;\<br> &lt;/repositories&gt;\<br> &lt;pluginRepositories&gt;\<br> &lt;pluginRepository&gt;\<br> &lt;id&gt;nexus&lt;/id&gt;\</p>
+<p>&lt;url&gt;<a href="http://127.0.0.1:8081/nexus/content/groups/public&lt;/url&gt;\" target="_blank" rel="external">http://127.0.0.1:8081/nexus/content/groups/public&lt;/url&gt;\</a><br> &lt;releases&gt;\<br> &lt;enabled&gt;true&lt;/enabled&gt;\<br> &lt;/releases&gt;\<br> &lt;snapshots&gt;\<br> &lt;enabled&gt;true&lt;/enabled&gt;\<br> &lt;/snapshots&gt;\<br> &lt;/pluginRepository&gt;\<br> &lt;/pluginRepositories&gt;\<br> &lt;/profile&gt;\<br> &lt;/profiles&gt;\<br>\<br> &lt;activeProfiles&gt;\<br> &lt;activeProfile&gt;dev&lt;/activeProfile&gt;\<br> &lt;/activeProfiles&gt;\<br>\<br>这里配置了repository和pluginRepository,<br>Maven在使用第三方构件和插件时是分开来配置的,所以如果我们也希望插件的下载也通过我们的本地仓库来下载,那么我们就需要配置pluginRepository.\<br>红色字体部分就是我们之前安装的Nexus的地址,<br>这个地址可以是你们公司局域网内部的一台仓库服务器.\<br>&lt;releases&gt;<br>&lt;enabled&gt;true&lt;/enabled&gt;&lt;/releases&gt;这个标签的作用是设定是否允许下载\<br>release版本的载构件,<br>同样snapshots标签可以设定是否允许下载snapshot版本的构件.\<br>通常,我们不建议下载snapshot版本的构件,因为它是不稳定的版本,<br>除非你有特殊的需\<br>求.\<br>构件部署\<br>\<br>有些时候我们需要部署构件到Nexus的3rd party,<br>比如我们在中央仓库找不到我们需要的构件,<br>我们可以通过Nexus的UI来上传构件:\<br>点击左边菜单栏的 Repositories, 然后点击右边界面的3rd party,<br>选择界面下方的Artifact Upload, 这个时候出现以下界面:\<br>￼\<br>上传构件需要两个步骤,一个是定义文件的上传,再就是构件的实体文件.\<br>第一部分定义文件可以是POM文件, 这也是比较推荐的方式,<br>如果没有pom文件,可以\<br>选择以参数的形式输入.\<br>第二部分是上传构件的实体文件,这里简单说一下Classifier和Extension,<br>这两个都是选\<br>填相, Classifier用来区别同功能的构件用于不同的场景,<br>比如这个构件是分别针对JDK14\<br>和JDK15做了2个功能一样的Jar,<br>这个时候你就需要指定这个构件的Classifier为JDK14\<br>还是JDK15.<br>Extension是指扩展名,如果不提供,那么会自动取这个构件的Packaging Type\<br>作为扩展名, 比如 ear, jar, war 等等. (Packaging<br>Type是在第一步中通过pom文件或者手\<br>工输入得到的)\<br>\<br>刚才说了3rd party的部署, 关于releases 和<br>snapshots的UI部署也是一样的操作过程.\<br>我们之前也讲过, 这里的releases和snapshots是用来部署我们自己的项目构件的,<br>通过\<br>UI部署是可以,但是不是最高效的,<br>我们可以通过配置Maven来自动部署我们的项目构\<br>件,这也是我们建立自己的仓库的一个非常重要的原因,<br>下面就让我们看看如何配置:\<br>首先需要在POM文件中加入以下代码:\<br>&lt;project&gt;\<br>…\<br>&lt;distributionManagement&gt;\<br> &lt;repository&gt;\<br>&lt;id&gt;nexus-releases&lt;/id&gt;\<br> &lt;name&gt;Nexus Release Repository&lt;/name&gt;\</p>
+<p>&lt;url&gt;<a href="http://127.0.0.1:8081/nexus/content/repositories/releases/&lt;/url&gt;\" target="_blank" rel="external">http://127.0.0.1:8081/nexus/content/repositories/releases/&lt;/url&gt;\</a><br> &lt;/repository&gt;\<br> &lt;snapshotRepository&gt;\<br>&lt;id&gt;nexus-snapshots&lt;/id&gt;\<br>&lt;name&gt;Nexus Snapshot Repository&lt;/name&gt;\<br>&lt;url&gt;<a href="http://127.0.0.1:8081/nexus/content/repositories/snapshots/&lt;/url&gt;\" target="_blank" rel="external">http://127.0.0.1:8081/nexus/content/repositories/snapshots/&lt;/url&gt;\</a><br> &lt;/snapshotRepository&gt;\<br>&lt;/distributionManagement&gt;\<br>…\<br>&lt;/project&gt;\<br>这里配置,让Maven知道当我要发布release版本或者snapshot版本是需要发布到哪个地址.\<br>然后我们需要在setting.xml里面配置一下Nexus的帐号和密码:\<br>&lt;settings&gt;\<br>…\<br>&lt;servers&gt;\<br> &lt;server&gt;\<br>&lt;id&gt;nexus-releases&lt;/id&gt;\<br>&lt;username&gt;admin&lt;/username&gt;\<br>&lt;password&gt;admin123&lt;/password&gt;\<br> &lt;/server&gt;\<br> &lt;server&gt;\<br>&lt;id&gt;nexus-snapshots&lt;/id&gt;\<br>&lt;username&gt;admin&lt;/username&gt;\<br>&lt;password&gt;admin123&lt;/password&gt;\<br> &lt;/server&gt;\<br>&lt;/servers&gt;\<br>…\<br>&lt;/settings&gt;\<br>到此为止, 我们就可以通过命令mvn<br>deploy或者通过IDE的可视化界面点击deploy来发布我们项目到本地仓库了.<br>通过这种方式我们可以很方便的进行模块间的依赖开发,<br>在后面的文章中我会详细介绍如何通过snapshot来让我们的依赖开发变得简单.</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/">建立你自己的本地仓库(Maven仓库管理-Nexus)</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 sam hu 的个人博客">sam hu</a></p>
+        <p><span>发布时间:</span>2016年03月07日 - 00时57分</p>
+        <p><span>最后更新:</span>2016年03月07日 - 00时57分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)">http://blog.huguiqi.com/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.huguiqi.com/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/　　作者: sam hu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/03/07/obj-c排序算法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          obj-c排序算法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/07/字符，字节和编码/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">字符，字节和编码</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#建立你自己的本地仓库-Maven仓库管理-Nexus"><span class="toc-number">1.</span> <span class="toc-text">建立你自己的本地仓库(Maven仓库管理-Nexus)</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//huguiqicom.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//huguiqicom.disqus.com/count.js" async></script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/03/07/obj-c排序算法/" title="上一篇: obj-c排序算法">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/03/07/字符，字节和编码/" title="下一篇: 字符，字节和编码">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/什么是 Docker/">Docker —— 从入门到实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/关于macbook电池的正确使用方法，和保养技巧/">关于macbook电池的正确使用方法，和保养技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/oh_my_zsh安装出现的问题/">oh_my_zsh安装出现的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/09/通过github_pages建立自己的博客/">通过github pages建立自己的博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/09/给hexo博客添加站内搜索/">给hexo博客添加站内搜索(折腾死了)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何将印象笔记导为markdown/">如何将印象笔记导为markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/springMVC web.xml filter-mapping/">springMVC web.xml filter-mapping</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/nginx反向代理做cache配置/">nginx反向代理做cache配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven生成war包的两种方式/">maven生成war包的两种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mysql相关命令行/">mysql相关命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mysql for mac 中文问题/">mysql for mac 中文问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven3常用命令笔记/">maven3常用命令笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven 启动时windows下静态文件（html、css、js）被锁定/">maven 启动时windows下静态文件（html、css、js）被锁定</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码/">spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ruby command/">ruby command</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/oracle10g 添加监听数手动配置方式/">oracle10g 添加监听数手动配置方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svnserve/">svnserve</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ios苹果开发者必备的xcode插件/">ios苹果开发者必备的xcode插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIWebView详解/">UIWebView详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UISearchBar与UISearchDisplayController结合使用时注意的事项/">UISearchBar与UISearchDisplayController结合使用时注意的事项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Windows 命令行下修改文件访问控制权限/">Windows 命令行下修改文件访问控制权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIScrollView/">UIScrollView</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/">iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIBezierPath使用/">UIBezierPath使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS下载文件的几种简单有效的方式/">iOS下载文件的几种简单有效的方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS开发 git github 初学＋进阶/">iOS开发 git github 初学＋进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS有用的代码/">iOS有用的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS正则表达式代码片断/">iOS正则表达式代码片断</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault/">iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS高效开发必备的10款Objective-C类库/">iOS高效开发必备的10款Objective-C类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iPhone屏幕尺寸/">iPhone屏幕尺寸</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIView 中一些常用方法/">UIView 中一些常用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/keySet()和entrySet()比较/">keySet()和entrySet()比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven + tomcat + linux/">maven + tomcat + linux</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/TCP_IP中的长链接与短链接/">TCP_IP中的长链接与短链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/String.prototype 工具常用类/">String.prototype 工具常用类</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/StoryBoard学习博客/">StoryBoard学习博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Redis 横向扩展案例/">Redis 横向扩展案例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/RESTEasy入门/">RESTEasy入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Oracle中TO_DATE格式/">Oracle中TO_DATE格式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/">PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ORACLE 字符集长度问题/">ORACLE 字符集长度问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Nginx 性能优化/">Nginx 性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NetworkEye：iOS 网络调试库/">NetworkEye：iOS 网络调试库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UMSNSService_UMSNSLibrary.a for architecture armv7s/">UMSNSService_UMSNSLibrary.a for architecture armv7s</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自@开发者头条/">KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自 开发者头条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Maven仓库的两个概念：本地仓库和远程仓库/">Maven仓库的两个概念：本地仓库和远程仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSDocumentDirectory NSDocumentationDirectory 的区别/">NSDocumentDirectory NSDocumentationDirectory 的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSError 自定义/">NSError 自定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSSet 排序/">NSSet 排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSURL 生成时有中文参数无法生成URL的解决方案/">NSURL 生成时有中文参数无法生成URL的解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSUserDefaults简介及使用/">NSUserDefaults简介及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xib cell/">xib cell</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSdata 与 NSString，Byte数组，UIImage 的相互转换---ios开发 Objective-C/">NSdata 与 NSString，Byte数组，UIImage 的相互转换---ios开发 Objective-C</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JMeter/">JMeter</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/@synthesize和@dynamic区别/">synthesize和 dynamic区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 查看系统信息命令(比较全)/">linux 查看系统信息命令(比较全)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/无标题笔记/">无标题笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/无标题/">无标题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript正则快速入门教程/">javascript正则快速入门教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/软链接/">软链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/对javascript的理解/">对javascript的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何设置mysql在局域网中访问/">如何设置mysql在局域网中访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何让secureCRT显示Linux的颜色/">如何让secureCRT显示Linux的颜色</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/解决Xcode中使用Git时出现This file does not exist at the requested revision./">解决Xcode中使用Git时出现This file does not exist at the requested revision.</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何在UIAlertView中显示进度条/">如何在UIAlertView中显示进度条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何删除一键Ghost备份文件/">如何删除一键Ghost备份文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/基于RBAC模型的权限管理系统的设计和实现/">基于RBAC模型的权限管理系统的设计和实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/大数据时代笔记/">大数据时代笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/在IDEA下远程调试JavaScript/">在IDEA下远程调试JavaScript</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/创建JSP自定义标签/">创建JSP自定义标签</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/加菲猫生活歪理/">加菲猫生活歪理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/启动画面自定义动画/">启动画面自定义动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/判断ios系统版本号的代码/">判断ios系统版本号的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/发展感想/">发展感想</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/创建系统无法删除的文件夹 加密文件/">创建系统无法删除的文件夹 加密文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/删除文件夹后点commit提交，但是报错/">删除文件夹后点commit提交，但是报错</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/苹果mac网站论坛收藏/">苹果mac网站论坛收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于jsp中换行问题/">关于jsp中换行问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于URL重写、session，cookie/">关于URL重写、session，cookie</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/">关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/修改linux文件权限命令：chmod/">修改linux文件权限命令：chmod</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/节日记录/">节日记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/使用模板语言(Velocity)定义、发送邮件/">使用模板语言(Velocity)定义、发送邮件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/使用resteasy的乱码问题/">使用resteasy的乱码问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/以线颜色取色器/">以线颜色取色器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/">从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/什么是SQL注入式攻击？/">什么是SQL注入式攻击？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/美栈第一个迭代完成情况/">美栈第一个迭代完成情况</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/网站收藏/">网站收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/强大的负载均衡+静态文件WEB服务器nginx实战/">强大的负载均衡+静态文件WEB服务器nginx实战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/数据类型和Json格式/">数据类型和Json格式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/非root用户安装/">非root用户安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/新浪微薄分享功能实现方式/">新浪微薄分享功能实现方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/">改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/摇一摇动画/">摇一摇动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/什么是 Docker | Docker —— 从入门到实践/">什么是 Docker | Docker —— 从入门到实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ios拨打电话三种方式/">ios拨打电话三种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/产品人的APP/">产品人的APP</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/把你的程序布署在TOMCAT/">把你的程序布署在TOMCAT</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone开发学习笔记/">iphone开发学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone开发秘籍目录/">iphone开发秘籍目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone教程网/">iphone教程网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript正则表达式与java正则表达式的细微差异写法/">javascript正则表达式与java正则表达式的细微差异写法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript中处理json技巧/">javascript中处理json技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/">java处理图片时找到不sun.awt.X11GraphicsEnvironment问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript 原型编程详解/">javascript 原型编程详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/java相关理论技术收藏/">java相关理论技术收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/jsessionid释疑解惑/">jsessionid释疑解惑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/jenkins 重复执行job/">jenkins 重复执行job</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/手机端(iOS,android)自动化测试框架(淘宝用的)/">手机端(iOS,android)自动化测试框架(淘宝用的)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux ssh 上传与下载命令/">linux ssh 上传与下载命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 安装web环境/">linux 安装web环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux su和sudo命令的区别/">linux su和sudo命令的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 安装软件/">linux 安装软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 查看 和 修改系统编码/">linux 查看 和 修改系统编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/下载花生壳，注册域名。/">下载花生壳，注册域名。</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下 scp命令不需要输入用户密码/">linux下 scp命令不需要输入用户密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下SVN仓库间数据转移或重命名/">linux下SVN仓库间数据转移或重命名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下删除svn属性文件/">linux下删除svn属性文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux服务端常用命令行/">linux服务端常用命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux系统下mysql中文乱码解决/">linux系统下mysql中文乱码解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac OS忘记密码后的终极解决方案/">mac OS忘记密码后的终极解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac os VoiceOver/">mac os VoiceOver</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac 下载youku视频/">mac 下载youku视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac有用的命令行收藏/">mac有用的命令行收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac系统终端常用命令与mac系统常用的技巧/">mac系统终端常用命令与mac系统常用的技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/怎么关闭U盘的自动播放功能/">怎么关闭U盘的自动播放功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记/">笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/阿里云遇到的问题/">阿里云遇到的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记 来自 永嘉花园 在 上海市/">笔记 来自 永嘉花园 在 上海市</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记 来自 成亿家园 在 上海市市辖区/">笔记 来自 成亿家园 在 上海市市辖区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/开源中国 Maven 库/">开源中国 Maven 库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/彻底删除Mac OS X开机自启动项目/">彻底删除Mac OS X开机自启动项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/node.js学习(上)/">node.js学习(上)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/nodejs_学习笔记/">nodejs_学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/obj-c 常用字符串处理方法/">obj-c 常用字符串处理方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objc非主流代码技巧/">objc非主流代码技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objective-c属性特性/">objective-c属性特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objecttive-c与swift混编/">objecttive-c与swift混编</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/obj-c排序算法/">obj-c排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/">建立你自己的本地仓库(Maven仓库管理-Nexus)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/字符，字节和编码/">字符，字节和编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/root重置密码/">root重置密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/直接将google进行本地映射，不进行域名解析，加速访问/">直接将google进行本地映射，不进行域名解析，加速访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/每位开发人员都应铭记的10句编程谚语/">每位开发人员都应铭记的10句编程谚语</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/查找项目中是否有用IDFA/">查找项目中是否有用IDFA</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svn merge/">svn merge</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/旧工程适配iOS6和iPhone5续之第三方静态库/">旧工程适配iOS6和iPhone5续之第三方静态库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svn常用命令/">svn常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/swift学习笔记/">swift学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vim中字符串出现次数的统计及字符创替换/">vim中字符串出现次数的统计及字符创替换</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi全局替换方法/">vi全局替换方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi显示行号/">vi显示行号</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi格式化代码/">vi格式化代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode 中检查国际化文件格式是否正确/">xcode 中检查国际化文件格式是否正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode快捷器收藏/">xcode快捷器收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode模拟器/">xcode模拟器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/">日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/一些iOS高效开源类库/">一些iOS高效开源类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN使用经验心得/">SVN使用经验心得</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/2）/">2）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/AOP的实现机制/">AOP的实现机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/index/">index</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iframe跨域session丢失问题/">iframe跨域session丢失问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS 开发证书与xcode、profile、appId的关系/">iOS 开发证书与xcode、profile、appId的关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS image button setCornerRadius/">iOS image button setCornerRadius</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS View中不能直接代码add tableView/">iOS View中不能直接代码add tableView</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS Framework 制作教程/">iOS Framework 制作教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS App打包上传快速教程/">iOS App打包上传快速教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS 9 变化笔记/">iOS 9 变化笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/">git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git中reset与revert的使用/">git中reset与revert的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/gitrm和 rm的区别yang3wei的专栏/">gitrm和 rm的区别yang3wei的专栏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git reset/">git reset</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD（Grand Central Dispatch）和Block 使用-浅析/">GCD（Grand Central Dispatch）和Block 使用-浅析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/elnet 命令使用详解/">elnet 命令使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（二）/">GCD 深入理解（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/coreData for sqlite/">coreData for sqlite</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/chrome代理设置/">chrome代理设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/centos 开启防火墙后ftp无法访问解决方案/">centos 开启防火墙后ftp无法访问解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/block定义与声明/">block定义与声明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/app加快审核的英文事例/">app加快审核的英文事例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/">App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（一）/">GCD 深入理解（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下的Vsftpd配置篇/">Linux下的Vsftpd配置篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CentOS 6.0安装配置subversion/">CentOS 6.0安装配置subversion</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/XCode下的iOS单元测试/">XCode下的iOS单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Validator.js/">Validator.js</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/VI命令行/">VI命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Unix有用命令行/">Unix有用命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Unit Tests With CocoaPods/">Unit Tests With CocoaPods</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CentOS6.5使用yum命令方式安装/">CentOS6.5使用yum命令方式安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Session，Cookie，jsessionid，Url重写/">Session，Cookie，jsessionid，Url重写</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CocoaPods 的一些略为高级一丁点的使用/">CocoaPods 的一些略为高级一丁点的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN客户端命令行设置忽略文件列表/">SVN客户端命令行设置忽略文件列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN分支与合并/">SVN分支与合并</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Export devices added in Apple's iOS Provision portal/">Export devices added in Apple's iOS Provision portal</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective_C动态获取实例属性/">Objective_C动态获取实例属性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-c之NSString(NSMutableString)/">Objective-c之NSString(NSMutableString)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-C –反射篇/">Objective-C –反射篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-C RegEx/">Objective-C RegEx</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Object-C内存管理口诀/">Object-C内存管理口诀</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Obj-c与swift的语法比较和产生的新特性/">Obj-c与swift的语法比较和产生的新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Node.js 常见面试题/">Node.js 常见面试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Macbook常用快捷键/">Macbook常用快捷键</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/MacOS安装Cocoapods步骤/">MacOS安装Cocoapods步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Mac 安装软件新方法：Homebrew-cask/">Mac 安装软件新方法：Homebrew-cask</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/MAC OS X 关闭 SPOTLIGHT MAC降温大法/">MAC OS X 关闭 SPOTLIGHT MAC降温大法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下的压缩解压缩命令详解/">Linux下的压缩解压缩命令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下批量删除.git文件夹的命令/">Linux下批量删除.git文件夹的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/FileWriter注意事项/">FileWriter注意事项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下必须知道的11个网络命令/">Linux下必须知道的11个网络命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园/">Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux 中如何卸载已安装的软件/">Linux 中如何卸载已安装的软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Java中的日期（Calendar、Date）/">Java中的日期（Calendar、Date）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JAVA正则表达式，过滤HTML，替换HTML标签！/">JAVA正则表达式，过滤HTML，替换HTML标签！</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/IntelliJ Idea 常用快捷键列表/">IntelliJ Idea 常用快捷键列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/HTTP 304 错误的详细解释/">HTTP 304 错误的详细解释</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/How to disable directory listing for Jetty's WebAppContext/">How to disable directory listing for Jetty's WebAppContext</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（二） - 已标注/">GCD 深入理解（二） - 已标注</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/[Nginx] 在Linux下的启动、停止和重加载/">[Nginx] 在Linux下的启动、停止和重加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/《西游记》里有哪些不易发现却很打动人的小细节？/">《西游记》里有哪些不易发现却很打动人的小细节？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/">【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/（模板方法的运用）持久层操作的java代码/">（模板方法的运用）持久层操作的java代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/fwrite$UNIX2003 referenced from/">fwrite$UNIX2003 referenced from</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/3d_touch例子一个/">根据apple官方3D touch的例子写个3D Touch功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/对象序列化框架/">对象序列化框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/docker_换国内镜像/">docker 换国内镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/apple_worldwide_developer_relations_证书过期问题/">apple Worldwide Developer Relations 证书过期问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/app上传至appStore的流程 /">app上传至appStore的流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/app上传流程/">申请企业证书需要的资料(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/将_mac_中的文件夹共享到虚拟机/">将 Mac 中的文件夹共享到虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/申请企业证书需要的资料/">申请企业证书需要的资料</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 sam hu
+            </div>
+            <div class="footer-right">
+                <a href="http://www.godeggs.cn/" target="_blank">手机、微信、web开发</a>  Theme <a href="http://weibo.com/ilikexitele" target="_blank">by sam.hu</a> 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 21;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+  </div>
+
+</body>
+</html>

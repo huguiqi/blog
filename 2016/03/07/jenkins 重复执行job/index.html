@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jenkins 重复执行job | 小黑的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="jenkins 重复执行jobjenkins配置全过程
+
+\
+Jenkins使用经验谈4（创建Job）=============================
+
+
+
+前面做了那么多工作，现在终于到了创建Job这一步了，某种意义上，Jenkins的主要工作就是为了调度这些Job。Job的创建是有很大自由度的，也没有谁规定一定要创建成什么样子才行。下面我会以实际使用中的几个场景来举例说明。\需要注意">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jenkins 重复执行job">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/07/jenkins 重复执行job/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="jenkins 重复执行jobjenkins配置全过程
+
+\
+Jenkins使用经验谈4（创建Job）=============================
+
+
+
+前面做了那么多工作，现在终于到了创建Job这一步了，某种意义上，Jenkins的主要工作就是为了调度这些Job。Job的创建是有很大自由度的，也没有谁规定一定要创建成什么样子才行。下面我会以实际使用中的几个场景来举例说明。\需要注意">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909062.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909063.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909064.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909065.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909066.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909067.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909068.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909069.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090610.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090611.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090612.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090613.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090614.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090615.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090616.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090617.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090618.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090619.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090620.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090621.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090622.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090623.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090624.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090625.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090626.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090627.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090628.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090629.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090630.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090631.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090632.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090633.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090634.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090635.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090636.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090637.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090638.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090639.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090640.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090641.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090642.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090643.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090644.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090645.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090646.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090647.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090648.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090649.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090650.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090651.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090652.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090653.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090654.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090655.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090656.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090657.png">
+<meta property="og:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090658.png">
+<meta property="og:updated_time" content="2016-03-06T16:57:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jenkins 重复执行job">
+<meta name="twitter:description" content="jenkins 重复执行jobjenkins配置全过程
+
+\
+Jenkins使用经验谈4（创建Job）=============================
+
+
+
+前面做了那么多工作，现在终于到了创建Job这一步了，某种意义上，Jenkins的主要工作就是为了调度这些Job。Job的创建是有很大自由度的，也没有谁规定一定要创建成什么样子才行。下面我会以实际使用中的几个场景来举例说明。\需要注意">
+<meta name="twitter:image" content="http://blog.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
+  
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">sam hu</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/archives">归档文章</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                        
+                            <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                            
+                                <a class="fl twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/timbotetsu">timbotetsu</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://mmoaay.photo/">mmoaay</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://timbo.work">timbo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.timbotetsu.com/">timbo2</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/phaibin">彭海滨</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://i.laoer.com/build-a-hotel-use-internet-thinking.html">tim-CTO</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">80后，爱摄影、爱编程、爱美女，自由开发者。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">sam hu</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">sam hu</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">恋爱需要过人的精力与勇气吧!</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/archives">归档文章</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="http://www.huguiqi.com">相关链接</a></li>
+                
+                    <li><a href="https://hexo.io/themes/">更多主题</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto:guiqi_hu@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/huguiqi" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/hu-xiao-hei-53" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="http://weibo.com/ilikexitele" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="https://plus.google.com/u/0/109318125124422212783" title="google">google</a>
+                    
+                        <a class="twitter" target="_blank" href="https://twitter.com/XiaoheiSpring" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="https://www.facebook.com/sam.hu.7334" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-jenkins 重复执行job" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/jenkins 重复执行job/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      jenkins 重复执行job
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="jenkins-重复执行job"><a href="#jenkins-重复执行job" class="headerlink" title="jenkins 重复执行job"></a>jenkins 重复执行job</h1><p>jenkins配置全过程</p>
+<hr>
+<p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>Jenkins使用经验谈4（创建Job）<br>=============================<br><br><div><br><br><div><br><br></div>
+
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p>前面做了那么多工作，现在终于到了创建Job这一步了，某种意义上，Jenkins的主要工作就是为了调度这些Job。Job的创建是有很大自由度的，也没有谁规定一定要创建成什么样子才行。下面我会以实际使用中的几个场景来举例说明。\<br>需要注意的是：</p>
+<ul>
+<li>Job名称千万不要用中文名称（不作死就不会死）。</li>
+<li>创建Job名称时最好有个规划，因为我们最后会通过正则匹配自动将Job归类，比如我喜欢<br>“<a href="http://www.07net01.com/tags-%E9%A1%B9%E7%9B%AE-0.html" target="_blank" rel="external">项目</a>前缀_一些说明-Job类型”这种方式。</li>
+</ul>
+<p><strong>先做一些准备活动</strong>\<br><a id="more"></a><br>\<br>为了方便我们后面的实验，先找一台<a href="http://www.07net01.com/tags-%E8%99%9A%E6%8B%9F%E6%9C%BA-0.html" target="_blank" rel="external">虚拟机</a>，在上面搭建一下git<a href="http://www.07net01.com/tags-%E6%9C%8D%E5%8A%A1%E5%99%A8-0.html" target="_blank" rel="external">服务器</a>和<a href="http://www.07net01.com/program/" target="_blank" rel="external">代码</a>质量管理平台（我这里使用的是sonar）。\<br>\<br><strong>搭建git服务器</strong>\<br>\<br>因这部分不是我们的重点，所以我打算搭建一个最简单的基于SSH的git服务器，假设这台服务器IP为<br>172.16.12.83。\<br>首选先从 <a href="https://github.com/git/git/tarball/master" target="_blank" rel="external">https://github.com/git/git/tarball/master</a><br>下载git代码，按照下面的步骤解压并安装。<br>    [root svr83 ~]# tar xzvf git-git-v1.8.4-474-g128a96c.tar.gz -C /usr/local/src/[root svr83 ~]# cd /usr/local/src/git-git-128a96c/[root svr83 git-git-128a96c]# autoconf &amp;&amp; ./configure –prefix=/usr/[root svr83 git-git-128a96c]# make &amp;&amp; make install</p>
+<p>\<br>\<br>创建一个git用户并以登录到这个git用户，然后在该用户的家目录下创建一个<br>git_home 用于存放项目代码（暂时先给git用户设置密码为git）。<br>    [root svr83 ~]# useradd git[root svr83 ~]# passwd gitChanging password for user git.New UNIX password: BAD PASSWORD: it is WAY too shortRetype new UNIX password: passwd: all authentication tokens updated successfully.[root svr83 ~]# su - git[git svr83 ~]$ mkdir git_home</p>
+<p>\<br>\<br>我们现在在 /tmp 下创建一个git 本地库，比如叫<br>hello<a href="http://www.07net01.com/tags-Java-0.html" target="_blank" rel="external">Java</a>，然后向这个库里提交一个<br>readme.txt 文件（因为第一次使用git，还需要设置一下用户名和邮件地址）。<br>    [git svr83 helloJava]$ git config –global user.email “bookong gmail.com”[git svr83 helloJava]$ git config –global user.name “jiangxu”[git svr83 ~]$ mkdir /tmp/helloJava[git svr83 ~]$ cd /tmp/helloJava/[git svr83 helloJava]$ git init初始化空的 Git 版本库于 /tmp/helloJava/.git/[git svr83 helloJava]$ echo “hello java project” &gt; readme.txt[git svr83 helloJava]$ git add *[git svr83 helloJava]$ git commit -m ‘initial project’[master（根提交） d605f94] initial project 1 file changed, 1 insertion(+) create mode 100644 readme.txt</p>
+<p>\<br>\<br>将隐藏的 .git 目录拷贝到 /home/git/git_home 下，并改名叫 helloJava.git<br>目录。<br>    [git svr83 helloJava]$ cp -a .git/ /home/git/git_home/helloJava.git</p>
+<p>\<br>\<br>我们在另一台服务器上试着clone出helloJava 项目。<br>    [jenkins svr82 test]$ git clone ssh://git 172.16.12.83/home/git/git_home/helloJava.git正克隆到 ‘helloJava’…The authenticity of host ‘172.16.12.83 (172.16.12.83)’ can’t be established.RSA key fingerprint is 50:51:8e:ad:e0:da:1d:61:fb:d0:97:c0:2b:46:65:83.Are you sure you want to continue connecting (yes/no)? yesWarning: Permanently added ‘172.16.12.83’ (RSA) to the list of known hosts.git 172.16.12.83’s password: remote: Counting objects: 3, done.remote: Total 3 (delta 0), reused 0 (delta 0)接收对象中: 100% (3/3), done.检查连接… 完成[jenkins svr82 test]$ cat helloJava/readme.txt hello java project</p>
+<p>\<br>\<br>简陋的 git 服务器搭建好了，足够我们实验用的了。\<br>\<br><strong>奴隶节点安装git<a href="http://www.07net01.com/tags-%E7%A8%8B%E5%BA%8F-0.html" target="_blank" rel="external">程序</a></strong>\<br>\<br>之前的文章中，我们创建了两个奴隶节点，<a href="http://www.07net01.com/tags-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-0.html" target="_blank" rel="external">操作系统</a>分表为<br>Win7 和<br>CentOS。现在我们分表在上面安装git<a href="http://www.07net01.com/ruanjiantuijian/" target="_blank" rel="external">软件</a>。CentOS这个节点的安装方法上面已经介绍了，只要再照做一遍就可以。Win7<br>下需要安装 msysgit 软件 <a href="http://msysgit.github.io/。\" target="_blank" rel="external">http://msysgit.github.io/。\</a><br>到<br><a href="https://code.[Google](http://www.07net01.com/tags-Google-0.html).com/p/msysgit/downloads/list?q=full+installer+official+git" target="_blank" rel="external">https://code.[Google](http://www.07net01.com/tags-Google-0.html).com/p/msysgit/downloads/list?q=full+installer+official+git</a><br>下载一个最新的程序，比如我下载的是<br>Git-1.8.4-preview20130916.exe，安装时在下图所示步骤里，选择“Run Git from<br>the <a href="http://www.07net01.com/" target="_blank" rel="external">Windows</a><br><a href="http://www.07net01.com/tags-command-0.html" target="_blank" rel="external">command</a><br>Prompt”，将git添加到PATH路径中，其他都选默认值。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png" alt=""><br><br></div>
+
+<p>安装后检查一下</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909062.png" alt=""><br><br></div>
+
+<p><strong><a href="http://www.07net01.com/r_s/" target="_blank" rel="external">配置</a>访问git服务器的凭据</strong>\<br>\<br>还记得我们在上一集里配置了访问CentOS 奴隶节点的凭据吗？\<br>用相似的方法在git服务器上给git用户添加一个公钥（具体步骤就不重复了），然后将私钥文件（id_rsa）分别拷贝到两台奴隶节点的当前用户家目录下的<br>.ssh<br>下（要注意在<a href="http://www.07net01.com/2015/07/873186.html" target="_blank" rel="external">Linux</a>系统下这个文件的权限必须是600）</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909063.png" alt=""><br><br></div>
+
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909064.png" alt=""><br><br></div>
+
+<p><strong>搭建一个sonar服务器</strong>\<br>\<br>为方便实验，我们把sonar搭建在git服务器上（172.16.12.83）。\<br>首选到 <a href="http://www.sonarqube.org/downloads/" target="_blank" rel="external">http://www.sonarqube.org/downloads/</a> 下载最新的SonarQube。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909065.png" alt=""><br><br></div>
+
+<p>解压到 /usr/local/ 下<br>    [root svr83 ~]# mv sonar-3.7.2.zip /usr/local/[root svr83 ~]# cd /usr/local/[root svr83 local]# unzip sonar-3.7.2.zip</p>
+<p>\<br>\<br>虽然Sonar可以使用默认的H2嵌入<a href="http://www.07net01.com/tags-%E6%95%B0%E6%8D%AE%E5%BA%93-0.html" target="_blank" rel="external">数据库</a>，但Jenkins上的Sonar插件不支持，所以这里我们要安装一个<a href="http://www.07net01.com/tags-mysql-0.html" target="_blank" rel="external">mysql</a>的<a href="http://www.07net01.com/program/" target="_blank" rel="external">数据库</a>\<br>我们到下载一个 MySQL，我下的是<br>MySQL-client-5.5.29-1.<a href="http://www.07net01.com/tags-Linux-0.html" target="_blank" rel="external">Linux</a>2.6.i386.rpm<br>和<br>MySQL-server-5.5.29-1.<a href="http://www.07net01.com/linux/" target="_blank" rel="external">linux</a>2.6.x86_64.rpm。\<br>下载链接：<a href="http://dev.[mysql](http://www.07net01.com/program/).com/downloads/[mysql](http://www.07net01.com/program/)/5.5.html\#downloads\" target="_blank" rel="external">http://dev.[mysql](http://www.07net01.com/program/).com/downloads/[mysql](http://www.07net01.com/program/)/5.5.html\#downloads\</a><br>安装这两个 RPM 包。<br>    [root svr83 sonar-3.7.2]# rpm -ivh MySQL-*</p>
+<p>\<br>\<br>拷贝模版文件构造 my.cnf。<br>    [root svr83 sonar-3.7.2]# cp /usr/share/mysql/my-medium.cnf /etc/my.cnf</p>
+<p>\<br>\<br>修改 my.cnf 内容<br>    …[client]…default-character-set = utf8…[mysqld]…lower_case_table_names = 0…</p>
+<p>\<br>\<br>启动 mysql<br>    [root svr83 sonar-3.7.2]# service mysql start</p>
+<p>\<br>\<br>进入 mysql<br><a href="http://www.07net01.com/tags-%E5%AE%A2%E6%88%B7%E7%AB%AF-0.html" target="_blank" rel="external">客户端</a>创建默认的库sonar，添加访问用户（用户名sonar，密码sonar），并退出<br>mysql 客户端。<br>    [root svr83 sonar-3.7.2]# mysqlmysql&gt; grant all privileges name=”code”&gt;[root svr83 sonar-3.7.2]# mysql -h localhost -u sonar -p</p>
+<p>\<br>\<br>修改 sonar 目录下 conf/sonar.properties 文件，启用 MySQL 相关设置<br>    ……#—– MySQL 5.x# Comment the embedded database and uncomment the following line to use MySQLsonar.jdbc.url:                            jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true……</p>
+<p>\<br>\<br>启动sonar。<br>    [root svr83 linux-x86-64]# pwd/usr/local/sonar-3.7.2/bin/linux-x86-64[root svr83 linux-x86-64]# ./sonar.sh startStarting sonar…Started sonar.</p>
+<p>\<br>\<br>在<a href="http://www.07net01.com/2015/07/873186.html" target="_blank" rel="external">浏览器</a>中输入<br><a href="http://172.16.12.83:9000/" target="_blank" rel="external">http://172.16.12.83:9000/</a> 看到 sonar 的界面。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909066.png" alt=""><br><br></div>
+
+<p><strong>创建一个用于健康检查的Job</strong>\<br>\<br>我们打算创建这样一个Job，每十五分钟检查一次代码库，发现有提交动作就触发构建，<a href="http://www.07net01.com/linux/" target="_blank" rel="external">编译</a>代码并执行单元测试，它的目的是保证构建的完整性。在这个例子里，我们假设代码是Java语言编写，需要JDK<br>7来<a href="http://www.07net01.com/linux/" target="_blank" rel="external">编译</a>，使用ant工具来编译执行单元测试，需要在Win<br>7 系统上来做这一切。\<br>首选我们先进入Jenkins页面中的“系统管理”→“系统设置”，找到<br>“JDK”部分，选择“新增JDK”。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909067.png" alt=""><br><br></div>
+
+<p>我们选择让Jenkins系统在需要的时候自动安装“Java SE Development Kit<br>7u40”。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909068.png" alt=""><br><br></div>
+
+<p>注意最下面的错误提示，需要你输入一个<a href="http://www.07net01.com/tags-Oracle-0.html" target="_blank" rel="external">Oracle</a><br>帐号，点击链接进去，是一个需要输入帐号和密码的页面（帐号可以到<br><a href="https://login.[oracle](http://www.07net01.com/program/).com/mysso/signon.jsp" target="_blank" rel="external">https://login.[oracle](http://www.07net01.com/program/).com/mysso/signon.jsp</a><br>免费注册）。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909069.png" alt=""><br><br></div>
+
+<p>设置好JDK后，我们找到“Ant”部分，点击“新增Ant”按钮。也同样设置在构建需要时自动安装Ant。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090610.png" alt=""><br><br></div>
+
+<p>作为这一切后，点击屏幕下方的“Save”按钮保存配置。\<br>然后我们写个简单的，用Ant编译的Java小程序，javaAntSample<br>推送到之前搭建好的git服务器上（具体方法参考前面关于git服务器部分的说明）。在这个程序的<br>build.xml 里，我们主要想执行 testrun  这个<br>target，它会完成编译并执行单元测试的工作，最后在项目根路径下产JUnit单元测试的报告<br>TEST-sample.project1.AllTests.xml。\<br>现在回到Jenkins的首页，点击“新Job”。使用Ant编译的话我们要选择“构建一个自由风格的软件项目”；“任务名称”我写的是“project1_javaAntSample-auto”，这个名字里我想表达说这个Job属于“project1”项目，之后我建立视图时会用正则匹配所有以“project1_”开头的项目；后面的“javaAntSample”希望我直接查看操作目录时有比较直观的提示，我希望用最后的“auto”标明这是一个做监控检查的Job。当然你也可以采用其他的命名规则。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090611.png" alt=""><br><br></div>
+
+<p>确定以后涉及的内容比较多，我一点一点来介绍。\<br>首选“描述”这部分很好理解，当你点击进入某个Job查看详情时，会显示在页面的上方，这个部分可以在里面写HTML内容。\<br>下面的“丢弃旧的构建”很重要，我们曾经遇到过使用的太久后无用的发布包（比如WAR包）将磁盘<a href="http://www.07net01.com/tags-%E7%A9%BA%E9%97%B4-0.html" target="_blank" rel="external">空间</a>耗尽的情况。我建议这里设置“发布包最大保留#个构建”设置为1。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090612.png" alt=""><br><br></div>
+
+<p>后面的几项我一般不做设置，但“Restrict where this project can be<br>run”要设置希望构建的奴隶节点，我们这里设置为 win。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090613.png" alt="">\<br>\<br>“高级项目选项”这里，我一般只设置 “Display<br>Name”，这里设置一个中文名称后，在Jenkins里显示Job时优先显示这个值。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090614.png" alt=""><br><br></div>
+
+<p>下面就到了“<a href="http://www.07net01.com/linux/" target="_blank" rel="external">源码</a>管理”这部分了，选择“Git”，填写仓库的URL和希望签出的分支名。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090615.png" alt=""><br><br></div>
+
+<p>你可能注意到了，下面有一大串错误提示“Fail to connect to<br>repository……”这个不用管它，因为Jenkins的主节点我们没有配置访问git服务器的密钥的原因。\<br>如果你在Job执行时出现下面错误</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090616.png" alt=""><br><br></div>
+
+<p>点击“高级”按钮，我们在下面的地方随便设置一下（可以设置一个<a href="http://www.07net01.com/tags-%E7%AE%A1%E7%90%86%E5%91%98-0.html" target="_blank" rel="external">管理员</a>的邮箱）。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090617.png" alt="">\<br>\<br>下面的“构建触发器”部分，我们希望是每15分钟检查一次代码库，如果有变化，则触发构建。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090618.png" alt=""><br><br></div>
+
+<p>在下面的“构建”部分，点击按钮“增加构建步骤”，选择“Invoke Ant”。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090619.png" alt="">\<br>\<br>Ant的版本选择我们一开始在“系统设置”里指定的版本，第一次执行前它会自己下载。“Targets”输入“testrun”，这个值来自我们的build.xml文件中的定义。\<br>在下面的“构建后操作”中，点击“Add post-build<br>action”按钮，在列表中选择“Publish JUnit test result report”。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090620.png" alt=""><br><br></div>
+
+<p>由于我们的报告是输出到项目根路径下，所以我们这里直接填写XML文件名。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090621.png" alt=""><br><br></div>
+
+<p>现在再次点击“Add post-build action”按钮，选择“E-mail<br>Notification”，添加失败后的邮件提醒。这里不但可以设定固定通知的人，还可以自动发邮件给疑似导致构建失败的人。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090622.png" alt=""><br><br></div>
+
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090623.png" alt=""><br><br></div>
+
+<p>如果你有时间就等待它自动触发构建，否则你可以点击<img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090624.png" alt="">直接触发构建</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090625.png" alt=""><br><br></div>
+
+<p>这时候你执行Job的构建会发现一直停留在git签出代码阶段，造成这个的原因是家目录不正确，没有找到私钥的原因。我们可以有两个方式解决。\<br>\<br><strong>解决Win7下无法签出git代码</strong>\<br>\<br><strong>方式一：修改Win7奴隶节点的设置</strong>\<br>\<br>添加两个环境变量“HOMEPATH”和“USERPROFILE”。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090626.png" alt=""><br><br></div>
+
+<p><strong>方法二：安装插件 EnvInject Plugin</strong>\<br>\<br>我们在插件管理页面中，安装插件“EnvInject Plugin”。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090627.png" alt="">\<br>\<br>\<br>这时再修改Job的定义（在“参数化构建过程”下面会出现新的属性“Prepare an<br>environment for the run”。设置里面的“Properties Content”</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090628.png" alt=""><br><br></div>
+
+<p><strong>最后执行结果</strong></p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090629.png" alt=""><br><br></div>
+
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090630.png" alt=""><br><br></div>
+
+<p><strong>创建一个用于代码质量分析的Job</strong>\<br>\<br>假如我们希望对代码进行静态检查，可以创建这种Job。最简单的方式就是与sonar进行集成，sonar支持众多语音的静态检查，包括：.NET（\$）、<a href="http://www.07net01.com/" target="_blank" rel="external">android</a>、C/<a href="http://www.07net01.com/program/" target="_blank" rel="external">C++</a>（\$）、<a href="http://www.07net01.com/program/" target="_blank" rel="external">C++</a>（社区版）、Java、<a href="http://www.07net01.com/tags-javascript-0.html" target="_blank" rel="external">javascript</a>、<a href="http://www.07net01.com/program/" target="_blank" rel="external">PHP</a>等等，其中后面带（\$）表示收费版本，比如C/C++<br>插件一年7000欧元。<a href="http://docs.codehaus.org/display/SONAR/Plugin+Library\" target="_blank" rel="external">http://docs.codehaus.org/display/SONAR/Plugin+Library\</a><br>使用前我们先安装Sonar插件“Jenkins Sonar Plugin”\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090631.png" alt="">\<br>\<br>安装好插件后，我们进入“系统设置”页面。\<br>先找到“Sonar Runner”这里，点击“新增 Sonar Runner”按钮。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090632.png" alt=""><br><br></div>
+
+<p>向下，找到“Maven”部分，新建一个Maven（就像前面创建的Ant一样，需要时他会自动安装的）</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090633.png" alt=""><br><br></div>
+
+<p>再向下，找到“Sonar”部分，点击“Add Sonar”按钮。其中“Server<br>URL”就是我们Sonar的访问URL“<a href="http://172.16.12.83:9000/”；Sonar默认帐号和密码都是“admin”；数据库部分的设置就是我们前面配置Sonar[配置文件](http://www.07net01.com/tags-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-0.html)中写的MySQL相关设置。" target="_blank" rel="external">http://172.16.12.83:9000/”；Sonar默认帐号和密码都是“admin”；数据库部分的设置就是我们前面配置Sonar[配置文件](http://www.07net01.com/tags-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-0.html)中写的MySQL相关设置。</a></p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090634.png" alt=""><br><br></div>
+
+<p>前一个Job里，我们用Ant构建了一个Java项目，毕竟Ant已经过时了，我们在这个Job试试用Maven构建一个项目，先创建一个用Maven构建的项目<br>javaMavenSample 推送到我们实验用的git服务器上。Maven构建时除了pom.xml<br>外还有一个重要的配置是 settings.xml 文件，一般在这个文件中指定私服 nexus<br>的地址，一般情况下会要求将这个文件放在本地用户家目录下的 .m2<br><a href="http://www.07net01.com/tags-%E6%96%87%E4%BB%B6%E5%A4%B9-0.html" target="_blank" rel="external">文件夹</a>中。但对Jenkins来说这样可能造成一个构建干扰另一个构建的情况，所以我们将这个<br>settings.xml 文件放在 javaMavenSample<br>项目的<a href="http://www.07net01.com/tags-%E6%A0%B9%E7%9B%AE%E5%BD%95-0.html" target="_blank" rel="external">根目录</a>下一起提交。\<br>现在创建一个新Job，名称就叫“project2_javaMavenSample-nightly”，类型选择“构建一个maven2/3项目”</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090635.png" alt=""><br><br></div>
+
+<p>其他的设置参考前面监控检查的Job吧，这里只说说不一样的地方。\<br>触发构建的日程表我们可以设置成“H 0 * *<br>*”，表示每天晚上0点检查代码库是否有更新。因为静态检查是一个极其消耗资源的缓慢过程，所以没有必要在健康检查中触发。\<br>Maven项目的Job会有一个“Build”部分。“Goals and options”我们写“clean<br>install”，点击“高级”按钮展开高级属性，在“Settings<br>file”这里，选择“Settings file in<br>file<a href="http://www.07net01.com/tags-system-0.html" target="_blank" rel="external">system</a>”，“File<br>path”上可以写相对于Job工作区的相对路径，这里我们直接写“settings.xml”，这样代码库中随项目一起提交的settings.xml就会生效。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090636.png" alt=""><br><br></div>
+
+<p>在“构建后操作”这部分，点击“Add post-build<br>action”按钮，添加“Sonar”，基本上安装默认值就可以。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090637.png" alt=""></p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090638.png" alt=""><br><br></div>
+
+<p>执行Job看一下。\<br>成功后到我们的Sonar服务器上可以看到结果 <a href="http://172.16.12.83:9000/\" target="_blank" rel="external">http://172.16.12.83:9000/\</a><br>\<br>\<br><strong>创建自动部署测试环境的Job</strong>\<br>\<br>创建一个自动部署到测试环境的Job有很多方法。\<br>\<br><strong>方法一：通过Deploy Plugin</strong>\<br>\<br>安装“Deploy Plugin”插件。这个插件支持<br><a href="http://www.07net01.com/program/" target="_blank" rel="external">Tomcat</a> 4.x/5.x/6.x/7.x、JBoss<br>3.x/4.x、Glassfish 2.x/3.x 的自动部署。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090639.png" alt="">\<br>\<br>你可以在设置Job的“构建后操作”部分添加“Deploy war/ear to container”</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090640.png" alt=""><br><br></div>
+
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090641.png" alt=""><br><br></div>
+
+<p>要注意的是，比如你自动部署到 Tomcat 上，那么它的 webapps 目录下 manager<br>需要保留，然后在<br>conf/<a href="http://www.07net01.com/program/" target="_blank" rel="external">tomcat</a>-users.xml<br>文件中，添加如下内容<br>            <role rolename="manager-gui">        <role rolename="manager-script">        <role rolename="manager-jmx">        <role rolename="manager-status">        <role rolename="manager">        <role rolename="admin">        <user username="admin" password="admin" roles="manager-gui,manager-script,manager-jmx,manager-status, admin, manager"></user></role></role></role></role></role></role></p>
+<p>\<br>\<br><strong>方法二：通过<a href="http://www.07net01.com/program/" target="_blank" rel="external">脚本</a></strong>\<br>\<br>这种方式更自由，你可以写好一个脚本来做你希望的事情，然后通过Jenkins来远程启动这个脚本。\<br>如果时执行Windows下的批处理，就选择“Execute Windows batch<br>command”，如果是<a href="http://www.07net01.com/linux/" target="_blank" rel="external">bash</a>脚本，就选择“Execute<br><a href="http://www.07net01.com/linux/" target="_blank" rel="external">shell</a>”。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090642.png" alt="">\<br>\<br>写脚本时，有写Jenkins的内部变量你可以使用，比如我们这个实验系统，有个页面就是介绍这些内部变量的<br><a href="http://ci.abc.com/jenkins/env-vars.html/。" target="_blank" rel="external">http://ci.abc.com/jenkins/env-vars.html/。</a></p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090643.png" alt=""><br><br></div>
+
+<p><strong>创建一个做集成测试的Job</strong>\<br>\<br>这一类的Job一般是依赖某个Job（比如手动部署测试环境）构建后启动构建。所以我们在配置Job属性时配置：</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090644.png" alt=""><br><br></div>
+
+<p><strong>展示报告</strong>\<br>\<br>Jenkins<br>的插件已经覆盖了大部分的报告格式（测试报告、静态检查报告等），如果你使用了一个工具的报告格式是不常见。你可以尝试把格式转化为XUnit兼容的格式展示。或者可以将报告产生的XML文件结合<br>XLS文件通过 “HTML Publisher Plugin” 插件来展示。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090645.png" alt="">\<br>\<br>关于 XSL 展示 XML ，有兴趣可以看看<br><a href="http://www.ibm.com/developerworks/cn/xml/theme/x-xsl.html\" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/xml/theme/x-xsl.html\</a><br>\<br><strong>交互风格的Job</strong>\<br>\<br>这是个有趣的功能，比如上面我们说的用于自动部署的Job，如果常规的构建方式，我们只能构建最新的代码，如果我们希望能部署指定的某次提交到测试环境怎么办呢？我们可以设置“参数化构建过程”来实现（参数化构建的本质是在构建前让你和Job有个交互过程，交互结果以环境变量方法参与到Job的构建）。\<br>首选参考前文，在主节点上安装git工具并且配置访问git服务器的私钥（id_rsa）到<br>.ssh 目录下。\<br>编辑Job的属性，找到“参数化构建过程”添加一个“Git Parameter”。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090646.png" alt=""><br><br></div>
+
+<p>执行后发现并没有列出git上的所有提交。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090647.png" alt=""><br><br></div>
+
+<p>在“系统管理”→“System Log”中\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090648.png" alt="">\<br>\<br>查看“所有系统日志”得知，后台报错“No such file or<br>directory”。我觉得这是Jenkins的一个Bug，我们配置Job是在奴隶节点上执行，它却在主节点上查找目录。关于这个问题我们用另一个方法来解决，<strong>我们欣赏一下在主节点构建的Job使用Git参数做参数化构建的效果。有一点要注意，这里虽然列出提交Id但不代表选择后会签出指定的这次提交代码，它只是将你选择的内容保存到你指定Name命名的环境变量里。</strong></p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090649.png" alt=""><br><br></div>
+
+<p>刚才说的另一个方法需要安装两个插件“Extended Choice Parameter<br>plugin”和“Extensible Choice Parameter<br>plugin”他们可以扩展参数化构建过程。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090650.png" alt=""><br><br></div>
+
+<p>我们在 Jenkins 服务器上创建一个目录 /jenkins/tmp/，然后签出<br>javaMavenSample 项目的代码。<br>    [root svr80 ~]# mkdir /jenkins/tmp/[root svr80 ~]# cd /jenkins/tmp/[root svr80 tmp]# git clone ssh://git 172.16.12.83/home/git/git_home/javaMavenSample.git</p>
+<p>\<br>\<br>在Jenkins的服务器上创建一个 /jenkins/tools/ 目录，然后在下面写一个脚本<br>genProject2Revision.sh，内容如下：</p>
+<pre><code>#!/bin/bashcd /jenkins/tmp/javaMavenSample/usr/bin/git pullecho &quot;revision=\\&quot; &gt; /jenkins/tools/project2_revision.txt/usr/bin/git log --pretty=oneline | /bin/awk &apos;{printf &quot;%s,\\\n&quot;, $1}&apos; &gt;&gt; /jenkins/tools/project2_revision.txt
+</code></pre><p>\<br>\<br>设置crontab 让这个脚本每小时执行一次。<br>    [root svr80 tools]# crontab -l0 <em> </em> <em> </em> /jenkins/tools/genProject2Revision.sh</p>
+<p>\<br>\<br>这样我们每小时就会更新 project2_revision.txt 文件内容如下</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090651.png" alt=""><br><br></div>
+
+<p>现在设置Job，添加“Extended Choice Parameter”</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090652.png" alt=""><br><br></div>
+
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090653.png" alt=""><br><br></div>
+
+<p>再执行Job，可以选择了</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090654.png" alt=""><br><br></div>
+
+<p>这里做的选择只会将选择内容保存到 GIT_COMMIT<br>环境变量里，要希望签出选定的代码，创建一个Pre-build setup。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090655.png" alt=""><br><br></div>
+
+<p>目前这个测试项目的提交历史如下</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090656.png" alt=""><br><br></div>
+
+<p>当我选择中间的那次提交 ed8ec8bf4966cf41b859b5f60dd0fc96f5797af2<br>时，执行结果如下：</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090657.png" alt=""><br><br></div>
+
+<p>当选择最早的那次提交 2f65720bb717c4e62ae9d2e34d521689e30cd463<br>时，执行结果如下，构建失败的原因参考上面的提交历史可知，那次提交时<br>settings.xml 文件还未添加。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090658.png" alt=""><br><br></div>
+
+<ul>
+<li>查看<a href="http://www.wredian.com/" target="_blank" rel="external">图片</a>附件</li>
+</ul>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p>\</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/07/jenkins 重复执行job/">jenkins 重复执行job</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 sam hu 的个人博客">sam hu</a></p>
+        <p><span>发布时间:</span>2016年03月07日 - 00时57分</p>
+        <p><span>最后更新:</span>2016年03月07日 - 00时57分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/07/jenkins 重复执行job/" title="jenkins 重复执行job">http://blog.huguiqi.com/2016/03/07/jenkins 重复执行job/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.huguiqi.com/2016/03/07/jenkins 重复执行job/　　作者: sam hu" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/03/07/jsessionid释疑解惑/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          jsessionid释疑解惑
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/07/手机端(iOS,android)自动化测试框架(淘宝用的)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">手机端(iOS,android)自动化测试框架(淘宝用的)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#jenkins-重复执行job"><span class="toc-number">1.</span> <span class="toc-text">jenkins 重复执行job</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//huguiqicom.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//huguiqicom.disqus.com/count.js" async></script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/03/07/jsessionid释疑解惑/" title="上一篇: jsessionid释疑解惑">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/03/07/手机端(iOS,android)自动化测试框架(淘宝用的)/" title="下一篇: 手机端(iOS,android)自动化测试框架(淘宝用的)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/什么是 Docker/">Docker —— 从入门到实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/关于macbook电池的正确使用方法，和保养技巧/">关于macbook电池的正确使用方法，和保养技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/12/oh_my_zsh安装出现的问题/">oh_my_zsh安装出现的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/11/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/09/通过github_pages建立自己的博客/">通过github pages建立自己的博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/09/给hexo博客添加站内搜索/">给hexo博客添加站内搜索(折腾死了)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何将印象笔记导为markdown/">如何将印象笔记导为markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/springMVC web.xml filter-mapping/">springMVC web.xml filter-mapping</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/nginx反向代理做cache配置/">nginx反向代理做cache配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven生成war包的两种方式/">maven生成war包的两种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mysql相关命令行/">mysql相关命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mysql for mac 中文问题/">mysql for mac 中文问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven3常用命令笔记/">maven3常用命令笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven 启动时windows下静态文件（html、css、js）被锁定/">maven 启动时windows下静态文件（html、css、js）被锁定</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码/">spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ruby command/">ruby command</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/oracle10g 添加监听数手动配置方式/">oracle10g 添加监听数手动配置方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svnserve/">svnserve</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ios苹果开发者必备的xcode插件/">ios苹果开发者必备的xcode插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIWebView详解/">UIWebView详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UISearchBar与UISearchDisplayController结合使用时注意的事项/">UISearchBar与UISearchDisplayController结合使用时注意的事项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Windows 命令行下修改文件访问控制权限/">Windows 命令行下修改文件访问控制权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIScrollView/">UIScrollView</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/">iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIBezierPath使用/">UIBezierPath使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS下载文件的几种简单有效的方式/">iOS下载文件的几种简单有效的方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS开发 git github 初学＋进阶/">iOS开发 git github 初学＋进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS有用的代码/">iOS有用的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS正则表达式代码片断/">iOS正则表达式代码片断</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault/">iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS高效开发必备的10款Objective-C类库/">iOS高效开发必备的10款Objective-C类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iPhone屏幕尺寸/">iPhone屏幕尺寸</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UIView 中一些常用方法/">UIView 中一些常用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/keySet()和entrySet()比较/">keySet()和entrySet()比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/maven + tomcat + linux/">maven + tomcat + linux</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/TCP_IP中的长链接与短链接/">TCP_IP中的长链接与短链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/String.prototype 工具常用类/">String.prototype 工具常用类</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/StoryBoard学习博客/">StoryBoard学习博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Redis 横向扩展案例/">Redis 横向扩展案例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/RESTEasy入门/">RESTEasy入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Oracle中TO_DATE格式/">Oracle中TO_DATE格式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/">PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ORACLE 字符集长度问题/">ORACLE 字符集长度问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Nginx 性能优化/">Nginx 性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NetworkEye：iOS 网络调试库/">NetworkEye：iOS 网络调试库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/UMSNSService_UMSNSLibrary.a for architecture armv7s/">UMSNSService_UMSNSLibrary.a for architecture armv7s</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自@开发者头条/">KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自 开发者头条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Maven仓库的两个概念：本地仓库和远程仓库/">Maven仓库的两个概念：本地仓库和远程仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSDocumentDirectory NSDocumentationDirectory 的区别/">NSDocumentDirectory NSDocumentationDirectory 的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSError 自定义/">NSError 自定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSSet 排序/">NSSet 排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSURL 生成时有中文参数无法生成URL的解决方案/">NSURL 生成时有中文参数无法生成URL的解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSUserDefaults简介及使用/">NSUserDefaults简介及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xib cell/">xib cell</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/NSdata 与 NSString，Byte数组，UIImage 的相互转换---ios开发 Objective-C/">NSdata 与 NSString，Byte数组，UIImage 的相互转换---ios开发 Objective-C</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JMeter/">JMeter</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/@synthesize和@dynamic区别/">synthesize和 dynamic区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 查看系统信息命令(比较全)/">linux 查看系统信息命令(比较全)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/无标题笔记/">无标题笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/无标题/">无标题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript正则快速入门教程/">javascript正则快速入门教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/软链接/">软链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/对javascript的理解/">对javascript的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何设置mysql在局域网中访问/">如何设置mysql在局域网中访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何让secureCRT显示Linux的颜色/">如何让secureCRT显示Linux的颜色</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/解决Xcode中使用Git时出现This file does not exist at the requested revision./">解决Xcode中使用Git时出现This file does not exist at the requested revision.</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何在UIAlertView中显示进度条/">如何在UIAlertView中显示进度条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/如何删除一键Ghost备份文件/">如何删除一键Ghost备份文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/基于RBAC模型的权限管理系统的设计和实现/">基于RBAC模型的权限管理系统的设计和实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/大数据时代笔记/">大数据时代笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/在IDEA下远程调试JavaScript/">在IDEA下远程调试JavaScript</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/创建JSP自定义标签/">创建JSP自定义标签</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/加菲猫生活歪理/">加菲猫生活歪理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/启动画面自定义动画/">启动画面自定义动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/判断ios系统版本号的代码/">判断ios系统版本号的代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/发展感想/">发展感想</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/创建系统无法删除的文件夹 加密文件/">创建系统无法删除的文件夹 加密文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/删除文件夹后点commit提交，但是报错/">删除文件夹后点commit提交，但是报错</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/苹果mac网站论坛收藏/">苹果mac网站论坛收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于jsp中换行问题/">关于jsp中换行问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于URL重写、session，cookie/">关于URL重写、session，cookie</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/">关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/修改linux文件权限命令：chmod/">修改linux文件权限命令：chmod</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/节日记录/">节日记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/使用模板语言(Velocity)定义、发送邮件/">使用模板语言(Velocity)定义、发送邮件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/使用resteasy的乱码问题/">使用resteasy的乱码问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/以线颜色取色器/">以线颜色取色器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/">从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/什么是SQL注入式攻击？/">什么是SQL注入式攻击？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/美栈第一个迭代完成情况/">美栈第一个迭代完成情况</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/网站收藏/">网站收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/强大的负载均衡+静态文件WEB服务器nginx实战/">强大的负载均衡+静态文件WEB服务器nginx实战</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/数据类型和Json格式/">数据类型和Json格式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/非root用户安装/">非root用户安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/新浪微薄分享功能实现方式/">新浪微薄分享功能实现方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/">改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/摇一摇动画/">摇一摇动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/什么是 Docker | Docker —— 从入门到实践/">什么是 Docker | Docker —— 从入门到实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/ios拨打电话三种方式/">ios拨打电话三种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/产品人的APP/">产品人的APP</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/把你的程序布署在TOMCAT/">把你的程序布署在TOMCAT</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone开发学习笔记/">iphone开发学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone开发秘籍目录/">iphone开发秘籍目录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iphone教程网/">iphone教程网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript正则表达式与java正则表达式的细微差异写法/">javascript正则表达式与java正则表达式的细微差异写法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript中处理json技巧/">javascript中处理json技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/">java处理图片时找到不sun.awt.X11GraphicsEnvironment问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/javascript 原型编程详解/">javascript 原型编程详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/java相关理论技术收藏/">java相关理论技术收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/jsessionid释疑解惑/">jsessionid释疑解惑</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/jenkins 重复执行job/">jenkins 重复执行job</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/手机端(iOS,android)自动化测试框架(淘宝用的)/">手机端(iOS,android)自动化测试框架(淘宝用的)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux ssh 上传与下载命令/">linux ssh 上传与下载命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 安装web环境/">linux 安装web环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux su和sudo命令的区别/">linux su和sudo命令的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 安装软件/">linux 安装软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux 查看 和 修改系统编码/">linux 查看 和 修改系统编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/下载花生壳，注册域名。/">下载花生壳，注册域名。</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下 scp命令不需要输入用户密码/">linux下 scp命令不需要输入用户密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下SVN仓库间数据转移或重命名/">linux下SVN仓库间数据转移或重命名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux下删除svn属性文件/">linux下删除svn属性文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux服务端常用命令行/">linux服务端常用命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/linux系统下mysql中文乱码解决/">linux系统下mysql中文乱码解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac OS忘记密码后的终极解决方案/">mac OS忘记密码后的终极解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac os VoiceOver/">mac os VoiceOver</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac 下载youku视频/">mac 下载youku视频</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac有用的命令行收藏/">mac有用的命令行收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/mac系统终端常用命令与mac系统常用的技巧/">mac系统终端常用命令与mac系统常用的技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/怎么关闭U盘的自动播放功能/">怎么关闭U盘的自动播放功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记/">笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/阿里云遇到的问题/">阿里云遇到的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记 来自 永嘉花园 在 上海市/">笔记 来自 永嘉花园 在 上海市</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/笔记 来自 成亿家园 在 上海市市辖区/">笔记 来自 成亿家园 在 上海市市辖区</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/开源中国 Maven 库/">开源中国 Maven 库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/彻底删除Mac OS X开机自启动项目/">彻底删除Mac OS X开机自启动项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/node.js学习(上)/">node.js学习(上)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/nodejs_学习笔记/">nodejs_学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/obj-c 常用字符串处理方法/">obj-c 常用字符串处理方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objc非主流代码技巧/">objc非主流代码技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objective-c属性特性/">objective-c属性特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/objecttive-c与swift混编/">objecttive-c与swift混编</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/obj-c排序算法/">obj-c排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/">建立你自己的本地仓库(Maven仓库管理-Nexus)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/字符，字节和编码/">字符，字节和编码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/root重置密码/">root重置密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/直接将google进行本地映射，不进行域名解析，加速访问/">直接将google进行本地映射，不进行域名解析，加速访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/每位开发人员都应铭记的10句编程谚语/">每位开发人员都应铭记的10句编程谚语</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/查找项目中是否有用IDFA/">查找项目中是否有用IDFA</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svn merge/">svn merge</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/旧工程适配iOS6和iPhone5续之第三方静态库/">旧工程适配iOS6和iPhone5续之第三方静态库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/svn常用命令/">svn常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/swift学习笔记/">swift学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vim中字符串出现次数的统计及字符创替换/">vim中字符串出现次数的统计及字符创替换</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi全局替换方法/">vi全局替换方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi显示行号/">vi显示行号</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/vi格式化代码/">vi格式化代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode 中检查国际化文件格式是否正确/">xcode 中检查国际化文件格式是否正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode快捷器收藏/">xcode快捷器收藏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/xcode模拟器/">xcode模拟器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/">日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/一些iOS高效开源类库/">一些iOS高效开源类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN使用经验心得/">SVN使用经验心得</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/2）/">2）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/AOP的实现机制/">AOP的实现机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/index/">index</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iframe跨域session丢失问题/">iframe跨域session丢失问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS 开发证书与xcode、profile、appId的关系/">iOS 开发证书与xcode、profile、appId的关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS image button setCornerRadius/">iOS image button setCornerRadius</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS View中不能直接代码add tableView/">iOS View中不能直接代码add tableView</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS Framework 制作教程/">iOS Framework 制作教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS App打包上传快速教程/">iOS App打包上传快速教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/iOS 9 变化笔记/">iOS 9 变化笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/">git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git中reset与revert的使用/">git中reset与revert的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/gitrm和 rm的区别yang3wei的专栏/">gitrm和 rm的区别yang3wei的专栏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/git reset/">git reset</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD（Grand Central Dispatch）和Block 使用-浅析/">GCD（Grand Central Dispatch）和Block 使用-浅析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/elnet 命令使用详解/">elnet 命令使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（二）/">GCD 深入理解（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/coreData for sqlite/">coreData for sqlite</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/chrome代理设置/">chrome代理设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/centos 开启防火墙后ftp无法访问解决方案/">centos 开启防火墙后ftp无法访问解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/block定义与声明/">block定义与声明</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/app加快审核的英文事例/">app加快审核的英文事例</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/">App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（一）/">GCD 深入理解（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下的Vsftpd配置篇/">Linux下的Vsftpd配置篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CentOS 6.0安装配置subversion/">CentOS 6.0安装配置subversion</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/XCode下的iOS单元测试/">XCode下的iOS单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Validator.js/">Validator.js</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/VI命令行/">VI命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Unix有用命令行/">Unix有用命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Unit Tests With CocoaPods/">Unit Tests With CocoaPods</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CentOS6.5使用yum命令方式安装/">CentOS6.5使用yum命令方式安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Session，Cookie，jsessionid，Url重写/">Session，Cookie，jsessionid，Url重写</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/CocoaPods 的一些略为高级一丁点的使用/">CocoaPods 的一些略为高级一丁点的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN客户端命令行设置忽略文件列表/">SVN客户端命令行设置忽略文件列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/SVN分支与合并/">SVN分支与合并</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Export devices added in Apple's iOS Provision portal/">Export devices added in Apple's iOS Provision portal</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective_C动态获取实例属性/">Objective_C动态获取实例属性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-c之NSString(NSMutableString)/">Objective-c之NSString(NSMutableString)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-C –反射篇/">Objective-C –反射篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Objective-C RegEx/">Objective-C RegEx</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Object-C内存管理口诀/">Object-C内存管理口诀</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Obj-c与swift的语法比较和产生的新特性/">Obj-c与swift的语法比较和产生的新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Node.js 常见面试题/">Node.js 常见面试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Macbook常用快捷键/">Macbook常用快捷键</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/MacOS安装Cocoapods步骤/">MacOS安装Cocoapods步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Mac 安装软件新方法：Homebrew-cask/">Mac 安装软件新方法：Homebrew-cask</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/MAC OS X 关闭 SPOTLIGHT MAC降温大法/">MAC OS X 关闭 SPOTLIGHT MAC降温大法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下的压缩解压缩命令详解/">Linux下的压缩解压缩命令详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下批量删除.git文件夹的命令/">Linux下批量删除.git文件夹的命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/FileWriter注意事项/">FileWriter注意事项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux下必须知道的11个网络命令/">Linux下必须知道的11个网络命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园/">Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Linux 中如何卸载已安装的软件/">Linux 中如何卸载已安装的软件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/Java中的日期（Calendar、Date）/">Java中的日期（Calendar、Date）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/JAVA正则表达式，过滤HTML，替换HTML标签！/">JAVA正则表达式，过滤HTML，替换HTML标签！</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/IntelliJ Idea 常用快捷键列表/">IntelliJ Idea 常用快捷键列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/HTTP 304 错误的详细解释/">HTTP 304 错误的详细解释</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/How to disable directory listing for Jetty's WebAppContext/">How to disable directory listing for Jetty's WebAppContext</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/GCD 深入理解（二） - 已标注/">GCD 深入理解（二） - 已标注</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/[Nginx] 在Linux下的启动、停止和重加载/">[Nginx] 在Linux下的启动、停止和重加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/《西游记》里有哪些不易发现却很打动人的小细节？/">《西游记》里有哪些不易发现却很打动人的小细节？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/">【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/（模板方法的运用）持久层操作的java代码/">（模板方法的运用）持久层操作的java代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/fwrite$UNIX2003 referenced from/">fwrite$UNIX2003 referenced from</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/3d_touch例子一个/">根据apple官方3D touch的例子写个3D Touch功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/05/对象序列化框架/">对象序列化框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/docker_换国内镜像/">docker 换国内镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/apple_worldwide_developer_relations_证书过期问题/">apple Worldwide Developer Relations 证书过期问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/app上传至appStore的流程 /">app上传至appStore的流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/app上传流程/">申请企业证书需要的资料(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/将_mac_中的文件夹共享到虚拟机/">将 Mac 中的文件夹共享到虚拟机</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/申请企业证书需要的资料/">申请企业证书需要的资料</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 sam hu
+            </div>
+            <div class="footer-right">
+                <a href="http://www.godeggs.cn/" target="_blank">手机、微信、web开发</a>  Theme <a href="http://weibo.com/ilikexitele" target="_blank">by sam.hu</a> 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 21;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+  </div>
+
+</body>
+</html>
