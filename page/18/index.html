@@ -155,7 +155,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/brew-cask-添加cask/" style="font-size: 10px;">brew-cask 添加cask</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/macbook电池保养/" style="font-size: 10px;">macbook电池保养</a> <a href="/tags/oh-my-zsh-vim-macos/" style="font-size: 10px;">oh-my-zsh vim macos</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/webStorm破解/" style="font-size: 10px;">webStorm破解</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a> <a href="/tags/面试题-全栈/" style="font-size: 10px;">面试题 全栈</a>
                     </div>
                 </section>
                 
@@ -252,6 +252,168 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-iOS image button setCornerRadius" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/iOS image button setCornerRadius/" class="article-date">
+      <time datetime="2016-03-06T16:57:19.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/iOS image button setCornerRadius/">iOS image button setCornerRadius</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="iOS-image-button-setCornerRadius"><a href="#iOS-image-button-setCornerRadius" class="headerlink" title="iOS image button setCornerRadius"></a>iOS image button setCornerRadius</h1><div><br><br>当我们在button上添加背景图片和背景颜色的时候就会发现，<span
+style="color: rgb(0, 0, 0); font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(255, 255, 255);">setCornerRadius</span>这个属性并不适用，因为现在的button已经不是圆角的了，它显示的是图片的形状，当设置背景颜色设置为UIButtonTypeCustom属性才可以显示出来。所以我们需要用UIButton控件的其它属性来满足我们的需求<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>[self.headerBtn setImage:[UIImage imageNamed: “mine_000”] forState:UIControlStateNormal];<br><br></div>
+
+<div><br><br>    [self.headerBtn.layer setMasksToBounds:YES];<br><br></div>
+
+<div><br><br>[self.headerBtn.layer setCornerRadius:40.0f];//圆角<br><br></div>
+
+<div><br><br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/iOS image button setCornerRadius/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS View中不能直接代码add tableView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/iOS View中不能直接代码add tableView/" class="article-date">
+      <time datetime="2016-03-06T16:57:19.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/iOS View中不能直接代码add tableView/">iOS View中不能直接代码add tableView</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="iOS-View中不能直接代码add-tableView"><a href="#iOS-View中不能直接代码add-tableView" class="headerlink" title="iOS View中不能直接代码add tableView"></a>iOS View中不能直接代码add tableView</h1><div><br><br>\<br><br></div>
+
+<div><br><br><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #93c86a">searchTableView</span><br><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">=<br>[[</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">UITableView</span><br><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">alloc</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">]</span><br><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">initWithFrame</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">CGRectMake</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">(</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">0</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">0</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">320</span><span
+style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/iOS View中不能直接代码add tableView/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-iOS Framework 制作教程" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -841,165 +1003,6 @@ style="font: 14.0px Times; font-kerning: none; color: #323e32; -webkit-text-stro
       
         <p class="article-more-link">
           <a  href="/2016/03/07/GCD（Grand Central Dispatch）和Block 使用-浅析/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-elnet 命令使用详解" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/elnet 命令使用详解/" class="article-date">
-      <time datetime="2016-03-06T16:57:19.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/elnet 命令使用详解/">elnet 命令使用详解</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="elnet-命令使用详解"><a href="#elnet-命令使用详解" class="headerlink" title="elnet 命令使用详解"></a>elnet 命令使用详解</h1><div><br><br> <a href="http://blog.chinaunix.net/uid-26167002-id-3054040.html">telnet<br>命令使用详解</a> 2012-01-05<br>18:31:46<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>分类： WINDOWS<br><br></div>
-
-<div><br><br></div>
-
-<div><br><br><strong>1、什么是Telnet？</strong><br><br></div>
-
-<div><br><br>\<br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/elnet 命令使用详解/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-GCD 深入理解（二）" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/GCD 深入理解（二）/" class="article-date">
-      <time datetime="2016-03-06T16:57:19.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/GCD 深入理解（二）/">GCD 深入理解（二）</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="GCD-深入理解（二）"><a href="#GCD-深入理解（二）" class="headerlink" title="GCD 深入理解（二）"></a>GCD 深入理解（二）</h1><p><span
-style="font: 26.0px 'Helvetica Neue'; font-kerning: none; color: #1d1d1d; background-color: #f6f6f6; -webkit-text-stroke: 0px #1d1d1d">GCD<br>深入理解（二）</span><span
-style="font: 26.0px 'Helvetica Neue'; font-kerning: none; color: #1d1d1d; -webkit-text-stroke: 0px #1d1d1d">\<br></span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #666666; background-color: #f6f6f6; -webkit-text-stroke: 0px #666666">发布于：2014-05-15<br>13:05阅读数：5291</span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; background-color: #f0f0f0; -webkit-text-stroke: 0px #323333">在本系列的第一部分中，你已经学到超过你想像的关于并发、线程以及GCD<br>如何工作的知识。通过在初始化时利用<br>dispatch_once，你创建了一个线程安全的 PhotoManager 单例，而且你通过使用<br>dispatch</span><span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br></span><span
-style="font: 60.0px Times; font-kerning: none; color: #666666; background-color: #f0f0f0; -webkit-text-stroke: 0px #666666">“</span><span
-style="font: 60.0px Times; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
-style="font: 60.0px Times; font-kerning: none; color: #666666; background-color: #f0f0f0; -webkit-text-stroke: 0px #666666">”</span><span
-style="font: 60.0px Times; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #042eee; -webkit-text-stroke: 0px #042eee">\<br>\<br> <span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #cccccc; background-color: #f6f6f6; -webkit-text-stroke: 0px #cccccc">阅读器</span></span><span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #cccccc; background-color: #f6f6f6; -webkit-text-stroke: 0px #cccccc">\<br> <a href="http://www.cocoachina.com/cms/tags.php?/GCD/"><span
-style="font-kerning: none; color: #ffffff; background-color: #ed9c69; -webkit-text-stroke: 0px #ffffff">GCD</span></a></span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><img src="GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png" alt="">\<br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/GCD 深入理解（二）/#more">腿撩开 >></a>
         </p>
       
       <div class="clearfix"></div>

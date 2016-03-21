@@ -155,7 +155,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/brew-cask-添加cask/" style="font-size: 10px;">brew-cask 添加cask</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/macbook电池保养/" style="font-size: 10px;">macbook电池保养</a> <a href="/tags/oh-my-zsh-vim-macos/" style="font-size: 10px;">oh-my-zsh vim macos</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/webStorm破解/" style="font-size: 10px;">webStorm破解</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a> <a href="/tags/面试题-全栈/" style="font-size: 10px;">面试题 全栈</a>
                     </div>
                 </section>
                 
@@ -253,10 +253,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-jsessionid释疑解惑" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-java处理图片时找到不sun.awt.X11GraphicsEnvironment问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/03/07/jsessionid释疑解惑/" class="article-date">
+      <a href="/2016/03/07/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/" class="article-date">
       <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
 </a>
     </div>
@@ -270,7 +270,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/jsessionid释疑解惑/">jsessionid释疑解惑</a>
+      <a class="article-title" href="/2016/03/07/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/">java处理图片时找到不sun.awt.X11GraphicsEnvironment问题</a>
     </h1>
   
 
@@ -280,11 +280,17 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="jsessionid释疑解惑"><a href="#jsessionid释疑解惑" class="headerlink" title="jsessionid释疑解惑"></a>jsessionid释疑解惑</h1><p>在web应用的开发中我们会经常看到这样的url：<a href="http://www.xxx.com">http://www.xxx.com</a><br>/xxx_app;jsessionid=xxxxxxxxxx?a=x&amp;b=x…。这跟一般的url基本一样，只有一个地方有区别，那就是<br>“;jessionid=xxxxxxxx”。这个参数有时候有，有时候又没有，说它是参数可又跟一般传递的参数不同，它是紧跟在url后面用分号来分隔<br>的，用一般的request.getParameter()方法还取不到。那这个参数到底是干嘛用的呢？要了解它还要先了解session的实现方式。</p>
-<p>session的实现方式</p>
-<p>做web开发的同学都知道，http是无状态的会话协议，也就是说无法保存用户的信息。那如果有一些信息需要在用户的浏览活动中一直保持，该怎么做<br>呢？我们可以把这些信息在每次请求的时候作为参数传递给服务器，但这样做既麻烦又耗费资源，这时候就体现出了session的重要性。session是<br>web开发中不可或缺的一个特性。它是对于一个特定的用户请求，在web服务器上保存的一个全局变量。有了它我们就可以把用户的一些信息保存在服务器上，<br>而不用在服务器和客户端之间来回传递。知道了session的作用，那session是怎么实现的呢？服务器上为每个用户都保存了一个session，那<br>当用户请求过来的时候是怎么知道某一个用户应该对应哪个session呢？这时jsessionid就派上用场了。每一个session都有一个id来作<br>为标识，这个id会传到客户端，每次客户端请求都会把这个id传到服务器，服务器根据id来匹配这次请求应该使用哪个session。<br>jsessionid就是客户端用来保存sessionid的变量，主要是针对j2ee实现的web容器，没有研究过其他语言是用什么变量来保存的。一般<br>对于web应用来说，客户端变量都会保存在cookie中，jsessionid也不例外。不过与一般的cookie变量不同，jsessionid是保<br>存在内存cookie中的，在一般的cookie文件中是看不到它的影子的。内存cookie在打开一个浏览器窗口的时候会创建，在关闭这个浏览器窗口的<br>时候也同时销毁。这也就解释了为什么session变量不能跨窗口使用，要跨窗口使用就需要手动把jsessionid保存到cookie里面。</p>
-<p>jsessionid的作用</p>
-<p>在以上的文字中我们了解了session的实现原理，同时也知道了session跟jsessionid紧密不可分割的联系。只有通过<br>jsessionid才能使session机制起作用，而jsessionid又是通过cookie来保存。看到这里，也许你会发现一个问题，如果用户禁<br>用了cookie，那jsessionid不是就不能保存了吗？session不是不起作用了吗？我们真的对此束手无策了吗？当然不是。在用户禁用了<br>cookie时候，我们可以通过url重写来实现jsessionid的传递。这就是我上面指出的那样的url:<a href="http://www.xxx.com">http://www.xxx.com</a><br>/xxx_app;jsessionid=xxxxxxxxxx?a=x&amp;b=x..。jessionid通过这样的方式来从客户端传递到服务器<br>端，从而来标识session。注意一点，jsessionid跟一般的url参数传递方式是不同的，不是作为参数跟在？后面，而是紧跟在url后面用；<br>来分隔。这样在用户禁用cookie的时候我们也可以传递jsessionid来使用session了，只不过需要每次都把jseesionid作为参数<br>跟在url后面传递。那这样岂不是很麻烦，每次请求一个url都要判断cookie是否可用，如果禁用了cookie，还要从url里解析出<br>jsessionid，然后跟在处理完后转到的url后面，以保持jsessionid的传递。这些问题sun当然已经帮我们想到了，所以提供了2个方法<br>
+              <h1 id="java处理图片时找到不sun-awt-X11GraphicsEnvironment问题"><a href="#java处理图片时找到不sun-awt-X11GraphicsEnvironment问题" class="headerlink" title="java处理图片时找到不sun.awt.X11GraphicsEnvironment问题"></a>java处理图片时找到不sun.awt.X11GraphicsEnvironment问题</h1><div><br><br>java处理图片时找到不sun.awt.X11GraphicsEnvironment问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>2012-01-06 17:34:46| 分类： Java |举报|字号 订阅<br><br></div>
+
+<div><br><br>使用java生成图片验证码，出现错误：<br><br></div>
+
+<div><br><br>java.lang.NoClassDefFoundError: sun.awt.X11GraphicsEnvironment<br><br></div>
+
+<div><br><br>搜索得到解决方法：<br>
           
       
     </div>
@@ -304,7 +310,82 @@
 
       
         <p class="article-more-link">
-          <a  href="/2016/03/07/jsessionid释疑解惑/#more">腿撩开 >></a>
+          <a  href="/2016/03/07/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-java相关理论技术收藏" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/java相关理论技术收藏/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/java相关理论技术收藏/">java相关理论技术收藏</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="java相关理论技术收藏"><a href="#java相关理论技术收藏" class="headerlink" title="java相关理论技术收藏"></a>java相关理论技术收藏</h1><p>1，什么是串行化</p>
+<div><br><br><br>对象的寿命通常随着生成该对象的程序的终止而终止。有时候，可能需要将对象的状态保存下来，在需要时再将对象恢复。我们把对象的这种能记录自己的状态以便将来再生的能力。叫作对象的持续性(persistence)。对象通过写出描述自己状态的数值来记录自己<br>，这个过程叫对象的串行化(Serialization－连续)<br>。串行化的主要任务是写出对象实例变量的数值。如果变量是另一对象的引用，则引用的对象也要串行化。这个过程是递归的，串行化可能要涉及一个复杂树结构的单行化，包括原有对象、对象的对象、对象的对象的对象等等。对象所有权的层次结构称为图表(graph)。<br><br></div>
+
+<div><br><br>2.串行化的目的<br><br></div>
+
+<div><br><br>Java对象的单行化的目标是为Java的运行环境提供一组特性，如下所示：<br><br></div>
+
+<div><br><br>1) 尽量保持对象串行化的简单扼要<br>，但要提供一种途径使其可根据开发者的要求进行扩展或定制。<br><br></div>
+
+<div><br><br>2) 串行化机制应严格遵守Java的对象模型<br>。对象的串行化状态中应该存有所有的关于种类的安全特性的信息。<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/java相关理论技术收藏/#more">腿撩开 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -401,10 +482,10 @@
 
 
   
-    <article id="post-手机端(iOS,android)自动化测试框架(淘宝用的)" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-jsessionid释疑解惑" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/03/07/手机端(iOS,android)自动化测试框架(淘宝用的)/" class="article-date">
+      <a href="/2016/03/07/jsessionid释疑解惑/" class="article-date">
       <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
 </a>
     </div>
@@ -418,7 +499,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/手机端(iOS,android)自动化测试框架(淘宝用的)/">手机端(iOS,android)自动化测试框架(淘宝用的)</a>
+      <a class="article-title" href="/2016/03/07/jsessionid释疑解惑/">jsessionid释疑解惑</a>
     </h1>
   
 
@@ -428,11 +509,90 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="手机端-iOS-android-自动化测试框架-淘宝用的"><a href="#手机端-iOS-android-自动化测试框架-淘宝用的" class="headerlink" title="手机端(iOS,android)自动化测试框架(淘宝用的)"></a>手机端(iOS,android)自动化测试框架(淘宝用的)</h1><p><a href="http://code.taobao.org/p/athrun/src/trunk/" target="_blank" rel="external">http://code.taobao.org/p/athrun/src/trunk/</a></p>
-<div><br><br>\<br><br></div>
+              <h1 id="jsessionid释疑解惑"><a href="#jsessionid释疑解惑" class="headerlink" title="jsessionid释疑解惑"></a>jsessionid释疑解惑</h1><p>在web应用的开发中我们会经常看到这样的url：<a href="http://www.xxx.com">http://www.xxx.com</a><br>/xxx_app;jsessionid=xxxxxxxxxx?a=x&amp;b=x…。这跟一般的url基本一样，只有一个地方有区别，那就是<br>“;jessionid=xxxxxxxx”。这个参数有时候有，有时候又没有，说它是参数可又跟一般传递的参数不同，它是紧跟在url后面用分号来分隔<br>的，用一般的request.getParameter()方法还取不到。那这个参数到底是干嘛用的呢？要了解它还要先了解session的实现方式。</p>
+<p>session的实现方式</p>
+<p>做web开发的同学都知道，http是无状态的会话协议，也就是说无法保存用户的信息。那如果有一些信息需要在用户的浏览活动中一直保持，该怎么做<br>呢？我们可以把这些信息在每次请求的时候作为参数传递给服务器，但这样做既麻烦又耗费资源，这时候就体现出了session的重要性。session是<br>web开发中不可或缺的一个特性。它是对于一个特定的用户请求，在web服务器上保存的一个全局变量。有了它我们就可以把用户的一些信息保存在服务器上，<br>而不用在服务器和客户端之间来回传递。知道了session的作用，那session是怎么实现的呢？服务器上为每个用户都保存了一个session，那<br>当用户请求过来的时候是怎么知道某一个用户应该对应哪个session呢？这时jsessionid就派上用场了。每一个session都有一个id来作<br>为标识，这个id会传到客户端，每次客户端请求都会把这个id传到服务器，服务器根据id来匹配这次请求应该使用哪个session。<br>jsessionid就是客户端用来保存sessionid的变量，主要是针对j2ee实现的web容器，没有研究过其他语言是用什么变量来保存的。一般<br>对于web应用来说，客户端变量都会保存在cookie中，jsessionid也不例外。不过与一般的cookie变量不同，jsessionid是保<br>存在内存cookie中的，在一般的cookie文件中是看不到它的影子的。内存cookie在打开一个浏览器窗口的时候会创建，在关闭这个浏览器窗口的<br>时候也同时销毁。这也就解释了为什么session变量不能跨窗口使用，要跨窗口使用就需要手动把jsessionid保存到cookie里面。</p>
+<p>jsessionid的作用</p>
+<p>在以上的文字中我们了解了session的实现原理，同时也知道了session跟jsessionid紧密不可分割的联系。只有通过<br>jsessionid才能使session机制起作用，而jsessionid又是通过cookie来保存。看到这里，也许你会发现一个问题，如果用户禁<br>用了cookie，那jsessionid不是就不能保存了吗？session不是不起作用了吗？我们真的对此束手无策了吗？当然不是。在用户禁用了<br>cookie时候，我们可以通过url重写来实现jsessionid的传递。这就是我上面指出的那样的url:<a href="http://www.xxx.com">http://www.xxx.com</a><br>/xxx_app;jsessionid=xxxxxxxxxx?a=x&amp;b=x..。jessionid通过这样的方式来从客户端传递到服务器<br>端，从而来标识session。注意一点，jsessionid跟一般的url参数传递方式是不同的，不是作为参数跟在？后面，而是紧跟在url后面用；<br>来分隔。这样在用户禁用cookie的时候我们也可以传递jsessionid来使用session了，只不过需要每次都把jseesionid作为参数<br>跟在url后面传递。那这样岂不是很麻烦，每次请求一个url都要判断cookie是否可用，如果禁用了cookie，还要从url里解析出<br>jsessionid，然后跟在处理完后转到的url后面，以保持jsessionid的传递。这些问题sun当然已经帮我们想到了，所以提供了2个方法<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
 
-<div><br><br><a href="http://www.uml.org.cn/Test/201207104.asp" target="_blank" rel="external">http://www.uml.org.cn/Test/201207104.asp</a>\<br><br></div>
 
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/jsessionid释疑解惑/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-怎么关闭U盘的自动播放功能" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/怎么关闭U盘的自动播放功能/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/怎么关闭U盘的自动播放功能/">怎么关闭U盘的自动播放功能</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="怎么关闭U盘的自动播放功能"><a href="#怎么关闭U盘的自动播放功能" class="headerlink" title="怎么关闭U盘的自动播放功能"></a>怎么关闭U盘的自动播放功能</h1><h1 id="怎么关闭U盘的自动播放功能-1"><a href="#怎么关闭U盘的自动播放功能-1" class="headerlink" title="怎么关闭U盘的自动播放功能"></a><span>怎么关闭U盘的自动播放功能</span></h1><pre><code>每次把移动硬盘查到USB口就会自动播放，尤其是移动硬盘分了N个区的时候，要手动一个一个的关掉，真是十分的麻烦！怎么样能解决这个问题呢？下面西部e网这里了几种关闭移动硬盘或者U盘自动播放的方法供大家参考：  
+
+ 1、SHIFT按键法   这个方法早在Windows98就用过了吧？好像是哦，反正我最早在关闭自动播放CD的时候就使用的这种方法。插入移动硬盘的时候按住SHIFT键，移动硬盘就不会自动播放啦。   
+
+2、策略组关闭法   在前段时间熊猫烧香流行的时候，网上就流传着使用策略组关闭移动硬盘或者U盘自动关闭功能的方法。具体如：单击“开始-运行”，在“打开”框中，键入“gpedit.msc”，单击“确定”按钮，打开“组策略”窗口。在左窗格的“本地计算机策略”下，展开“计算机配置-管理模板-系统”，然后在右窗格的“设置”标题下，双击“关闭自动播放”。单击“设置”选项卡，选中“已启用”复选钮，然后在“关闭自动播放”框中单击“所有驱动器”，单击“确定”按钮，最后关闭组策略窗口。   
+
+3、关闭服务法   在“我的电脑”点击鼠标右键，选择“管理”，在打开的“计算机管理”中找到“服务和应用程序-服务”，然后在右窗格找到“Shell Hardware Detection”服务，这个服务的功能就是为自动播放硬件事件提供通知，双击它，在“状态”中点击“停止”按钮，然后将“启动类型”修改为“已禁用”或者“手动”就可以了。   
+
+4、磁盘操作法   这个方法对Windows XP有效，也比较好用。打开“我的电脑”，在“硬盘”里面或者在“有可移动的存储设备”下面会看到你的盘符，一般移动硬盘的盘符会在“硬盘”中，U盘或者数码相机什么的在“有可移动的存储设备”中。鼠标右键点击需要关闭自动播放功能的盘符，选择“属性”，在弹出的窗体中选择“自动播放”选项卡，在这里用户可以针对“音乐文件”、“图片”、“视频文件”、“混合内容”和“音乐CD”五类内容设置不同的操作方式，都选用“不执行操作”即可禁用自动运行功能，“确定”后设置立即生效。这种方法同样使用于针对DVD/CD驱动器。   
+
+5、注册表法   注册表是个麻烦的东西，一般不建议使用注册表来修改。
+
+ 打开注册表编辑器，展开到[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Exploer]主键下，在右窗格中找到“NoDriveTypeAutoRun”，就是这个键决定了是否执行CDROM或硬盘的AutoRun功能。   NoDriveTypeAutoRun这个键决定了是否执行Autorun功能。其中每一位代表一个设备，不同设备用以下数值表示：     设备名称 第几位 数值 设备用如下数值表示 设备名称含义   DRIVE_UNKNOWN 0 1 01H 不能识别的类型设备   DRIVE_NO_ROOT_DIR 1 0 02H 没有根目录的驱动器   DRIVE_REMOVABLE 2 1 04H 可移动驱动器   DRIVE_FIXED 3 0 08H 固定的驱动器   DRIVE_REMOTE 4 1 10H 网络驱动器   DRIVE_CDROM 5 0 20H 光驱   DRIVE_RAMDISK 6 0 40H RAM磁盘      以上值“0”表示设备运行，“1”表示设备不运行。   6、软件法   Tweak UI是Microsoft出品的软件，可以针对任何操作系统。使用Tweak UI软件，可以控制任意盘符是否可以自动播放。
+</code></pre>
       
     </div>
     
@@ -841,184 +1001,6 @@ style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke:
       
         <p class="article-more-link">
           <a  href="/2016/03/07/linux 查看 和 修改系统编码/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-下载花生壳，注册域名。" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/下载花生壳，注册域名。/" class="article-date">
-      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/下载花生壳，注册域名。/">下载花生壳，注册域名。</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="下载花生壳，注册域名。"><a href="#下载花生壳，注册域名。" class="headerlink" title="下载花生壳，注册域名。"></a>下载花生壳，注册域名。</h1><p><strong><span lang="ZH"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: 宋体;">下载花生壳，注册域名。</span></strong><span
-lang="EN-US"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  \<br> 1</span><span lang="ZH"
-style="font-size: 10.5pt; color: rgb(51, 51, 51);">）到</span><span
-lang="EN-US"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><a href="http://www.oray.net/"><span
-style="font-family: 宋体;">http://www.oray.net</span></a></span><span
-lang="ZH"
-style="font-size: 10.5pt; color: rgb(51, 51, 51);">下载安装花生壳的客户端。然后运行花生壳软件，点击</span><span
-lang="EN-US"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">“</span><span
-lang="ZH"
-style="font-size: 10.5pt; color: rgb(51, 51, 51);">注册</span><span
-lang="EN-US"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Oray</span><span
-lang="ZH"
-style="font-size: 10.5pt; color: rgb(51, 51, 51);">护照</span><span
-lang="EN-US"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">”</span><span
-lang="ZH"
-style="font-size: 10.5pt; color: rgb(51, 51, 51);">，根据弹出注册护照窗口提示进行注册。注册</span><span
-lang="EN-US"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Oray</span><span
-lang="ZH"
-style="font-size: 10.5pt; color: rgb(51, 51, 51);">护照完成后，使用所注册的护照名称和密码填入花生壳软件中进行登陆。</span><span
-lang="EN-US"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  \<br><a href="http://photo.it.com.cn/photo.htm?http://www.oray.net/Help/Samples/images/4_02/Help_Samples_4_02_clip_image007.jpg"></a></span></p>
-<p><span lang="EN-US"
-style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">2)</span><span
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/下载花生壳，注册域名。/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-linux下 scp命令不需要输入用户密码" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/linux下 scp命令不需要输入用户密码/" class="article-date">
-      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/linux下 scp命令不需要输入用户密码/">linux下 scp命令不需要输入用户密码</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="linux下-scp命令不需要输入用户密码"><a href="#linux下-scp命令不需要输入用户密码" class="headerlink" title="linux下 scp命令不需要输入用户密码"></a>linux下 scp命令不需要输入用户密码</h1><div><br><br>\<br><br></div>
-
-<div><br><br>linux下 scp命令不需要输入用户密码<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<p><span
-style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>在两台机器的两个用户之间建立安全的信任关系后，可实现执行scp命令时不需要输入用户密码。</strong></span><span
-style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span
-style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>1.<br>在机器Client上root用户执行ssh-keygen命令，生成建立安全信任关系的证书。</strong></span><span
-style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span
-style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>[root Client<br>root]# <em>ssh-keygen -b 1024 -t rsa</em></strong></span><span
-style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span
-style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>Generating<br>public/private rsa key pair.</strong></span><span
-style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\<br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/linux下 scp命令不需要输入用户密码/#more">腿撩开 >></a>
         </p>
       
       <div class="clearfix"></div>

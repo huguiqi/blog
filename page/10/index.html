@@ -155,7 +155,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/brew-cask-添加cask/" style="font-size: 10px;">brew-cask 添加cask</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/macbook电池保养/" style="font-size: 10px;">macbook电池保养</a> <a href="/tags/oh-my-zsh-vim-macos/" style="font-size: 10px;">oh-my-zsh vim macos</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/webStorm破解/" style="font-size: 10px;">webStorm破解</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a> <a href="/tags/面试题-全栈/" style="font-size: 10px;">面试题 全栈</a>
                     </div>
                 </section>
                 
@@ -252,6 +252,146 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/">从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="从用户友好性看中文长度的校验-页面与数据库对字符长度的不同表示"><a href="#从用户友好性看中文长度的校验-页面与数据库对字符长度的不同表示" class="headerlink" title="从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)"></a>从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</h1><div><br><br>### 从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<p>字符的长度校验是程序中必不可少的。\<br>\</p>
+<p>如一个业务需求是名称不能大于10个字，在数据库设计时该字段设为最大长度10。\<br>\<br> 计算机在用gbk编码存储中文字符时需要2个字节，而ascii字符需要1个字节。\<br>\</p>
+<p>不幸的是，不管JavaScript还是Java在求字符长度的方法对中英文是一视同仁的，即”中”.length()<br>和”e”.length()的返回值都是1，象Struts这样的验证拦截器也是这样。这样好了，用户输入6个中文字符，傻了，数据库插入数据失败：违反<br>最大长度约束。\<br>\</p>
+<p>最快的解决办法是将可以输入中文的字段的最大长度放大到2倍或者在页面上控制长度为数据库字符/2的大小。\<br>\</p>
+<p>用户满意了，但有些人会狗尾续貂，想现在名称字段明明可以存储20个英文字符，你却硬生生地砍掉一半，不是浪费了数据库潜力嘛。于是乎费老鼻子劲<br>在JavaScript中，在Java中将中文字符算做2个，用了长度验证拦截器的还得专门写个中文长度校验的拦截器配置到应用中，貌是很好很强大，然后<br>在长度提示中出现如下字符：名称长度不能超过20（一个中文算2个字符）\<br>\</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-什么是SQL注入式攻击？" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/什么是SQL注入式攻击？/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/什么是SQL注入式攻击？/">什么是SQL注入式攻击？</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="什么是SQL注入式攻击？"><a href="#什么是SQL注入式攻击？" class="headerlink" title="什么是SQL注入式攻击？"></a>什么是SQL注入式攻击？</h1><div><br><br><span style="FONT-SIZE: large">什么是SQL注入式攻击？\<br><br>所谓SQL注入式攻击，就是攻击者把SQL命令插入到Web表单的输入域或页面请求的查询字符串，欺骗服务器执行恶意的SQL命令。在某些表单中，用户输入的内容直接用来构造（或者影响）动态SQL命令，或作为存储过程的输入参数，这类表单特别容易受到SQL注入式攻击。常见的SQL注入式攻击过程类如：\<br> ⑴ 某个ASP.NET<br>Web应用有一个登录页面，这个登录页面控制着用户是否有权访问应用，它要求用户输入一个名称和密码。\<br> ⑵<br>登录页面中输入的内容将直接用来构造动态的SQL命令，或者直接用作存储过程的参数。下面是ASP.NET应用构造查询的一个例子：\<br> System.Text.StringBuilder query = new System.Text.StringBuilder(\<br>     “SELECT * from Users WHERE login = ‘“)\<br>     .Append(txtLogin.Text).Append(“‘ AND password=’”)\<br>     .Append(txtPassword.Text).Append(“‘“);\<br>\<br> ⑶ 攻击者在用户名字和密码输入框中输入”‘或’1’=’1”之类的内容。\<br> ⑷<br>用户输入的内容提交给服务器之后，服务器运行上面的ASP.NET代码构造出查询用户的SQL命令，但由于攻击者输入的内容非常特殊，所以最后得到的SQL命令变成：SELECT<br>* from Users WHERE login = ‘’ or ‘1’=’1’ AND password = ‘’ or<br>‘1’=’1’。\<br> ⑸<br>服务器执行查询或存储过程，将用户输入的身份信息和服务器中保存的身份信息进行对比。\<br> ⑹<br>由于SQL命令实际上已被注入式攻击修改，已经不能真正验证用户身份，所以系统会错误地授权给攻击者。\<br><br>如果攻击者知道应用会将表单中输入的内容直接用于验证身份的查询，他就会尝试输入某些特殊的SQL字符串篡改查询改变其原来的功能，欺骗系统授予访问权限。\<br><br>系统环境不同，攻击者可能造成的损害也不同，这主要由应用访问数据库的安全权限决定。如果用户的帐户具有管理员或其他比较高级的权限，攻击者就可能对数据库的表执行各种他想要做的操作，包括添加、删除或更新数据，甚至可能直接删除表\<br> 如何防范SQL注入式攻击？\<br><br>好在要防止ASP.NET应用被SQL注入式攻击闯入并不是一件特别困难的事情，只要在利用表单输入的内容构造SQL命令之前，把所有输入内容过滤一番就可以了。过滤输入内容可以按多种方式进行。\<br> ⑴ 对于动态构造SQL查询的场合，可以使用下面的技术：\<br><br>第一：替换单引号，即把所有单独出现的单引号改成两个单引号，防止攻击者修改SQL命令的含义。再来看前面的例子，”SELECT<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/什么是SQL注入式攻击？/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-美栈第一个迭代完成情况" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -482,149 +622,6 @@ style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000
 
 
   
-    <article id="post-数据类型和Json格式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/数据类型和Json格式/" class="article-date">
-      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/数据类型和Json格式/">数据类型和Json格式</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="数据类型和Json格式"><a href="#数据类型和Json格式" class="headerlink" title="数据类型和Json格式"></a>数据类型和Json格式</h1><div style="HEIGHT: auto !important"><br><br>+————————————————————————–+<br>| <div style="POSITION: relative; HEIGHT: 100%; OVERFLOW: hidden">         |<br>|                                                                          |<br>| <div style="FONT-SIZE: 14px">                                            |<br>|                                                                          |<br>| <div>                                                                    |<br>|                                                                          |<br>| 数据类型和Json格式                                                       |<br>| ==================                                                       |<br>|                                                                          |<br>| <div>                                                                    |<br>|                                                                          |<br>| 1.                                                                       |<br>|                                                                          |<br>| </div>                                                                   |<br>|                                                                          |<br>| </div>                                                                   |<br>|                                                                          |<br>| <div>                                                                    |<br>|                                                                          |<br>| 前几天，我才知道有一种简化的数据交换格式，叫做<a href="http://www.yaml.org/">yaml</a>。 |<br>|                                                                          |<br>|                                                                          |<br>| </div>                                                                   |<br>|                                                                          |<br>| </div>                                                                   |<br>|                                                                          |<br>| <div>                                                                    |<br>|                                                                          |<br>| 我翻了一遍它的<a href="http://www.yaml.org/spec/">文档</a>，看懂的地方不多，但是有一句话令我茅塞顿开。 |<br>|                                                                          |<br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/数据类型和Json格式/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-非root用户安装" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/非root用户安装/" class="article-date">
-      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/非root用户安装/">非root用户安装</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="非root用户安装"><a href="#非root用户安装" class="headerlink" title="非root用户安装"></a>非root用户安装</h1><p>非root用户安装apache、php、mysql</p>
-<div><br><br>tlanyan 发布于 2013 年 10 月 16 日2014 年 10 月 10 日<br><br></div>
-
-<div><br><br>文章主要参考：<a href="http://www.[cnblogs.com/ahomer/archive/2012/11/23/2783814.html](http://cnblogs.com/ahomer/archive/2012/11/23/2783814.html">http://www.[cnblogs.com/ahomer/archive/2012/11/23/2783814.html](http://cnblogs.com/ahomer/archive/2012/11/23/2783814.html</a>)<br><br></div>
-
-<div><br><br>linux下安装软件不像windows一样点击鼠标就可以完成，然而之前接触到的是从软件仓库里使用yum或者apt的工具来安装。最近接触到的服务器版本比较老，没有yum之类的软件，安装软件都是从源码安装。由于安全限制，服务器还不能直接访问外网（甚至两个子网都不能互通），wget方式获取软件源码的方法都不可行。由于路由的隔离，只能在能访问外网的机器上下载好软件，然后使用rz或者samba的方式拷贝到测试机器上，然后开发机使用ftp的方式从测试机上获取到安装包（scp和ssh都被屏蔽掉）。当然，这是安装前的工作。<br><br></div>
-
-<div><br><br>一、安装apache<br><br></div>
-
-<div><br><br>从官网 <a href="http://httpd.apache.org/download.cgi">http://httpd.apache.org/download.cgi</a> 下载apache2的安装源码。<br><br></div>
-
-<div><br><br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/非root用户安装/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-新浪微薄分享功能实现方式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -675,6 +672,83 @@ style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
     </div>
 
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/笔记/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/笔记/">笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><div><br><br>《N+1》<br><br></div>
+
+<p>當下誰人不風流？</p>
+<div><br><br>是我是你是表哥？<br><br></div>
+
+<div><br><br>或許女亦不遜色；<br><br></div>
+
+<div><br><br>喚友呼朋飲杯酒，<br><br></div>
+
+<div><br><br>不醉不歸友中友。<br><br></div>
+
+<div><br><br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/笔记/#more">腿撩开 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -845,10 +919,10 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 
 
   
-    <article id="post-什么是 Docker | Docker —— 从入门到实践" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-把你的程序布署在TOMCAT" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/03/07/什么是 Docker | Docker —— 从入门到实践/" class="article-date">
+      <a href="/2016/03/07/把你的程序布署在TOMCAT/" class="article-date">
       <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
 </a>
     </div>
@@ -862,7 +936,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/什么是 Docker | Docker —— 从入门到实践/">什么是 Docker | Docker —— 从入门到实践</a>
+      <a class="article-title" href="/2016/03/07/把你的程序布署在TOMCAT/">把你的程序布署在TOMCAT</a>
     </h1>
   
 
@@ -872,13 +946,17 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="什么是-Docker-Docker-——-从入门到实践"><a href="#什么是-Docker-Docker-——-从入门到实践" class="headerlink" title="什么是 Docker | Docker —— 从入门到实践"></a>什么是 Docker | Docker —— 从入门到实践</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>Docker —— 从入门到实践<br>======================<br><br><div><br><br><div><br><br></div>
+              <h1 id="把你的程序布署在TOMCAT"><a href="#把你的程序布署在TOMCAT" class="headerlink" title="把你的程序布署在TOMCAT"></a>把你的程序布署在TOMCAT</h1><div><br><br>把你的程序布署在TOMCAT上！！  (2011-04-11 09:08:40)<br><br></div>
 
-<p></div></p>
-<p></div></p>
-<h2 id="什么是-Docker"><a href="#什么是-Docker" class="headerlink" title="什么是 Docker"></a>什么是 Docker</h2><p>Docker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud<br>公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。<br>项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在<br><a href="https://github.com/docker/docker">GitHub</a> 上进行维护。</p>
-<p>Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后来都改名为<br>Docker Inc。Redhat 已经在其 RHEL6.5 中集中支持 Docker；Google 也在其<br>PaaS 产品中广泛应用。<br>
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="%E6%8A%8A%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%B8%83%E7%BD%B2%E5%9C%A8TOMCAT.resources/31FCB674-06D6-4F00-8356-8F42DEF64A98.gif" alt=""><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>网站开发完成了最终<br>
           
       
     </div>
@@ -898,87 +976,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 
       
         <p class="article-more-link">
-          <a  href="/2016/03/07/什么是 Docker | Docker —— 从入门到实践/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ios拨打电话三种方式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/ios拨打电话三种方式/" class="article-date">
-      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/ios拨打电话三种方式/">ios拨打电话三种方式</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="ios拨打电话三种方式"><a href="#ios拨打电话三种方式" class="headerlink" title="ios拨打电话三种方式"></a>ios拨打电话三种方式</h1><p>1，这种方法，拨打完电话回不到原来的应用，会停留在通讯录里，而且是直接拨打，不弹出提示</p>
-<p>NSMutableString *<br>str=[[NSMutableString alloc] initWithFormat: “tel:% “, “186xxxx6979”];</p>
-<pre><code>//            NSLog( &quot;str======% &quot;,str);
-</code></pre><p>[[UIApplication sharedApplication] openURL:[NSURL<br>URLWithString:str]];</p>
-<p>2，这种方法，打完电话后还会回到原来的程序，也会弹出提示，推荐这种</p>
-<p>NSMutableString *<br>str=[[NSMutableString alloc] initWithFormat: “tel:% “, “186xxxx6979”];</p>
-<pre><code>UIWebView \* callWebview = \[\[UIWebView alloc\] init\];
-</code></pre><p>[callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];</p>
-<pre><code>\[self.view addSubview:callWebview\];
-
-\[callWebview release\];
-
-\[str release\];
-</code></pre><p>3,这种方法也会回去到原来的程序里（注意这里的telprompt），也会弹出提示</p>
-<p>NSMutableString *<br>str=[[NSMutableString alloc] initWithFormat: “telprompt://% “, “186xxxx6979”];</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/ios拨打电话三种方式/#more">腿撩开 >></a>
+          <a  href="/2016/03/07/把你的程序布署在TOMCAT/#more">腿撩开 >></a>
         </p>
       
       <div class="clearfix"></div>

@@ -155,7 +155,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a>
+                        <a href="/tags/3DTouch-sample/" style="font-size: 10px;">3DTouch sample</a> <a href="/tags/brew-cask-添加cask/" style="font-size: 10px;">brew-cask 添加cask</a> <a href="/tags/docker-国内镜像/" style="font-size: 10px;">docker 国内镜像</a> <a href="/tags/docker实践-docker教程/" style="font-size: 10px;">docker实践 docker教程</a> <a href="/tags/github上建立自己的博客/" style="font-size: 10px;">github上建立自己的博客</a> <a href="/tags/ios-developer-upload/" style="font-size: 15px;">ios developer upload</a> <a href="/tags/ios-developer-上传审核/" style="font-size: 10px;">ios developer 上传审核</a> <a href="/tags/ios-developer-证书过期/" style="font-size: 10px;">ios developer 证书过期</a> <a href="/tags/mac-虚拟机-共享-vmware/" style="font-size: 10px;">mac 虚拟机 共享 vmware</a> <a href="/tags/macbook电池保养/" style="font-size: 10px;">macbook电池保养</a> <a href="/tags/oh-my-zsh-vim-macos/" style="font-size: 10px;">oh-my-zsh vim macos</a> <a href="/tags/swiftype-hexo-站内搜索/" style="font-size: 10px;">swiftype hexo 站内搜索</a> <a href="/tags/webStorm破解/" style="font-size: 10px;">webStorm破解</a> <a href="/tags/从印象笔记导入/" style="font-size: 20px;">从印象笔记导入</a> <a href="/tags/面试题-全栈/" style="font-size: 10px;">面试题 全栈</a>
                     </div>
                 </section>
                 
@@ -253,10 +253,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-objective-c属性特性" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-obj-c 常用字符串处理方法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/03/07/objective-c属性特性/" class="article-date">
+      <a href="/2016/03/07/obj-c 常用字符串处理方法/" class="article-date">
       <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
 </a>
     </div>
@@ -270,7 +270,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/objective-c属性特性/">objective-c属性特性</a>
+      <a class="article-title" href="/2016/03/07/obj-c 常用字符串处理方法/">obj-c 常用字符串处理方法</a>
     </h1>
   
 
@@ -280,26 +280,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="objective-c属性特性"><a href="#objective-c属性特性" class="headerlink" title="objective-c属性特性"></a>objective-c属性特性</h1><p><span
-style="font: 20.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"><strong>Objective-C<br>属性特性（assign , retain , copy , readonly , readwrite , atomic ,<br>nonatomic）</strong></span></p>
-<div><br><br>\<br><br></div>
-
-<p><span
-style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> </span><span
-style="font: 14.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">assign：指定setter方法用简单的赋值，这是默认操作。你可以对标量类型（如int）使用这个属性。你可以想象一个float，它不是一个对象，所以它不能retain、copy。</span><span
-style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">\<br>  \<br></span><span
-style="font: 14.0px 'Lucida Grande'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">assign:</span><span
-style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">简单赋值，不更改索引计数(Reference<br>Counting).使用</span><span
-style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">assign:</span><br><span
-style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">对基础数据类型</span><br><span
-style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">（</span><span
-style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">NSInteger</span><span
-style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">）和</span><span
-style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">C</span><span
-style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">数据类型（</span><span
-style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">int, float, double, char,</span><span
-style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">等）\<br></span><span
-style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> \<br></span><span
+              <h1 id="obj-c-常用字符串处理方法"><a href="#obj-c-常用字符串处理方法" class="headerlink" title="obj-c 常用字符串处理方法"></a>obj-c 常用字符串处理方法</h1><div><br><br>1<span
+style="word-wrap: normal; word-break: normal;">、创建常量字符串。</span><span
+style="word-wrap: normal; word-break: normal;">\<br></span> NSString *astring =  “This is a String!”;<br><br>\<br><br><span
+style="word-wrap: normal; word-break: normal;"> 2</span>、创建空字符串，给予赋值。<br><br> NSString *astring = [[NSString alloc] init];<span
+style="word-wrap: normal; word-break: normal;">\<br></span> astring =  “This is a String!”;<span
+style="word-wrap: normal; word-break: normal;">\<br></span> NSLog( “astring:% “,astring);<span
+style="word-wrap: normal; word-break: normal;">\<br></span> [astring release];<br><br>\<br><br>3<span
+style="word-wrap: normal; word-break: normal;">、在以上方法中，提升速度</span>:initWithString<span
+style="word-wrap: normal; word-break: normal;">方法</span><br><br> NSString *astring = [[NSString alloc] initWithString: “This is a<br>String!”];<span style="word-wrap: normal; word-break: normal;">\<br></span> NSLog( “astring:% “,astring);<span
+style="word-wrap: normal; word-break: normal;">\<br></span> [astring release];<br><br>\<br>
           
       
     </div>
@@ -319,77 +309,7 @@ style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-
 
       
         <p class="article-more-link">
-          <a  href="/2016/03/07/objective-c属性特性/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-objecttive-c与swift混编" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/objecttive-c与swift混编/" class="article-date">
-      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/objecttive-c与swift混编/">objecttive-c与swift混编</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="objecttive-c与swift混编"><a href="#objecttive-c与swift混编" class="headerlink" title="objecttive-c与swift混编"></a>objecttive-c与swift混编</h1><hr>
-<p>title:  objecttive-c与swift混编<br>date: 1457283440000<br>categories: swift object-c</p>
-<h2 id="tags-混编"><a href="#tags-混编" class="headerlink" title="tags: 混编"></a>tags: 混编</h2><h3 id="objecttive-c与swift混编-1"><a href="#objecttive-c与swift混编-1" class="headerlink" title="objecttive-c与swift混编"></a>objecttive-c与swift混编</h3><h4 id="一-如何在objective-c的工程中使用swift"><a href="#一-如何在objective-c的工程中使用swift" class="headerlink" title="一. 如何在objective-c的工程中使用swift"></a>一. 如何在objective-c的工程中使用swift</h4><p>如果已经有了一个老的iOS应用，它是使用Objective-C编写的，而它的一些新功能需要采用Swift来编写，这时就可以从Objective-C调用Swift。</p>
-<p>Objective-C调用Swift时不需要桥接头文件，而是需要Xcode生成的头文件。这种文件由Xcode生成，不需要我们维护，对于开发人员也是不可见的。如图18-11所示，它能够将Swift中的类暴露给Objective-C，它的命名是：&lt;工程名&gt;-swift.h。我们需要将该头文件引入到Objective-C文件中，而且Swift中的类需要声明为 objc(凡是继承至NSObject的类不需要声明)。</p>
-<p>18-11:<br><img src="http://7xqayq.com1.z0.glb.clouddn.com/image19.d18z.012.png" alt="18-11"></p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/objecttive-c与swift混编/#more">腿撩开 >></a>
+          <a  href="/2016/03/07/obj-c 常用字符串处理方法/#more">腿撩开 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -488,10 +408,10 @@ style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 7
 
 
   
-    <article id="post-建立你自己的本地仓库(Maven仓库管理-Nexus)" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-objecttive-c与swift混编" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/" class="article-date">
+      <a href="/2016/03/07/objecttive-c与swift混编/" class="article-date">
       <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
 </a>
     </div>
@@ -505,7 +425,7 @@ style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 7
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/">建立你自己的本地仓库(Maven仓库管理-Nexus)</a>
+      <a class="article-title" href="/2016/03/07/objecttive-c与swift混编/">objecttive-c与swift混编</a>
     </h1>
   
 
@@ -515,13 +435,11 @@ style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 7
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="建立你自己的本地仓库-Maven仓库管理-Nexus"><a href="#建立你自己的本地仓库-Maven仓库管理-Nexus" class="headerlink" title="建立你自己的本地仓库(Maven仓库管理-Nexus)"></a>建立你自己的本地仓库(Maven仓库管理-Nexus)</h1><p>建立你自己的本地仓库(Maven仓库管理-Nexus)\<br>前面我讲到为什么要使用Maven,<br>Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个Hello<br>World，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\<br>\<br>这一个章节，我分两部分来介绍，首先介绍一下Maven的仓库，然后在说一下如何通过Nexus来建立我们自己的仓库，以及如何使用。\<br>\<br>Maven仓库\<br>在以前使用Ant的时候，我们会建立一个lib目录在存放我们的jar包，比如项目所依赖的第三方包，每建立一个项目都要建立一个lib，不停的做copy工作，不仅是对于磁盘的浪费，而且也造成了版本管理上的麻烦。而且我们还需要通过提交到svn上来对lib进行管理，但是svn对于这种二进制文件的管理并不出色。\<br>\<br>Maven仓库的初中就是为了解决这个问题，是所有常用的第三方包的集中营。这样所有的Maven项目就可以从这个仓库中获取所需要的资源，Maven仓库中对jar通过Group<br>Id, Atifact Id, version<br>来管理，所以Maven项目可以很方便的进行依赖管理。你不需要自己来管理这个庞大的资源仓库，当然你可以创建一个公司层面的仓库管理器，这个我在这个章节的后面会介绍。\<br>\<br>Maven仓库的两个概念：本地仓库和远程仓库\<br>\<br>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。\<br>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：\<br>Xml代码\</p>
-<ol>
-<li>&lt;settings&gt;\</li>
-<li>…\</li>
-<li>&lt;localRepository&gt;D:/java/repository&lt;/localRepository&gt;\</li>
-<li>…\</li>
-<li>&lt;/settings&gt;\<br>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:\<br>\${M2_HOME}/conf/setting.xml\<br>\<br>还可以通过在运行时指定目录，但是并不推荐这么做：\<br>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/\<br>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到/org/apache/maven/project/pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：\
+              <h1 id="objecttive-c与swift混编"><a href="#objecttive-c与swift混编" class="headerlink" title="objecttive-c与swift混编"></a>objecttive-c与swift混编</h1><hr>
+<p>title:  objecttive-c与swift混编<br>date: 1457283440000<br>categories: swift object-c</p>
+<h2 id="tags-混编"><a href="#tags-混编" class="headerlink" title="tags: 混编"></a>tags: 混编</h2><h3 id="objecttive-c与swift混编-1"><a href="#objecttive-c与swift混编-1" class="headerlink" title="objecttive-c与swift混编"></a>objecttive-c与swift混编</h3><h4 id="一-如何在objective-c的工程中使用swift"><a href="#一-如何在objective-c的工程中使用swift" class="headerlink" title="一. 如何在objective-c的工程中使用swift"></a>一. 如何在objective-c的工程中使用swift</h4><p>如果已经有了一个老的iOS应用，它是使用Objective-C编写的，而它的一些新功能需要采用Swift来编写，这时就可以从Objective-C调用Swift。</p>
+<p>Objective-C调用Swift时不需要桥接头文件，而是需要Xcode生成的头文件。这种文件由Xcode生成，不需要我们维护，对于开发人员也是不可见的。如图18-11所示，它能够将Swift中的类暴露给Objective-C，它的命名是：&lt;工程名&gt;-swift.h。我们需要将该头文件引入到Objective-C文件中，而且Swift中的类需要声明为 objc(凡是继承至NSObject的类不需要声明)。</p>
+<p>18-11:<br><img src="http://7xqayq.com1.z0.glb.clouddn.com/image19.d18z.012.png" alt="18-11"></p>
           
       
     </div>
@@ -541,7 +459,165 @@ style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 7
 
       
         <p class="article-more-link">
-          <a  href="/2016/03/07/建立你自己的本地仓库(Maven仓库管理-Nexus)/#more">腿撩开 >></a>
+          <a  href="/2016/03/07/objecttive-c与swift混编/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-objc非主流代码技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/objc非主流代码技巧/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/objc非主流代码技巧/">objc非主流代码技巧</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="objc非主流代码技巧"><a href="#objc非主流代码技巧" class="headerlink" title="objc非主流代码技巧"></a>objc非主流代码技巧</h1><p>obj-c非主流写法</p>
+<hr>
+<p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>objc非主流代码技巧<br>==================<br><br><div><br><br><div><br><br></div>
+
+<p></div></p>
+<p></div></p>
+<div><br><br>看开源代码时，总会看到一些大神级别的代码，给人眼前一亮的感觉，多数都是被淡忘的C语言语法，总结下objc写码中遇到的各类<code>非主流</code>代码技巧和一些妙用：<br><br>-   [娱乐向]objc最短的方法声明<br>-   [C]结构体的初始化<br>-   [C]三元条件表达式的两元使用<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/objc非主流代码技巧/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-objective-c属性特性" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/objective-c属性特性/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/objective-c属性特性/">objective-c属性特性</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="objective-c属性特性"><a href="#objective-c属性特性" class="headerlink" title="objective-c属性特性"></a>objective-c属性特性</h1><p><span
+style="font: 20.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"><strong>Objective-C<br>属性特性（assign , retain , copy , readonly , readwrite , atomic ,<br>nonatomic）</strong></span></p>
+<div><br><br>\<br><br></div>
+
+<p><span
+style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> </span><span
+style="font: 14.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">assign：指定setter方法用简单的赋值，这是默认操作。你可以对标量类型（如int）使用这个属性。你可以想象一个float，它不是一个对象，所以它不能retain、copy。</span><span
+style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">\<br>  \<br></span><span
+style="font: 14.0px 'Lucida Grande'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">assign:</span><span
+style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">简单赋值，不更改索引计数(Reference<br>Counting).使用</span><span
+style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">assign:</span><br><span
+style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">对基础数据类型</span><br><span
+style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">（</span><span
+style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">NSInteger</span><span
+style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">）和</span><span
+style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">C</span><span
+style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">数据类型（</span><span
+style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">int, float, double, char,</span><span
+style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">等）\<br></span><span
+style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> \<br></span><span
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/objective-c属性特性/#more">腿撩开 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -616,6 +692,82 @@ style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 7
       
         <p class="article-more-link">
           <a  href="/2016/03/07/字符，字节和编码/#more">腿撩开 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-对javascript的理解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/07/对javascript的理解/" class="article-date">
+      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/07/对javascript的理解/">对javascript的理解</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="对javascript的理解"><a href="#对javascript的理解" class="headerlink" title="对javascript的理解"></a>对javascript的理解</h1><p><span
+style="font-size: 18px;">按照定义，每个javascript对象都有一个原型对象（简称原型），这个原型是由该对象的构造函数所定义（javascript自动创建的），并且对象继承原型的所有属性和方法（函数），比如<br>一个String对象 的原型为 String.prototype<br>，如果我们想要给String类添加方法，可以这样做（比如添加常用的trim()方法）：</span></p>
+<div><br><br><span style="font-size: 18px;">js 代码</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">String.prototype.trim = function (){<br>  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">  return<br>this.replace(/(\^\s*)|(\s*\$)/g, “”);   </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">}  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/03/07/对javascript的理解/#more">腿撩开 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -843,144 +995,6 @@ style="margin-left:5mm; margin-right:0mm; text-indent:0mm; margin-top:0.00mm; ma
         <p class="article-more-link">
           <a  href="/2016/03/07/每位开发人员都应铭记的10句编程谚语/#more">腿撩开 >></a>
         </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-查找项目中是否有用IDFA" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/查找项目中是否有用IDFA/" class="article-date">
-      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/查找项目中是否有用IDFA/">查找项目中是否有用IDFA</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="查找项目中是否有用IDFA"><a href="#查找项目中是否有用IDFA" class="headerlink" title="查找项目中是否有用IDFA"></a>查找项目中是否有用IDFA</h1><div><br><br>好难过，上传app时友盟又坑我。。。。。<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>—使用此命令可以查找项目中是否有用IDFA<br><br></div>
-
-<div><br><br>find . | grep -v .svn<br>| grep “\.a” | grep -v “\.app” | xargs grep advertisingIdentifier<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/03/07/查找项目中是否有用IDFA/#more">腿撩开 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-svn merge" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/03/07/svn merge/" class="article-date">
-      <time datetime="2016-03-06T16:57:20.000Z" itemprop="datePublished">2016-03-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/07/svn merge/">svn merge</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="svn-merge"><a href="#svn-merge" class="headerlink" title="svn merge"></a>svn merge</h1><p><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">svn </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">resolve </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">–</span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">accept </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">working</span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);"> removed_directory</span></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/从印象笔记导入/">从印象笔记导入</a></li></ul>
-    </div>
-
       
       <div class="clearfix"></div>
     </div>
